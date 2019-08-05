@@ -2,6 +2,9 @@
 class MailsController extends AppController
 {
 	public function subscribe(){
-		echo "ds";
+		$this->layout = null;
+		$mail = new stdClass();
+		$mail->email = $this->request->data['mail'];
+		$this->Mail->save($mail);
 	}
 }
