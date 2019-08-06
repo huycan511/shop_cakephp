@@ -396,4 +396,4 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
-const FIELD = "https://shopcuahue.herokuapp.com";
+const FIELD = "https://shopcuahue.com";
