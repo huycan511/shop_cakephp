@@ -23,13 +23,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <?php echo $this->Html->charset(); 
+	<meta name="google-signin-client_id" content="199959814720-qi8o301gerh47kcv8kli7s2eq64c2c76.apps.googleusercontent.com">
+	<title>Document</title>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <?php echo $this->Html->charset();
   ?>
   <title>
     Fresh Food Shop
   </title>
   <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
-  <?php           
+  <?php
         echo $this->Html->css('easy-autocomplete.min');
         echo $this->Html->css('easy-autocomplete.themes.min');
         ?>
@@ -110,6 +113,15 @@ $(".rating").each( function() {
         }
     );
 });
+</script>
+<script>
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+};
 </script>
 </body>
 </html>
