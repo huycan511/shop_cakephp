@@ -71,7 +71,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => 'admin',
+		'password' => '12345',
 		'database' => 'expert_system',
 		'prefix' => '',
 		'encoding' => 'utf8',
