@@ -25,7 +25,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-signin-client_id" content="199959814720-qi8o301gerh47kcv8kli7s2eq64c2c76.apps.googleusercontent.com">
 	<title>Document</title>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <?php echo $this->Html->charset();
   ?>
   <title>
@@ -74,6 +73,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('footer_main'); ?>
     <?php echo $this->element('modal_login'); ?>
+	</body>
     <?php
     echo $this->fetch('script');
     echo $this->Html->script("jquery-111");
@@ -93,6 +93,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     echo $this->Html->script('parally');
     echo $this->Html->script('rateYo');
 ?>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script> -->
     <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script> -->
    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script> -->
@@ -114,15 +115,5 @@ $(".rating").each( function() {
     );
 });
 </script>
-<script>
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-};
-</script>
-</body>
 </html>
 

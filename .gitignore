@@ -1,6 +1,6 @@
 # User specific & automatically generated files #
 #################################################
-/app/webroot/img
+/app/tmp
 /plugins
 /vendors
 /build
