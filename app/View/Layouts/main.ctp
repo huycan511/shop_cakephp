@@ -74,8 +74,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('footer_main'); ?>
     <?php echo $this->element('modal_login'); ?>
+    </body>
     <?php
     echo $this->fetch('script');
+
     echo $this->Html->script("jquery-111");
     echo $this->Html->script('jquery-ui');
     echo $this->Html->script('jquery.easy-autocomplete.min');
@@ -123,6 +125,5 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 };
 </script>
-</body>
 </html>
 

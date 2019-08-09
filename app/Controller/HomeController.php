@@ -110,7 +110,13 @@
 			$this->set('product', $product);
 			$img = explode(",", $product['Product']['image']);
 			$this->set('img', $img);
-			$comments = $this->Comment->getCommentID($id_product);
+			$comments = array();
+			$data_comments = $this->Comment->getCommentID($id_product);
+				foreach ($data_comments as $comment) {
+					$comment_child = $this->Comment->getCommentChild($id_product, $comment['Comment']['id']);
+					array_push($comment['Comment'], $comment_child);
+					array_push($comments, $comment);
+				}
 			$this->set('comments', $comments);
 			$average = $this->Rating->getRatingByID($id_product);
 			$this->set('average', $average);

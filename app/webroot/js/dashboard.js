@@ -534,19 +534,96 @@ $(function(){
 			});
 		});
 	});
-
 })
-function commentProduct(obj){
+function commentProduct(obj, type_post) {
+	$id_parent = '';
+	if(type_post !== 'type_1'){
+		$id_parent = type_post;
+		$conten = $('#rep_comment_' + $id_parent).val();
+	} else {
+		$conten = $('#input_review').val();
+	}
+
 	$.ajax({
-		url: '../../comments/addCommentProduct',
+		url: location.protocol + "//" + document.domain +"/Comments/addCommentProduct",
 		type: 'POST',
 		data: {
 			id_commented: obj.attr('data-id'),
-			content: $('#input_review').val()
+			content: $conten,
+			id_comment_parent: $id_parent
 		}
 	})
-	.done(function() {
-		console.log("success");
+	.success(function(res) {
+		res = JSON.parse(res);
+		console.log(res);
+		if (res['id_parent'] == null) {
+			$('#div_of_comment')
+			.append($('<div>').addClass('comment')
+				.append($('<div>').addClass('content_commet')
+					.append($('<div>').addClass('row_conten_1 row')
+						.append($('<div>').addClass('author').append('Name : ' + res['0']))
+						.append($('<div>').addClass('data_comment').append(res['date']))
+					)
+					.append($('<div>').addClass('row_conten_2 row')
+						.append($('<div>').addClass('text_comment col-sm-11').append(res['content']))
+						.append($('<div>').addClass('actions_comment col-sm-1').attr({
+							'data_id_parent': res['id'],
+							onclick : 'showTextArea($(this))'
+						}).append('Reply'))
+					)
+				)
+				.append($('<div>').addClass('multi_dev_of_rep multi_dev_num_' + res['id']))
+				.append($('<div>').addClass('row div_textarea_reple_' + res['id']).css({'display' : 'none'})
+					.append($('<div>').addClass('row')
+						.append($('<textarea>')
+							.attr({
+								name: 'rep_comment',
+								class: 'rep_comment',
+								id : 'rep_comment_' + res['id'],
+								placeholder: 'Write something here...',
+								rows : 4
+							})
+						)
+					)
+					.append($('<div>').addClass('row')
+						.append($('<div>').addClass('col-sm-6')
+							.append($('<div>').css({'float' : 'right'})
+								.append($('<button>').addClass('btn btn-primary btn-sm').attr({
+									type : 'button',
+									'data-id' : res['id_commented'],
+									'onclick' : 'commentProduct($(this), ' + res['id'] + ')'
+								}).text('Reply'))
+							)
+						)
+						.append($('<div>').addClass('col-sm-6')
+							.append($('<button>').addClass('btn btn-secondary btn-sm cancel_rep').attr({
+								type : 'button',
+								'data_id_parent' : res['id'],
+								onclick : 'hideTextArea($(this))'
+							}).text('Cancel'))
+						)
+					)
+				)
+			);
+
+			$('#input_review').val('');
+		} else {
+			console.log();
+			$('.multi_dev_num_' + res['id_parent'])
+				.append($('<div>').addClass('content_commets div_rep_' + res['id_parent'])
+					.append($('<div>').addClass('row_conten_1 row')
+						.append($('<div>').addClass('author').append('Name : ' + res['0']))
+						.append($('<div>').addClass('data_comment').append(res['date']))
+					)
+					.append($('<div>').addClass('row_conten_2 row')
+						.append($('<div>').addClass('text_comment col-sm-11').append(res['content']))
+						.append($('<div>').addClass('actions_comment col-sm-1').attr({
+							'data_id_parent': res['id_parent'],
+							onclick : 'showTextArea($(this))'
+						}).append('Reply'))
+					).show()
+				);
+		}
 	})
 	.fail(function() {
 		console.log("error");
