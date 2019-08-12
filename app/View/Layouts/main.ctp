@@ -97,7 +97,6 @@ $(".rating").each( function() {
     );
 });
 </script>
-<<<<<<< HEAD
 <script>
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -107,7 +106,5 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 };
 </script>
-=======
->>>>>>> 44c913f34a992e6c01da4be1458170e5e30621fb
 </html>
 
