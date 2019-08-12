@@ -1420,3 +1420,25 @@ Request URL: /js/angular.min.js.map
 Stack Trace:
 #0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2019-08-06 17:23:31 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+Exception Attributes: array (
+  'class' => 'Mysql',
+  'message' => 'SQLSTATE[28000] [1045] Access denied for user \'root\'@\'localhost\' (using password: YES)',
+  'enabled' => true,
+)
+Request URL: /
+Stack Trace:
+#0 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(278): Mysql->connect()
+#1 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/ConnectionManager.php(105): DboSource->__construct(Array)
+#2 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(3659): ConnectionManager::getDataSource('default')
+#3 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(1162): Model->setDataSource('default')
+#4 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(3686): Model->setSource('stores')
+#5 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(3053): Model->getDataSource()
+#6 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(3025): Model->_readDataSource('all', Array)
+#7 /home/vagrant/src/expertsystem/app/Controller/HomeController.php(11): Model->find('all', Array)
+#8 [internal function]: HomeController->index()
+#9 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Controller/Controller.php(499): ReflectionMethod->invokeArgs(Object(HomeController), Array)
+#10 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#11 /home/vagrant/src/expertsystem/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(167): Dispatcher->_invoke(Object(HomeController), Object(CakeRequest))
+#12 /home/vagrant/src/expertsystem/app/webroot/index.php(118): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}

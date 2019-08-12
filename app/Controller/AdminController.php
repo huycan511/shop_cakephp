@@ -144,6 +144,12 @@ class AdminController extends AppController
 		$news = $this->News->find('all');
 		$this->set('news', $news);
 	}
+	public function mails()
+	{
+		$this->checkBigAdmin();
+		$this->layout = 'sbadmin';
+
+	}
 	public function addStore()
 	{
 		$this->layout = null;

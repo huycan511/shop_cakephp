@@ -12,12 +12,12 @@
                   <table style="width:100%">
                     <tr>
                       <th><h3>Username:</h3></th>
-                      <td><h3><?php echo $user['name']?></h3><input type="text" value="<?php echo $user['name'] ?>" class="form-control d-none"></td> 
+                      <td><h3><?php echo $user['name']?></h3><input type="text" value="<?php echo $user['name'] ?>" class="form-control d-none"></td>
                       <th style="padding-left: 20px;"><a onclick="edit_checkout($(this))"><i class="fas fa-pencil-alt"></a></i><a class="d-none" onclick="submit_edit_checkout_name($(this))"><i class="fas fa-check"></i></a></th>
                     </tr>
                     <tr>
                       <th><h3>Phone Number:</h3></th>
-                      <td><h3><?php echo $user['phone']?></h3><input value="<?php echo $user['phone']?>" type="text" class="form-control d-none"></td> 
+                      <td><h3><?php echo $user['phone']?></h3><input value="<?php echo $user['phone']?>" type="text" class="form-control d-none"></td>
                       <th style="padding-left: 20px;"><a onclick="edit_checkout($(this))"><i class="fas fa-pencil-alt"></a></i><a class="d-none" onclick="submit_edit_checkout_phone($(this))"><i class="fas fa-check"></i></a></th>
                     </tr>
                   </table>
@@ -65,7 +65,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group required">
                         <label for="input-zone" class="col-sm-2 control-label">Huyện / Quận</label>
                         <div class="col-sm-10">
@@ -183,7 +183,8 @@ $('input[name=\'payment_address\']').on('change', function() {
                     </tr>
                   </tfoot>
                 </table>
-              </div>
+							</div>
+							<div class="g-recaptcha" data-sitekey="6LdFy7EUAAAAADbU7cmmsCft89FsKqms9TVnNvVk"></div>
               <div class="buttons">
                 <div class="pull-right">
                   <input type="button" data-user=<?php echo $this->Session->read('id_user')?> data-loading-text="Loading..." class="btn btn-primary" id="button-confirm_order" value="Confirm Order">

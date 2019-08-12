@@ -73,6 +73,11 @@
     <i class="fas fa-fw fa-table"></i>
     <span>News</span></a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="<?php echo FIELD."/admin/mails"?>">
+    <i class="fas fa-fw fa-table"></i>
+    <span>Mails</span></a>
+</li>
 <hr class="sidebar-divider">
 
 <div class="text-center d-none d-md-inline">

@@ -1,22 +1,3 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +6,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-signin-client_id" content="199959814720-qi8o301gerh47kcv8kli7s2eq64c2c76.apps.googleusercontent.com">
 	<title>Document</title>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <?php echo $this->Html->charset();
   ?>
   <title>
@@ -64,8 +44,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     //echo $this->Html->css('all');
 
         echo $this->Html->css('iziModal.min');
-    echo $this->fetch('meta');
-    echo $this->fetch('css');
+    	echo $this->fetch('meta');
+    	echo $this->fetch('css');
   ?>
 </head>
 <body>
@@ -74,7 +54,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('footer_main'); ?>
     <?php echo $this->element('modal_login'); ?>
-    </body>
+	</body>
     <?php
     echo $this->fetch('script');
 
@@ -95,6 +75,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     echo $this->Html->script('parally');
     echo $this->Html->script('rateYo');
 ?>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script> -->
     <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script> -->
    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script> -->
@@ -116,6 +97,7 @@ $(".rating").each( function() {
     );
 });
 </script>
+<<<<<<< HEAD
 <script>
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -125,5 +107,7 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 };
 </script>
+=======
+>>>>>>> 44c913f34a992e6c01da4be1458170e5e30621fb
 </html>
 
