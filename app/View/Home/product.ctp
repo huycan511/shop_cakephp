@@ -1,3 +1,87 @@
+<style>
+    .content_commet{
+        padding: 15px;
+        margin: 4px;
+        background: mintcream;border-radius: 8px;
+    }
+    .content_commets{
+        display: none;
+    }
+    .content_commets, .count_rep_comment{
+        padding: 15px;
+        background: mintcream;
+        border-radius: 8px;
+        margin-left: 7%;
+        margin-top: 5px;
+    }
+    .count_rep_comment{
+        padding: 0px;
+        text-align: center;
+        font-size: unset;
+        font-weight: 600;
+        color: black;
+        padding: 3px;
+        margin-right: 5px;
+    }
+    .count_rep_comment:hover, .actions_comment:hover, .see_all_comment:hover{
+        color: blue;
+    }
+    .author{
+        float: left;
+        font-size: large;
+        font-weight: 600;
+        margin-left: 10px;
+        padding-bottom: 5px;
+        margin-right: 15px;
+        color: black;
+    }
+    .text_comment{
+        padding-left: 30px;
+        color: black;
+    }
+    .actions_comment{
+        text-align: center;
+        float: left;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .see_all_comment{
+        font-weight: 900;
+        cursor: pointer;
+        font-size: large;
+        color: brown;
+        margin: 5px;
+        margin-left: 15px;
+    }
+
+    textarea {
+        margin-top: 10px;
+        margin-left: 50px;
+        width: 92%;
+        -moz-border-bottom-colors: none !important;;
+        -moz-border-left-colors: none !important;;
+        -moz-border-right-colors: none !important;;
+        -moz-border-top-colors: none !important;;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+        border-color: #93b3ea #FFFFFF !important;;
+        border-image: none;
+        border-radius: 6px 6px 6px 6px;
+        border-style: none solid solid none;
+        border-width: medium 1px 1px medium;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+        color: #555555;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 1em;
+        line-height: 1.4em;
+        padding: 5px 8px;
+        transition: background-color 0.2s ease 0s;
+    }
+    textarea:focus {
+        background: none repeat scroll 0 0 #FFFFFF;
+        outline-width: 0;
+    }
+
+</style>
 <div id="content" class="col-sm-9">
     <div class="row">
       <div class="card">
@@ -60,7 +144,7 @@
               </div>
             </div>
             </div>
-          <div class="tab-pane" id="tab-review">
+          <div class="tab-pane ui comments" id="tab-review">
             <div id="rateYo" class="<?php if(!$hasBuy){ echo 'd-none';}?>" data-id="<?php echo $product['Product']['id']?>" data-rated="<?php  if(isset($myRate)){echo $myRate;}else{echo '0';}?>" style="padding: 0 0 !important; margin-bottom: 10px;"></div>
             <form class="form-horizontal">
               <?php if($this->Session->read('id_user')){?>
@@ -68,26 +152,95 @@
               <h2>Write a review</h2>
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <textarea name="text" rows="5" id="input_review" class="form-control"></textarea>
+                  <textarea name="text" rows="5" id="input_review" style="width: 95%;" class="form-control"></textarea>
                 </div>
               </div>
               <div class="buttons clearfix">
                 <div class="pull-right">
-                  <button type="button" data-id="<?php echo $product['Product']['id']?>" id="button-review" data-loading-text="Loading..." onclick="commentProduct($(this))" class="btn btn-primary">Continue</button>
+                  <button type="button" data-id="<?php echo $product['Product']['id']?>" id="button-review" data-loading-text="Loading..." onclick="commentProduct($(this), 'type_1')" class="btn btn-primary">Continue</button>
                 </div>
               </div>
               <?php }?>
-              <h2>Reviews</h2>
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <?php for ($i=0; $i < count($comments); $i++) {?>
-                  <p style="margin-bottom: -7px;"><?php echo $comments[$i]['Comment']['content']?></p>
-                  <span><b><i><?php echo $comments[$i]['userr']['name']?></i></b>-<?php echo $comments[$i]['Comment']['date']?></span>
-                  <hr>
-                <?php }?>
-              </div>
             </form>
-          </div>
+            <div class="row" style="margin: 5px;">
+                <div class="col-sm-7"><h3 class="ui dividing header">Comments</h3></div>
+            
+                <div class="col-sm-5">
+                    <div style="float: right;">Option: 
+                        <select class="custom-select custom-select-lg mb-3" id="custom_number_comment" style="font-size: medium;">
+                            <option selected value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row see_all_comment"></div>
+            <div class="row">
+                <div class="col-sm-12" id='div_of_comment' sum_comment="<?php echo count($comments); ?>">
+                    <?php for ($i = 0; $i < count($comments); $i++) {?>
+                        <div class="comment" stt_comment="<?php echo (count($comments)-$i); ?>">
+                            <div class="content_commet">
+                                <div class="row_conten_1 row">
+                                    <div class="author" >
+                                        Name : <?php echo $comments[$i]['userr']['name']; ?>
+                                    </div>
+                                    <div class="data_comment">
+                                        <?php echo $comments[$i]['Comment']['date']; ?>
+                                    </div>
+                                </div>
+                                <div class="row_conten_2 row">
+                                    <div class="text_comment col-sm-11">
+                                       <?php echo $comments[$i]['Comment']['content'] ?>
+                                    </div>
+                                    <?php if ($this->Session->read('id_user')) { ?>
+                                        <div class="actions_comment col-sm-1" onclick="showTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>">Reply</div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="multi_dev_of_rep multi_dev_num_<?php echo $comments[$i]['Comment']['id']; ?>">
+                                <?php if (count($comments[$i]['Comment']['0']) >= 1) { ?>
+                                    <div class="count_rep_comment"><p onclick="showDivRep($(this), <?php echo $comments[$i]['Comment']['id'];  ?>)" style="cursor: pointer;">Have <?php echo count($comments[$i]['Comment']['0']); ?> Reply!</p></div>
+                                <?php foreach ($comments[$i]['Comment']['0'] as $comment_child) { ?>
+                                    <div class="content_commets div_rep_<?php echo $comment_child['Comment']['id_parent']; ?>">
+                                        <div class="row_conten_1 row">
+                                            <div class="author">
+                                                Name : <?php echo $comment_child['userr']['name']; ?>
+                                            </div>
+                                            <div class="data_comment">
+                                                <?php echo $comment_child['Comment']['date']; ?>
+                                            </div>
+                                        </div>
+                                        <div class="row_conten_2 row">
+                                            <div class="text_comment col-sm-11">
+                                               <?php echo $comment_child['Comment']['content']; ?>
+                                            </div>
+                                            <?php if ($this->Session->read('id_user')) { ?>
+                                                <div class="actions_comment col-sm-1" onclick="showTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>">Reply
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                <?php } } ?>
+                            </div>
+                            <div class="row div_textarea_reple_<?php echo $comments[$i]['Comment']['id']; ?>" style="display: none;">
+                                <div class="row">
+                                    <textarea name="rep_comment" class="rep_comment" id="rep_comment_<?php echo $comments[$i]['Comment']['id']; ?>" placeholder="Write something here..." rows="4"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6"><div style="float: right;">
+                                        <button type="button" data-id="<?php echo $product['Product']['id']?>" onclick="commentProduct($(this), '<?php echo $comments[$i]['Comment']['id']; ?>')"  class="btn btn-primary btn-sm">Reply</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" onclick="hideTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>" class="btn btn-secondary btn-sm cancel_rep">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }?>   
+                </div>
+            </div>
         </div>
       </div>
       <h3 class="productblock-title">Related Products</h3>
@@ -115,6 +268,9 @@
 </div>
 <script type="text/javascript">
   $(function(){
+    $sum_comment = $('#div_of_comment').attr('sum_comment');
+    $option_number_show = $('#custom_number_comment').val();
+    reloadShowComment($sum_comment, $option_number_show);
   $("#rateYo").rateYo({
       starWidth: "40px",
       rating: $('#rateYo').attr('data-rated'),
@@ -151,6 +307,42 @@
         from: 2000,
         to: 250000,
         prefix: "đ"
-    }); 
+    });
 });
+$("#custom_number_comment").change(function() {
+    $sum_comment = $('#div_of_comment').attr('sum_comment');
+    reloadShowComment($sum_comment, $(this).val());
+});
+function reloadShowComment($sum_comment, $option_number_show) {
+    $(".comment").each(function() {
+        $(this).show();
+        if (parseInt($(this).attr('stt_comment')) > parseInt($option_number_show)) {
+            $(this).hide();
+        }
+    });
+    $('.see_all_comment').text('');
+    if (parseInt($sum_comment) > parseInt($option_number_show)) {
+        $('.see_all_comment').text('See All Comment').attr({ onclick : 'showAllCommet()'});
+    }
+};
+function showAllCommet() {
+    $("#custom_number_comment").val('all');
+    $('.see_all_comment').text('');
+    $(".comment").each(function() {
+        $(this).show();
+    });
+}
+function showTextArea(obj) {
+    $id = obj.attr('data_id_parent');
+    $('.div_textarea_reple_' + $id).show();
+};
+
+function hideTextArea(obj) {
+    $id = obj.attr('data_id_parent');
+    $('.div_textarea_reple_' + $id).hide();
+};
+function showDivRep($obj, $id_div) {
+    $obj.parent().hide();
+    $('.div_rep_' + $id_div).show();
+}
 </script>
