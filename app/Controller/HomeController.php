@@ -11,14 +11,27 @@
 			$stores = $this->Store->find('all', array('conditions' => array('NOT' => array('Store.id' => 1))));
 			$this->set('stores', $stores);
 			$categories = $this->Categories->find('all', array('recursive' => 2));
-			$l1 = count($categories);
-			for ($i = 0; $i < $l1; $i++) {
-				$l2 = count($categories[$i]['genree']);
-				for ($j = 0; $j < $l2; $j++) {
-					$l3 = count($categories[$i]['genree'][$j]['productt']);
-					for ($m = 0; $m < $l3; $m++) {
-						$average = $this->Rating->getRatingByID($categories[$i]['genree'][$j]['productt'][$m]['id']);
-						array_push($categories[$i]['genree'][$j]['productt'][$m], $average);
+			// $time_start = microtime(true);
+			// $l1 = count($categories);
+			// for ($i = 0; $i < $l1; $i++) {
+			// 	$l2 = count($categories[$i]['genree']);
+			// 	for ($j = 0; $j < $l2; $j++) {
+			// 		$l3 = count($categories[$i]['genree'][$j]['productt']);
+			// 		for ($m = 0; $m < $l3; $m++) {
+			// 			$average = $this->Rating->getRatingByID($categories[$i]['genree'][$j]['productt'][$m]['id']);
+			// 			array_push($categories[$i]['genree'][$j]['productt'][$m], $average);
+			// 		}
+			// 	}
+			// }
+			// $time_end = microtime(true);
+			// $execution_time = ($time_end - $time_start)/60;
+			// $this->log($execution_time);
+			// $time_start = microtime(true);
+			foreach ($categories as &$value) {
+				foreach ($value['genree'] as &$value1) {
+					foreach ($value1['productt'] as &$value2) {
+						$average = $this->Rating->getRatingByID($value2['id']);
+						array_push($value2, $average);
 					}
 				}
 			}

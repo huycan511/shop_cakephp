@@ -32,7 +32,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('easy-autocomplete.themes.min');
         echo $this->Html->script("jquery-111");
         echo $this->Html->script('jquery-ui');
-        ?>
+				?>
+				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
     <!-- Bootstrap CSS CDN -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
@@ -93,9 +94,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
           <div class="list-group">
             <a class="list-group-item" href="<?php echo FIELD;?>/users">My Account</a>
             <a class="list-group-item" href="<?php echo FIELD;?>/users/basket">My Cart</a>
-            <a class="list-group-item" href="<?php echo FIELD;?>/users/address">Address</a> 
-            <a class="list-group-item" href="<?php echo FIELD;?>/users/wishlist">Wish List</a> 
-            <a class="list-group-item" href="<?php echo FIELD;?>/users/orderlist">Order List</a> 
+            <a class="list-group-item" href="<?php echo FIELD;?>/users/address">Address</a>
+            <a class="list-group-item" href="<?php echo FIELD;?>/users/wishlist">Wish List</a>
+            <a class="list-group-item" href="<?php echo FIELD;?>/users/orderlist">Order List</a>
             <a class="list-group-item" href="/users/changepass">Change password</a></div>
         </div>
       </div>
@@ -103,7 +104,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <?php echo $this->Flash->render(); ?>
 
             <?php echo $this->fetch('content'); ?>
-    
+
   </div>
 </div>
 <?php echo $this->element('footer_main'); ?>

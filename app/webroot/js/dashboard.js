@@ -369,76 +369,88 @@ $(function(){
 		});
 	});
 	$('#button-confirm_order').click(function(event) {
-		if(document.querySelector('input[name="payment_address"]:checked').value=='existing'){
-			var address = $('#address_id_exist').val();
-			var lat = $('#address_id_exist').find(':selected').attr('data-lat');
-			var lng = $('#address_id_exist').find(':selected').attr('data-lng');
-			var comment_order = $('#comment_order').val();
-			$.ajax({
-				url: 'addOnlineBill',
-				type: 'POST',
+		var response = grecaptcha.getResponse();
 
-				data: {
-					//id_receive: id_receive,
-					//id_send: order_store,
-					note: comment_order,
-					address: address,
-					lat: lat,
-					lng: lng,
-					//price: $('#total_order_online').attr('data-total')
-				}
-			})
-			.done(function(res) {
-				console.log(res);
-				 //window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
-			})
-			.fail(function() {
-				console.log("error");
+		if(response.length == 0){
+			$.toast({
+				heading: 'Error',
+				text: 'Something wrong, please try again!',
+				icon: 'error',
+				position: 'bottom-right',
+				loader: false
 			});
-		}
-		if(document.querySelector('input[name="payment_address"]:checked').value=='new'){
-			if($("#sonha").val() && $('#xa').val()){
-				var sonha = $("#sonha").val();
-				var address = sonha.concat(', '+$('#xa').val());
-				var geocoder;
-			    geocoder = new google.maps.Geocoder();
-			    geocoder.geocode( { 'address': address}, function(results, status) {
-			      	if (status == 'OK') {
-			  			var lat = results[0].geometry.location.lat();
-			        	var lng = results[0].geometry.location.lng();
-						//var order_store = $('#order_store').val();
-						var comment_order = $('#comment_order').val();
-						$.ajax({
-							url: 'addOnlineBill',
-							type: 'POST',
-							data: {
-								//id_receive: id_receive,
-								//id_send: order_store,
-								note: comment_order,
-								address: address,
-								lat: lat,
-								lng: lng,
-								//price: $('#total_order_online').attr('data-total')
-							}
-						})
-						.done(function(res) {
-							console.log(res);
-							 //window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
-						})
-						.fail(function() {
-							console.log("error");
-						});
-				    }
-				});
+		}else{
+			if(document.querySelector('input[name="payment_address"]:checked').value=='existing'){
+				var address = $('#address_id_exist').val();
+				var lat = $('#address_id_exist').find(':selected').attr('data-lat');
+				var lng = $('#address_id_exist').find(':selected').attr('data-lng');
+				var comment_order = $('#comment_order').val();
+				$.ajax({
+					url: 'addOnlineBill',
+					type: 'POST',
 
-			}else{
-				$.toast({
-		            heading: 'Error',
-		            text: 'Please check your order!',
-		            icon: 'error',
-		            position: 'bottom-right',
-		            loader: false
-		        });
+					data: {
+						//id_receive: id_receive,
+						//id_send: order_store,
+						note: comment_order,
+						address: address,
+						lat: lat,
+						lng: lng,
+						//price: $('#total_order_online').attr('data-total')
+					}
+				})
+				.done(function(res) {
+					console.log(res);
+					//window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
+				})
+				.fail(function() {
+					console.log("error");
+				});
+			}
+			if(document.querySelector('input[name="payment_address"]:checked').value=='new'){
+				if($("#sonha").val() && $('#xa').val()){
+					var sonha = $("#sonha").val();
+					var address = sonha.concat(', '+$('#xa').val());
+					var geocoder;
+					geocoder = new google.maps.Geocoder();
+					geocoder.geocode( { 'address': address}, function(results, status) {
+						if (status == 'OK') {
+							var lat = results[0].geometry.location.lat();
+							var lng = results[0].geometry.location.lng();
+							//var order_store = $('#order_store').val();
+							var comment_order = $('#comment_order').val();
+							$.ajax({
+								url: 'addOnlineBill',
+								type: 'POST',
+								data: {
+									//id_receive: id_receive,
+									//id_send: order_store,
+									note: comment_order,
+									address: address,
+									lat: lat,
+									lng: lng,
+									//price: $('#total_order_online').attr('data-total')
+								}
+							})
+							.done(function(res) {
+								console.log(res);
+								//window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
+							})
+							.fail(function() {
+								console.log("error");
+							});
+						}
+					});
+
+				}else{
+					$.toast({
+						heading: 'Error',
+						text: 'Please check your order!',
+						icon: 'error',
+						position: 'bottom-right',
+						loader: false
+					});
+				}
 			}
 		}
 	});
