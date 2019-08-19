@@ -1,4 +1,5 @@
 <!-- Topbar -->
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 <!-- Sidebar Toggle (Topbar) -->
@@ -44,49 +45,66 @@
   <!-- Nav Item - Alerts -->
   <li class="nav-item dropdown no-arrow mx-1">
     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fas fa-bell fa-fw"></i>
+        <i class="fas fa-bell fa-fw"></i>
       <!-- Counter - Alerts -->
-      <span class="badge badge-danger badge-counter">3+</span>
+
+            <span id='count_noti' number_noti="<?php echo $number_net_check ?>" class="badge badge-danger badge-counter">
+                <?php if($number_net_check > 0) {
+                    echo $number_net_check;
+                } ?>
+            </span>
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-      <h6 class="dropdown-header">
-        Alerts Center
-      </h6>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-primary">
-            <i class="fas fa-file-alt text-white"></i>
-          </div>
+        <h6 class="dropdown-header">
+            Alerts Center
+        </h6>
+        <div id='div_of_notification' sum_notification="<?php echo count($notifications); ?>">
+            <?php if (count($notifications) == 0) { ?>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-12" id="a_not_notification">
+                        <div>
+                            <span class="font-weight-bold">None Notification</span>
+                        </div>
+                    </div>
+                </a>
+            <?php } else { foreach ($notifications as $notifications) { ?>
+            <?php if ($notifications['Notification']['type'] == 1 || $notifications['Notification']['type'] == 2) { ?>
+                <div class='itemnoti'>
+                    <a class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
+                <?php } else { ?>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                <?php } ?>
+                        <div class="mr-3">
+                            <?php if ($notifications['Notification']['type'] == 1) { ?>
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-comment text-white"></i>
+                                </div>
+                            <?php } else if ($notifications['Notification']['type'] == 2) {?>
+                                <div class="icon-circle bg-info">
+                                    <i class="fas fa-comments text-white"></i>
+                                </div>
+                            <?php } else { ?>
+                                <div class="icon-circle bg-success">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            <?php } ?>
+                        </div>
+
+                        <div>
+                            <div class="small text-gray-500"><?php $timestamp = strtotime($notifications['Notification']['create_at']); echo date("d-m-Y", $timestamp); ?></div>
+                            <?php if ($notifications['Notification']['type'] == 1) { ?>
+                                <span class="font-weight-bold">Have a new comment!</span>
+                            <?php } else if ($notifications['Notification']['type'] == 2) {?>
+                                <span class="font-weight-bold">Phản hồi bình luận!</span>
+                            <?php } else { ?>
+                                <span class="font-weight-bold">Have a Đơn hangf mới!</span>
+                            <?php } ?>
+                        </div>
+                    </a>
+                </div>
+            <?php } } ?>
         </div>
-        <div>
-          <div class="small text-gray-500">December 12, 2019</div>
-          <span class="font-weight-bold">A new monthly report is ready to download!</span>
-        </div>
-      </a>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-success">
-            <i class="fas fa-donate text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">December 7, 2019</div>
-          $290.29 has been deposited into your account!
-        </div>
-      </a>
-      <a class="dropdown-item d-flex align-items-center" href="#">
-        <div class="mr-3">
-          <div class="icon-circle bg-warning">
-            <i class="fas fa-exclamation-triangle text-white"></i>
-          </div>
-        </div>
-        <div>
-          <div class="small text-gray-500">December 2, 2019</div>
-          Spending Alert: We've noticed unusually high spending for your account.
-        </div>
-      </a>
-      <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
     </div>
   </li>
 
@@ -180,3 +198,69 @@
 
 </nav>
 <!-- End of Topbar -->
+<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+<script>
+var pusher = new Pusher('5fd26f415e2c6b54fd0f', {
+    cluster: 'ap1',
+    forceTLS: true
+});
+
+$(function() {
+    if (parseInt($('#div_of_notification').attr('sum_notification')) > 5 ) {
+        $('#div_of_notification')
+            .append($('<a>')
+                .addClass('dropdown-item text-center small text-gray-500')
+                .attr({'href' : '#'})
+                .text('Show All Alerts'));
+    }
+    listShowNotification();
+});
+
+function listShowNotification() {
+    var num = 0;
+    $(".itemnoti").each(function() {
+        num++;
+        $(this).attr('STT', num );
+        if (parseInt($(this).attr('STT')) > 5){
+            $(this).hide();
+        }
+    });
+}
+
+function addNotification(data, content, icon, color) {
+    $('#div_of_notification').prepend($('<div>').addClass('itemnoti')
+        .append($('<a>').addClass('dropdown-item d-flex align-items-center').attr({ 'href' : '/home/product/' + data['Notification']['id_key_notication']})
+            .append($('<div>').addClass('mr-3')
+                .append($('<div>').addClass('icon-circle ' + color)
+                    .append($('<i>').addClass('fas text-white ' + icon))
+                )
+            ).append($('<div>')
+                .append($('<div>').addClass('small text-gray-500').text(data['Notification']['create_at']))
+                .append($('<span>').addClass('font-weight-bold').append(content))
+            )
+        )
+    );
+    listShowNotification();
+}
+
+var channel = pusher.subscribe('Notification');
+channel.bind('Show_Noti_Comment', function(data) {
+    var num_notification = $('#count_noti').attr('number_noti');
+    content = 'Have a new comment!';
+    icon = 'fa-comment';
+    color = 'bg-primary';
+
+    if (data['Notification']['type'] == 2) {
+        content = 'Phản hồi bình luận!';
+        icon = 'fa-comments';
+        color = 'bg-info';
+    }
+
+    $('#count_noti').text('');
+    num_notification++;
+    $('#count_noti').attr({ 'number_noti' : num_notification });
+    $('#count_noti').text(num_notification);
+    $('#a_not_notification').hide();
+    addNotification(data, content, icon, color);
+});
+</script>
