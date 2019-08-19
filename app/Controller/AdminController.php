@@ -3,24 +3,8 @@ App::import('Vendor', 'vendor', array('file' => 'autoload.php'));
 App::import('Vendor', 'tfpdf', array('file' => 'tfpdf/tfpdf.php'));
 class AdminController extends AppController
 {
-	public $uses = array('Categories', 'Product', 'Store', 'Genre', 'News', 'Manage', 'Admin', 'Product_store', 'Supplier', 'Invoice', 'Product_invoice');
-	public function serverPusher()
-	{
-		$this->autoRender = false;
-		$options = array(
-			'cluster' => 'ap1',
-			'useTLS' => true
-		);
-		$pusher = new Pusher\Pusher(
-			'88e4574e34357fdaf587',
-			'c883abc5006b0a157255',
-			'685875',
-			$options
-		);
+	public $uses = array('Categories', 'Notification', 'Product', 'Store', 'Genre', 'News', 'Manage', 'Admin', 'Product_store', 'Supplier', 'Invoice', 'Product_invoice');
 
-		$data = $this->request->data['id_product'];
-		$pusher->trigger('my-channel' . $this->request->data['id_cuahang'], 'my-event', $data);
-	}
 	public function index()
 	{
 		$this->checkAdmin();
@@ -49,6 +33,14 @@ class AdminController extends AppController
 			array_push($products[$i], $this->Product->getProductByID($products[$i]['Product_store']['id_product']));
 		}
 		$this->set('products', $products);
+
+		$number_notification_not_check = $this->Notification->find('all', array('conditions' => array('Notification.status' => '')));
+		$this->set('number_net_check', count($number_notification_not_check));
+
+		$notifications = $this->Notification->find('all', array(
+			'order' => array('Notification.create_at' => 'desc')
+		));
+		$this->set('notifications', $notifications);
 	}
 	public function login()
 	{
