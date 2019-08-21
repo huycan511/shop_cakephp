@@ -26,5 +26,6 @@ class MailsController extends AppController
 			$Email->send($message);
 		}
 		echo "success";
+
 	}
 }
