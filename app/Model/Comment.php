@@ -1,4 +1,4 @@
-<?php  
+<?php
 	class Comment extends AppModel{
 		public $name = 'Comment';
 		public $belongsTo = array('userr' => array('className' => 'User', 'foreignKey' => 'id_user'));

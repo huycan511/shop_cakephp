@@ -30,19 +30,17 @@ $.ajax({
     url: location.protocol + "//" + document.domain + "/admin/getBarChat",
   }).done(function(res){
     res = JSON.parse(res);
-    console.log(res);
+
     var name = [];
     var value = [];
     for (var i = res.length - 1; i >= 0; i--) {
       name.push(res[i]['name']);
       value.push(res[i]['earn']);
     }
-    console.log(name);
-    console.log(value);
+
     var max = Math.max.apply(Math, value);
     var digit = Math.pow(10,getlength(max)-1);
-    console.log();
-    console.log(Math.round(max));
+
     var ctx = document.getElementById("myBarChart");
     var myBarChart = new Chart(ctx, {
       type: 'bar',
