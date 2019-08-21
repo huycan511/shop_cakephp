@@ -120,7 +120,7 @@ $(function(){
 		 		url: location.protocol + "//" + document.domain +"/home/getWishList"
 		 	})
 		 	.done(function(res1){
-		 		console.log(res1);
+
 		 		$("#span_wishtlist").empty();
 		 		$("#span_wishtlist").text('('+res1+' )');
 		 		$.toast({
@@ -168,7 +168,7 @@ $(function(){
 			 		}
 			 	})
 			 	.done(function(res) {
-			 		console.log(res);
+
 			 		if(res==1){
 			 			$.toast({
 				            heading: 'Success',
@@ -400,7 +400,6 @@ $(function(){
 					}
 				})
 				.done(function(res) {
-					console.log(res);
 					//window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
 				})
 				.fail(function() {
@@ -433,7 +432,6 @@ $(function(){
 								}
 							})
 							.done(function(res) {
-								console.log(res);
 								//window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
 							})
 							.fail(function() {
@@ -525,7 +523,7 @@ $(function(){
 			$.each( data, function( key, value ) {
 				if(key == i){
 					$.each( value['quan-huyen'], function( key, value ) {
-						//console.log(value);
+
 						$('#huyen').append($('<option>', {value:key, text:value['name']}));
 					});
 				}
@@ -557,7 +555,7 @@ function commentProduct(obj, type_post) {
 	}
 
 	$.ajax({
-		url: location.protocol + "//" + document.domain +"/Comments/addCommentProduct",
+		url: location.protocol + "//" + document.domain + "/Comments/addCommentProduct",
 		type: 'POST',
 		data: {
 			id_commented: obj.attr('data-id'),
@@ -567,7 +565,6 @@ function commentProduct(obj, type_post) {
 	})
 	.success(function(res) {
 		res = JSON.parse(res);
-		console.log(res);
 		if (res['id_parent'] == null) {
 			$('#div_of_comment')
 			.append($('<div>').addClass('comment')
@@ -620,7 +617,6 @@ function commentProduct(obj, type_post) {
 
 			$('#input_review').val('');
 		} else {
-			console.log();
 			$('.multi_dev_num_' + res['id_parent'])
 				.append($('<div>').addClass('content_commets div_rep_' + res['id_parent'])
 					.append($('<div>').addClass('row_conten_1 row')
@@ -644,21 +640,19 @@ function commentProduct(obj, type_post) {
 function codeAddress() {
   	var geocoder;
     geocoder = new google.maps.Geocoder();
-  	//console.log('dsd');
+
     var address = document.getElementById('search').value;
     if(address!=''){
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == 'OK') {
   		var latitude = results[0].geometry.location.lat();
         var longitude = results[0].geometry.location.lng();
-        console.log(latitude);
-        console.log(longitude);
 	      }
 	    });
 	}else{console.log('ds');}
 }
 function deleteAddress(obj){
-	//console.log(obj.attr('data-id'));
+
 	$.ajax({
 		url: location.protocol + "//" + document.domain +"/users/deleteAddress",
 		type: 'POST',
@@ -882,7 +876,7 @@ function addcart(obj){
 		}
 	})
 	.done(function(res) {
-		console.log(res);
+
 		if(!res || res.length==0){
 			var li = $('<li>').appendTo($('.cart-dropdown-menu'));
 			var div = $('<div>').appendTo($(li));
