@@ -1,0 +1,102 @@
+2019-08-21 06:14:12 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_user' cannot be null
+Request URL: /Comments/addCommentProduct
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(502): PDOStatement->execute(Array)
+#1 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(468): DboSource->_execute('INSERT INTO `ex...', Array)
+#2 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(1132): DboSource->execute('INSERT INTO `ex...')
+#3 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(1942): DboSource->create(Object(Comment), Array, Array)
+#4 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(1760): Model->_doSave(Object(stdClass), Array)
+#5 /htdocs/src/shop_cakephp/app/Controller/CommentsController.php(39): Model->save(Object(stdClass))
+#6 [internal function]: CommentsController->addCommentProduct()
+#7 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Controller/Controller.php(499): ReflectionMethod->invokeArgs(Object(CommentsController), Array)
+#8 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#9 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(167): Dispatcher->_invoke(Object(CommentsController), Object(CakeRequest))
+#10 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2019-08-21 06:14:18 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_user' cannot be null
+Request URL: /Comments/addCommentProduct
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(502): PDOStatement->execute(Array)
+#1 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(468): DboSource->_execute('INSERT INTO `ex...', Array)
+#2 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Datasource/DboSource.php(1132): DboSource->execute('INSERT INTO `ex...')
+#3 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(1942): DboSource->create(Object(Comment), Array, Array)
+#4 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Model/Model.php(1760): Model->_doSave(Object(stdClass), Array)
+#5 /htdocs/src/shop_cakephp/app/Controller/CommentsController.php(39): Model->save(Object(stdClass))
+#6 [internal function]: CommentsController->addCommentProduct()
+#7 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Controller/Controller.php(499): ReflectionMethod->invokeArgs(Object(CommentsController), Array)
+#8 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#9 /htdocs/src/shop_cakephp/app/Vendor/cakephp/cakephp/lib/Cake/Routing/Dispatcher.php(167): Dispatcher->_invoke(Object(CommentsController), Object(CakeRequest))
+#10 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2019-08-21 06:14:26 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /js/angular.min.js.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:26 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/easy-autocomplete.min.css.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:26 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/easy-autocomplete.themes.min.css.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:33 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /js/angular.min.js.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:33 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/easy-autocomplete.themes.min.css.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:33 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/easy-autocomplete.min.css.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:14:37 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /js/angular.min.js.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2019-08-21 06:15:28 Error: [MissingControllerException] Controller class JsController could not be found.
+Exception Attributes: array (
+  'class' => 'JsController',
+  'plugin' => NULL,
+)
+Request URL: /js/angular.min.js.map
+Stack Trace:
+#0 /htdocs/src/shop_cakephp/app/webroot/index.php(117): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}

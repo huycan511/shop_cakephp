@@ -33,7 +33,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller
 {
-	public $uses = array('Product', 'Like', 'Cart');
+	public $uses = array('Product', 'Like', 'Cart', 'Notification');
 	public function getDataCart()
 	{
 		$cart = $this->Cart->getMyCart($this->Session->read('id_user'));
@@ -94,5 +94,32 @@ class AppController extends Controller
 		$this->set('wishlist', $wishlist);
 		$categories = $this->Categories->find('all');
 		$this->set('categories', $categories);
+	}
+
+	public function getNotification() {
+		$number_notification_not_check = $this->Notification->find('all', array(
+			'conditions' => array(
+				'Notification.status' => '',
+				'Notification.id_store' => $this->Session->read('id_store')
+			)
+		));
+		$this->set('number_not_check', count($number_notification_not_check));
+
+		$numberNewComment = $this->Notification->find('all', array('conditions' => array(
+			'Notification.status' => '',
+			'Notification.id_store' => $this->Session->read('id_store'),
+				'OR' => array(
+					array('Notification.type' => 1),
+					array('Notification.type' => 2)
+				)
+			)
+		));
+		$this->set('number_new_comment', count($numberNewComment));
+
+		$notifications = $this->Notification->find('all', array(
+			'order' => array('Notification.create_at' => 'desc'),
+			'conditions' => array('Notification.id_store' => $this->Session->read('id_store'))
+		));
+		$this->set('notifications', $notifications);
 	}
 }

@@ -862,6 +862,7 @@ $(document).ready(function(){
 		$('#admin-content').removeClass('overlay');
 	} );
 });
+
 function newfeedac(obj){
 
 	window.open(location.protocol + "//" + document.domain + "/cakephp/profiles/profile/" + obj);

@@ -1,4 +1,9 @@
 <!-- Topbar -->
+<style>
+    .color_uncheck {
+        background-color : lavender;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -47,12 +52,11 @@
     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
       <!-- Counter - Alerts -->
-
-            <span id='count_noti' number_noti="<?php echo $number_net_check ?>" class="badge badge-danger badge-counter">
-                <?php if($number_net_check > 0) {
-                    echo $number_net_check;
-                } ?>
+      <?php if($number_not_check >= 0) { ?>
+            <span id='count_noti' number_noti="<?php echo $number_not_check ?>" class="badge badge-danger badge-counter">
+                <?php echo $number_not_check; ?>
             </span>
+       <?php } ?>
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -70,10 +74,10 @@
                 </a>
             <?php } else { foreach ($notifications as $notifications) { ?>
             <?php if ($notifications['Notification']['type'] == 1 || $notifications['Notification']['type'] == 2) { ?>
-                <div class='itemnoti'>
-                    <a class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
+                <div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
+                    <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
                 <?php } else { ?>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
+                    <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="#">
                 <?php } ?>
                         <div class="mr-3">
                             <?php if ($notifications['Notification']['type'] == 1) { ?>
@@ -198,69 +202,3 @@
 
 </nav>
 <!-- End of Topbar -->
-<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
-<script>
-var pusher = new Pusher('5fd26f415e2c6b54fd0f', {
-    cluster: 'ap1',
-    forceTLS: true
-});
-
-$(function() {
-    if (parseInt($('#div_of_notification').attr('sum_notification')) > 5 ) {
-        $('#div_of_notification')
-            .append($('<a>')
-                .addClass('dropdown-item text-center small text-gray-500')
-                .attr({'href' : '#'})
-                .text('Show All Alerts'));
-    }
-    listShowNotification();
-});
-
-function listShowNotification() {
-    var num = 0;
-    $(".itemnoti").each(function() {
-        num++;
-        $(this).attr('STT', num );
-        if (parseInt($(this).attr('STT')) > 5){
-            $(this).hide();
-        }
-    });
-}
-
-function addNotification(data, content, icon, color) {
-    $('#div_of_notification').prepend($('<div>').addClass('itemnoti')
-        .append($('<a>').addClass('dropdown-item d-flex align-items-center').attr({ 'href' : '/home/product/' + data['Notification']['id_key_notication']})
-            .append($('<div>').addClass('mr-3')
-                .append($('<div>').addClass('icon-circle ' + color)
-                    .append($('<i>').addClass('fas text-white ' + icon))
-                )
-            ).append($('<div>')
-                .append($('<div>').addClass('small text-gray-500').text(data['Notification']['create_at']))
-                .append($('<span>').addClass('font-weight-bold').append(content))
-            )
-        )
-    );
-    listShowNotification();
-}
-
-var channel = pusher.subscribe('Notification');
-channel.bind('Show_Noti_Comment', function(data) {
-    var num_notification = $('#count_noti').attr('number_noti');
-    content = 'Have a new comment!';
-    icon = 'fa-comment';
-    color = 'bg-primary';
-
-    if (data['Notification']['type'] == 2) {
-        content = 'Phản hồi bình luận!';
-        icon = 'fa-comments';
-        color = 'bg-info';
-    }
-
-    $('#count_noti').text('');
-    num_notification++;
-    $('#count_noti').attr({ 'number_noti' : num_notification });
-    $('#count_noti').text(num_notification);
-    $('#a_not_notification').hide();
-    addNotification(data, content, icon, color);
-});
-</script>

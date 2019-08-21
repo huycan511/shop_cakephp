@@ -51,7 +51,7 @@ class CommentsController extends AppController
 				if ($this->Notification->save($notificate)) {
 					$last_id_notifiction = $this->Notification->getLastInsertId();
 					$new_notification = $this->Notification->find('first', array('conditions' => array('Notification.id' => $last_id_notifiction)));
-					$this->pusher1->trigger('Notification', 'Show_Noti_Comment', $new_notification);
+					$this->pusher1->trigger('Notification', 'Show_Noti_Comment_1', $new_notification);
 				}
 
 				return json_encode($new_comment['Comment']);
