@@ -11,6 +11,29 @@ class UsersController extends AppController
 {
 	public $uses = array('Store', 'Categories', 'Genre', 'Product', 'User', 'Cart', 'Invoice', 'Product_invoice', 'Like');
 
+	private $pusher = null;
+	private $options = null;
+
+	public function beforeFilter() {
+		$this->__createPusher();
+	}
+
+	private function __createPusher() {
+		$this->options = array(
+			'cluster' => 'ap1',
+			'useTLS' => true
+		);
+
+		$this->pusher = new Pusher\Pusher (
+			'5fd26f415e2c6b54fd0f',
+			'81f3d51f133dcc9f5db0',
+			'789449',
+			$this->options
+		);
+
+		return $this->pusher;
+	}
+
 	function contact()
 	{
 		$spreadsheet = new Spreadsheet();
@@ -149,18 +172,35 @@ class UsersController extends AppController
 			$bill->date = date("Y-m-d");
 			$bill->price = $total + 0.1 * $total + 20000;
 			$this->Invoice->create();
-			$this->Invoice->save($bill);
-			$id_invoice = $this->Invoice->getLastInsertID();
-			for ($i = 0; $i < count($detail); $i++) {
-				$invoice_product = new stdClass();
-				$invoice_product->id_invoice = $id_invoice;
-				$invoice_product->id_product = $detail[$i]['id_product'];
-				$invoice_product->amount = $detail[$i]['amount'];
-				$this->Product_invoice->create();
-				$this->Product_invoice->save($invoice_product);
+
+			if ($this->Invoice->save($bill)) {
+				$id_invoice = $this->Invoice->getLastInsertID();
+
+				$notificate = new stdClass();
+				$notificate->id_key_notication = $id_invoice;
+				$notificate->type = 3;
+				$notificate->id_store = $stores[$index]['Store']['id'];
+				$this->Notification->create();
+
+				if ($this->Notification->save($notificate)) {
+					$last_id_notifiction = $this->Notification->getLastInsertId();
+					$new_notification = $this->Notification->find('first', array('conditions' => array('Notification.id' => $last_id_notifiction)));
+					$id_store_show = 'Show_Noti_Comment_' . $stores[$index]['Store']['id'];
+					$this->pusher->trigger('Notification', $id_store_show, $new_notification);
+				}
+
+				for ($i = 0; $i < count($detail); $i++) {
+					$invoice_product = new stdClass();
+					$invoice_product->id_invoice = $id_invoice;
+					$invoice_product->id_product = $detail[$i]['id_product'];
+					$invoice_product->amount = $detail[$i]['amount'];
+					$this->Product_invoice->create();
+					$this->Product_invoice->save($invoice_product);
+				}
+				$this->set('data', $bill);
+
+				$this->render('/Admins/json');
 			}
-			$this->set('data', $bill);
-			$this->render('/Admins/json');
 		}
 	}
 	public function orderlist()

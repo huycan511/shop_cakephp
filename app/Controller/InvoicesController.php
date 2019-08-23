@@ -1,7 +1,13 @@
 <?php
 class InvoicesController extends AppController
 {
-	public $uses = array('Categories', 'Product', 'Store', 'Product_invoice', 'Product_store', 'Invoice', 'Supplier', 'Genre', 'User');
+	public $uses = array('Categories', 'Notification', 'Product', 'Store', 'Product_invoice', 'Product_store', 'Invoice', 'Supplier', 'Genre', 'User');
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->getNotification();
+	}
+
 	public function index()
 	{
 		$this->layout = 'admin';
@@ -193,6 +199,14 @@ class InvoicesController extends AppController
 				$this->Product_store->save($update);
 				$this->Product_invoice->delete($invoice[$i]['Product_invoice']['id']);
 			}
+
+			$delNotification = $this->Notification->find('first', array(
+				'conditions' => array(
+					'Notification.id_key_notication' => $this->request->data['id_invoice'],
+					'Notification.type' => 3
+				)
+			));
+			$this->Notification->delete($delNotification);
 			$this->Invoice->delete($this->request->data['id_invoice']);
 			$this->set('data', $invoice);
 			$this->render('/Admins/json');
@@ -249,6 +263,14 @@ class InvoicesController extends AppController
 			$this->Product_store->save($update);
 			$this->Product_invoice->delete($invoice[$i]['Product_invoice']['id']);
 		}
+
+		$delNotification = $this->Notification->find('first', array(
+			'conditions' => array(
+				'Notification.id_key_notication' => $this->request->data['id_invoice'],
+				'Notification.type' => 3
+			)
+		));
+		$this->Notification->delete($delNotification);
 		$this->Invoice->delete($this->request->data['id_invoice']);
 		$this->set('data', $invoice);
 		$this->render('/Admins/json');

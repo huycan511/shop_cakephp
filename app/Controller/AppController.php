@@ -97,6 +97,7 @@ class AppController extends Controller
 	}
 
 	public function getNotification() {
+		$this->layout = null;
 		$number_notification_not_check = $this->Notification->find('all', array(
 			'conditions' => array(
 				'Notification.status' => '',

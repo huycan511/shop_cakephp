@@ -77,7 +77,8 @@
                 <div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
                     <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
                 <?php } else { ?>
-                    <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="#">
+                    <div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
+                    <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/invoices/details/<?php echo $notifications['Notification']['id_key_notication']; ?> ">
                 <?php } ?>
                         <div class="mr-3">
                             <?php if ($notifications['Notification']['type'] == 1) { ?>

@@ -10,6 +10,7 @@ $(function() {
         content = 'Have a new comment!';
         icon = 'fa-comment';
         color = 'bg-primary';
+        link = '/home/product/'
 
         if (data['Notification']['type'] == 2) {
             content = 'Phản hồi bình luận!';
@@ -17,12 +18,19 @@ $(function() {
             color = 'bg-info';
         }
 
+        if (data['Notification']['type'] == 3) {
+            content = 'You are new Order to a Custom!';
+            icon = 'fa-file-alt';
+            color = 'bg-success';
+            link = '/invoices/details/'
+        }
+
         $('#count_noti').text('');
         num_notification++;
         $('#count_noti').attr({ 'number_noti' : num_notification });
         $('#count_noti').text(num_notification);
         $('#a_not_notification').hide();
-        addNotification(data, content, icon, color);
+        addNotification(data, content, icon, color, link);
     });
 
     if (parseInt($('#div_of_notification').attr('sum_notification')) > 5 ) {
@@ -47,13 +55,13 @@ function listShowNotification() {
     });
 }
 
-function addNotification(data, content, icon, color) {
-    $('#div_of_notification').prepend($('<div>').addClass('itemnoti color_uncheck').attr({
+function addNotification(data, content, icon, color, link) {
+    $('#div_of_notification').prepend($('<div>').addClass('itemnoti color_uncheck table_noti_' + data['Notification']['id']).attr({
         'onClick' :'checkedNoti($(this))',
         'data_id_noti' : data['Notification']['id']
         })
         .append($('<a>').addClass('dropdown-item d-flex align-items-center').attr({
-            'href' : '/home/product/' + data['Notification']['id_key_notication'],
+            'href' : link + data['Notification']['id_key_notication'],
             'target' : '_blank',
             'rel' : 'noopener noreferrer'
             })
@@ -67,11 +75,30 @@ function addNotification(data, content, icon, color) {
             )
         )
     );
+
+    $('.div_list_notification').prepend($('<div>').addClass('item_notification').attr({
+            'onClick' : "checkedNoti($('.table_noti_" + data['Notification']['id'] + "'))"
+        })
+        .append($('<a>').addClass('dropdown-item d-flex align-items-center')
+            .attr({
+                'target' : '_blank',
+                'id' : 'sothutu_' + data['Notification']['id'],
+                'rel' : 'noopener noreferrer',
+                'href' : link + data['Notification']['id_key_notication']
+            })
+            .append($('<div>').addClass('div_conten_noti')
+                .append($('<span>').addClass('font-weight-bold').append(content))
+            )
+        )
+    );
+
     listShowNotification();
 }
 
 function checkedNoti(obj) {
     var num_notification = $('#count_noti').attr('number_noti');
+    console.log(num_notification);
+    console.log($(obj).attr('data_id_noti'));
     $.ajax({
 		url:"/Admin/updateCheckNoti",
         type:'POST',
@@ -79,6 +106,7 @@ function checkedNoti(obj) {
 			id_notification: $(obj).attr('data_id_noti'),
 		}
 	}).done(function(res) {
+        console.log(res);
         if (res == 'updated'){
             $('#count_noti').text('');
             num_notification--;

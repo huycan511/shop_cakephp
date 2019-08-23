@@ -37,7 +37,7 @@
             <?php if ($notifications['Notification']['type'] == 1 || $notifications['Notification']['type'] == 2) { ?>
                 <a target="_blank" id="sothutu_<?php echo $notifications['Notification']['id']?>" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
             <?php } else { ?>
-                <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="#">
+                <a target="_blank" id="sothutu_<?php echo $notifications['Notification']['id']?>" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/invoices/details/<?php echo $notifications['Notification']['id_key_notication']; ?>">
             <?php } ?>
                     <div class="div_conten_noti">
                         <?php if ($notifications['Notification']['type'] == 1) { ?>
@@ -45,7 +45,7 @@
                         <?php } else if ($notifications['Notification']['type'] == 2) {?>
                             <span class="font-weight-bold">Phản hồi bình luận!</span>
                         <?php } else { ?>
-                            <span class="font-weight-bold">Have a Đơn hangf mới!</span>
+                            <span class="font-weight-bold">You are new Order to a Custom!</span>
                         <?php } ?>
                     </div>
                     <?php if($notifications['Notification']['status'] != '') { ?>
