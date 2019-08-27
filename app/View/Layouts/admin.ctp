@@ -125,7 +125,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 </li>
             </ul>
         </nav>
-		
+
 		<div id="content">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">

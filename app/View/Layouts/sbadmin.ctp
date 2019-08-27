@@ -28,6 +28,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->fetch('meta');
@@ -62,7 +63,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
+				<div class="container-fluid" data_id_store=<?php echo $this->Session->read('id_admin'); ?>>
 					<?php echo $this->Flash->render();?>
 					<?php echo $this->fetch('content');?>
 				</div>

@@ -5,6 +5,11 @@ class AdminController extends AppController
 {
 	public $uses = array('Categories', 'Notification', 'Product', 'Store', 'Genre', 'News', 'Manage', 'Admin', 'Product_store', 'Supplier', 'Invoice', 'Product_invoice');
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->getNotification();
+	}
+
 	public function index()
 	{
 		$this->checkAdmin();
@@ -33,14 +38,6 @@ class AdminController extends AppController
 			array_push($products[$i], $this->Product->getProductByID($products[$i]['Product_store']['id_product']));
 		}
 		$this->set('products', $products);
-
-		$number_notification_not_check = $this->Notification->find('all', array('conditions' => array('Notification.status' => '')));
-		$this->set('number_net_check', count($number_notification_not_check));
-
-		$notifications = $this->Notification->find('all', array(
-			'order' => array('Notification.create_at' => 'desc')
-		));
-		$this->set('notifications', $notifications);
 	}
 	public function login()
 	{
@@ -140,7 +137,6 @@ class AdminController extends AppController
 	{
 		$this->checkBigAdmin();
 		$this->layout = 'sbadmin';
-
 	}
 	public function addStore()
 	{
@@ -169,6 +165,34 @@ class AdminController extends AppController
 		$this->set('data', $store);
 		$this->render('json');
 	}
+
+	public function isCheckNoti($id) {
+		$status = $this->Notification->find('first', array(
+			'conditions' => array('Notification.id' => $id), // array of conditions
+			'fields' => array('Notification.status')
+		));
+
+		return $status;
+	}
+	public function updateCheckNoti() {
+		$this->autoRender = null;
+		if ($this->request->is('ajax')) {
+			$id = $this->request->data['id_notification'];
+			$isCheck = $this->isCheckNoti($id);
+			if ($isCheck['Notification']['status'] == '') {
+				$this->Notification->id = $id;
+				$this->Notification->saveField('status', 1);
+				return 'updated';
+			}
+			return true;
+		}
+	}
+
+	public function listNotification() {
+		$this->checkAdmin();
+		$this->layout = 'sbadmin';
+	}
+
 	public function addProduct()
 	{
 		$this->layout = null;
