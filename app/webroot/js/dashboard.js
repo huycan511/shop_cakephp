@@ -8,16 +8,16 @@ $(function(){
 				mail: email,
 			},
 			success: function (response) {
-				$.toast({
-		            heading: 'Success',
-		            text: 'Subscibe done!',
-		            icon: 'success',
-		            position: 'bottom-right',
-		            loader: false
-		        });
 			}
 		});
-		$(this).val('');
+		$.toast({
+			heading: 'Success',
+			text: 'Subscibe done!',
+			icon: 'success',
+			position: 'bottom-right',
+			loader: false
+		});
+		$(this).prev().val('');
 	  });
 	$(".remove_wishlist").click(function(e){
 		$.ajax({
