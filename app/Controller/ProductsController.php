@@ -2,6 +2,11 @@
 class ProductsController extends AppController
 {
 	public $uses = array('Categories', 'Product', 'Product_store', 'Genre', 'Store', 'Cart', 'Like', 'Supplier');
+
+	public function beforeFilter() {
+		$this->getNotificationUser();
+	}
+
 	public function index()
 	{
 		$this->layout = 'admin';

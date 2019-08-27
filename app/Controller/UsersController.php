@@ -16,6 +16,7 @@ class UsersController extends AppController
 
 	public function beforeFilter() {
 		$this->__createPusher();
+		$this->getNotificationUser();
 	}
 
 	private function __createPusher() {

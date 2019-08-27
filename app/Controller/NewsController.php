@@ -2,6 +2,11 @@
 class NewsController extends AppController
 {
 	public $uses = array('Categories', 'Product', 'Store', 'Genre', 'News', 'Cart');
+
+	public function beforeFilter() {
+		$this->getNotificationUser();
+	}
+
 	public function index()
 	{
 		$this->layout = 'new';
