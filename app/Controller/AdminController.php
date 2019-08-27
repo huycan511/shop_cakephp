@@ -438,4 +438,12 @@ class AdminController extends AppController
 		//$this->set('months',$months);
 		//$this->set('name',$name);
 	}
+	public function excelEarning(){
+		$this->layout = null;
+		$data = new stdClass();
+		$data->from = $this->request->data['from_date'];
+		$data->to = $this->request->data['to_date'];
+		$this->set('data', $data);
+		$this->render('json');
+	}
 }

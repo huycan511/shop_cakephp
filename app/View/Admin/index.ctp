@@ -68,8 +68,19 @@
                 </div>
               </div>
             </div>
-          
 
+
+</div>
+<div class="row">
+	<div class="col-xl-3 col-md-6 mb-4">
+	<input data-toggle="datepicker" class="form-control" id="from_date" autocomplete="off" placeholder="From...">
+	</div>
+	<div class="col-xl-3 col-md-6 mb-4">
+	<input data-toggle="datepicker" class="form-control" id="to_date" autocomplete="off" placeholder="To...">
+	</div>
+	<div class="col-xl-3 col-md-6 mb-4">
+	<button class="btn btn-primary" id="generate_excel">Generate PDF</button>
+	</div>
 </div>
 <div class="row">
     <div class="col-xl-8 col-lg-7">
@@ -87,7 +98,7 @@
           </div>
     </div>
 </div>
-<div class="card shadow mb-4 mt-2">  
+<div class="card shadow mb-4 mt-2">
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

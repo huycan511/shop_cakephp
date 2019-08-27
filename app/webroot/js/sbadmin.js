@@ -17,4 +17,17 @@ $(function(){
 			}
 		});
 	})
+	$("#generate_excel").click(function(e){
+		$.ajax({
+			type: "POST",
+			url: location.protocol + "//" + document.domain + "/admin/excelEarning",
+			data: {
+				from_date: $("#from_date").val(),
+				to_date: $("#to_date").val(),
+			},
+			success: function (res) {
+				console.log(res)
+			}
+		});
+	})
 })

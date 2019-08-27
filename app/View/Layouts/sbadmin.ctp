@@ -28,6 +28,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->fetch('meta');
@@ -36,6 +37,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->Html->css('vendor/datatables/dataTables.bootstrap4.min');
 		echo $this->Html->css('sbadmin');
 		echo $this->Html->css('toast_jquery');
+		echo $this->Html->css('datepicker');
 		echo $this->Html->css('all');
 		echo $this->Html->css('iziModal.min');
 		echo $this->fetch('css');
@@ -135,10 +137,17 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->script('toast_jquery');
 	echo $this->Html->script('iziModal.min');
 	echo $this->Html->script('pagination');
-	
+	echo $this->Html->script('bootstrap-datepicker');
+
 ?>
 <script src="<?php echo FIELD;?>/app/webroot/ckeditor/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js	"></script>
+<script>
+	$('[data-toggle="datepicker"]').datepicker({
+        format: 'mm-yyyy'
+    });
+</script>
