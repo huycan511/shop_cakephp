@@ -212,12 +212,12 @@ class InvoicesController extends AppController
 			$this->render('/Admins/json');
 		}
 	}
-	public function handleOrder()
-	{
+	public function handleOrder() {
 		$this->layout = null;
 		$array = array();
 		$check = 1;
 		$products = $this->Product_invoice->getProductOfInvoice($this->request->data['id_invoice']);
+
 		$count_product = count($products);
 		for ($i = 0; $i < $count_product; $i++) {
 			$data = new stdClass();
@@ -246,7 +246,21 @@ class InvoicesController extends AppController
 			$invoice = new stdClass();
 			$invoice->id = $this->request->data['id_invoice'];
 			$invoice->status = 1;
-			$this->Invoice->save($invoice);
+			if ($this->Invoice->save($invoice)) {
+				$invoice = $this->Invoice->find('first', array(
+					'conditions' => array(
+						'Invoice.id' => $this->request->data['id_invoice'],
+					)
+				));
+				$notificationForOrder = array(
+					'id_key_notication' => $this->request->data['id_invoice'],
+					'type' => 4,
+					'id_store' => $invoice['Invoice']['id_receive']
+				);
+
+				$this->Notification->create();
+				$this->Notification->save($notificationForOrder);
+			}
 		}
 		$this->set('data', $check);
 		$this->render('/Admins/json');
@@ -264,13 +278,26 @@ class InvoicesController extends AppController
 			$this->Product_invoice->delete($invoice[$i]['Product_invoice']['id']);
 		}
 
+		$Notican = $this->Notification->find('first', array(
+			'conditions' => array(
+				'Notification.id_key_notication' => $this->request->data['id_invoice'],
+				'Notification.type' => 4
+			)
+		));
+
+		$updateNoti = new stdClass();
+		$updateNoti->id = $Notican['Notification']['id'];
+		$updateNoti->status = 2;
+		$this->Notification->save($updateNoti);
+
 		$delNotification = $this->Notification->find('first', array(
 			'conditions' => array(
 				'Notification.id_key_notication' => $this->request->data['id_invoice'],
 				'Notification.type' => 3
 			)
 		));
-		$this->Notification->delete($delNotification);
+		$this->log($delNotification);
+		$this->Notification->delete($delNotification['Notification']['id']);
 		$this->Invoice->delete($this->request->data['id_invoice']);
 		$this->set('data', $invoice);
 		$this->render('/Admins/json');
@@ -282,6 +309,19 @@ class InvoicesController extends AppController
 		$update->id = $this->request->data['id_invoice'];
 		$update->status = 2;
 		$this->Invoice->save($update);
+
+		$Noti = $this->Notification->find('first', array(
+			'conditions' => array(
+				'Notification.id_key_notication' => $this->request->data['id_invoice'],
+				'Notification.type' => 4
+			)
+		));
+
+		$updateNoti = new stdClass();
+		$updateNoti->id = $Noti['Notification']['id'];
+		$updateNoti->status = 1;
+		$this->Notification->save($updateNoti);
+
 		$this->set('data', $update);
 		$this->render('/Admins/json');
 	}

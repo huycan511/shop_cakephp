@@ -1,10 +1,13 @@
 	<?php
 	class HomeController extends AppController
 	{
-
 		public $components = array('Facebook');
 
 		public $uses = array('User', 'Store', 'Categories', 'Genre', 'Product', 'News', 'Comment', 'Rating', 'Cart', 'Like', 'Product_invoice', 'Invoice');
+
+		public function beforeFilter() {
+			$this->getNotificationUser();
+		}
 		public function index()
 		{
 			$this->layout = 'main';

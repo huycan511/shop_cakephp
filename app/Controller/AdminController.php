@@ -171,7 +171,7 @@ class AdminController extends AppController
 			'conditions' => array('Notification.id' => $id), // array of conditions
 			'fields' => array('Notification.status')
 		));
-
+		//cai lon ma
 		return $status;
 	}
 	public function updateCheckNoti() {

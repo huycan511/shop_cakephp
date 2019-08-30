@@ -33,7 +33,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller
 {
-	public $uses = array('Product', 'Like', 'Cart', 'Notification');
+	public $uses = array('Product', 'Like', 'Invoice', 'Cart', 'Notification');
 	public function getDataCart()
 	{
 		$cart = $this->Cart->getMyCart($this->Session->read('id_user'));
@@ -101,7 +101,12 @@ class AppController extends Controller
 		$number_notification_not_check = $this->Notification->find('all', array(
 			'conditions' => array(
 				'Notification.status' => '',
-				'Notification.id_store' => $this->Session->read('id_store')
+				'Notification.id_store' => $this->Session->read('id_store'),
+				'OR' => array(
+					array('Notification.type' => 1),
+					array('Notification.type' => 2),
+					array('Notification.type' => 3)
+				)
 			)
 		));
 		$this->set('number_not_check', count($number_notification_not_check));
@@ -119,8 +124,32 @@ class AppController extends Controller
 
 		$notifications = $this->Notification->find('all', array(
 			'order' => array('Notification.create_at' => 'desc'),
-			'conditions' => array('Notification.id_store' => $this->Session->read('id_store'))
+			'conditions' => array(
+				'Notification.id_store' => $this->Session->read('id_store'),
+				'OR' => array(
+					array('Notification.type' => 1),
+					array('Notification.type' => 2),
+					array('Notification.type' => 3)
+				)
+			)
 		));
+
 		$this->set('notifications', $notifications);
+	}
+
+	public function getNotificationUser() {
+		$notisUser = $this->Notification->find('all', array(
+			'order' => array('Notification.create_at' => 'desc'),
+			'conditions' => array(
+				'Notification.id_store' => $this->Session->read('id_user'),
+				'Notification.type' => 4,
+				'OR' => array(
+					array('Notification.status' => ''),
+					//array('Notification.status' => 2),
+				)
+			)
+		));
+
+		$this->set('notisUser', $notisUser);
 	}
 }

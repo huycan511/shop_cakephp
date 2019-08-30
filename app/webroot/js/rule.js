@@ -146,7 +146,7 @@ $(function () {
 	});
 	$('.confirm_order').click(function (event) {
 		$.ajax({
-			url: '../confirmOrder',
+			url: '/Invoices/confirmOrder',
 			type: 'POST',
 			data: {
 				id_invoice: $(this).attr('data-id')
@@ -764,7 +764,7 @@ function moreProduct() {
 }
 function handle_order(obj) {
 	$.ajax({
-		url: '../handleOrder',
+		url: '/Invoices/handleOrder',
 		type: 'POST',
 		data: {
 			id_invoice: obj.attr('data-id'),
