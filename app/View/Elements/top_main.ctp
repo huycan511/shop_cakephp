@@ -67,7 +67,7 @@
         <div id="cart" class="btn-group btn-block">
           <button type="button" data-izimodal-open="<?php if(!$this->Session->read('id_user')){
               echo "#modal-custom";
-          } ?>" class="btn btn-inverse btn-block btn-lg dropdown-toggle <?php 
+          } ?>" class="btn btn-inverse btn-block btn-lg dropdown-toggle <?php
             if($this->Session->read('id_user')) {
               echo "cart-dropdown-button";
           }
@@ -89,7 +89,9 @@
             <li>
               <table class="table table-striped">
                 <tbody>
-                  <?php for ($i=0; $i < count($cart) ; $i++) { ?>
+									<?php
+									$max_cart = (count($cart) > 4)?4:count($cart);
+									for ($i=0; $i < $max_cart ; $i++) { ?>
                     <tr class="tr_cart">
                     <td class="text-center"><a href="#"><img class="img-thumbnail" src="<?php echo FIELD;?>/app/webroot/img/product/<?php echo $cart[$i]['2']?>" style="width:60px;" ></a></td>
                     <td class="text-left"><a href="#"><?php echo $cart[$i]['0']?></a>
@@ -104,6 +106,9 @@
                 </tbody>
               </table>
             </li>
+						<?php if(count($cart)>4){?>
+							<a href="<?php echo FIELD;?>/users/basket"><li>+ <?php echo count($cart)-4;?> more product</li></a>
+						<?php }?>
             <li id="li_price">
               <div>
                 <table class="table table-bordered">
@@ -139,7 +144,7 @@
     <div class="navbar-collapse">
       <ul class="main-navigation">
         <li><a href="<?php echo FIELD;?>"   class="parent">Home</a> </li>
-        <li><a href="" class="active parent" >Products</a>
+        <li><a href="javascript:void(0);" onclick="func(0)" class="active parent" >Products</a>
             <ul>
                 <?php for ($i=0; $i < count($categories) ; $i++) {?>
                 <li><a href="<?php echo FIELD;?>/categories/index/<?php echo $categories[$i]['Categories']['id'] ?>"><?php echo $categories[$i]['Categories']['name']?></a>

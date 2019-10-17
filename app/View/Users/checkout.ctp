@@ -104,21 +104,7 @@ $('input[name=\'payment_address\']').on('change', function() {
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse-payment-method" aria-expanded="false">Step 3: Store Order <i class="fa fa-caret-down"></i></a></h4>
-          </div>
-          <div id="collapse-payment-method" role="heading" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-            <div class="panel-body">
-              <select class="form-control" id="order_store">
-                    <?php foreach ($stores as $key => $value) {?>
-                    <option value="<?php echo $value['Store']['id'] ?>"><?php echo $value['Store']['name']?></option>
-                    <?php }?>
-                  </select>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title"><a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse-shipping-method" aria-expanded="false">Step 4: Delivery Method <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapse-shipping-method" aria-expanded="false">Step 3: Delivery Method <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div id="collapse-shipping-method" role="heading" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
             <div class="panel-body">
@@ -138,7 +124,7 @@ $('input[name=\'payment_address\']').on('change', function() {
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="panel-title"><a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#collapse-checkout-confirm" aria-expanded="true">Step 5: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
+            <h4 class="panel-title"><a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#collapse-checkout-confirm" aria-expanded="true">Step 4: Confirm Order <i class="fa fa-caret-down"></i></a></h4>
           </div>
           <div id="collapse-checkout-confirm" role="heading" class="panel-collapse collapse in" aria-expanded="true" style="">
             <div class="panel-body">

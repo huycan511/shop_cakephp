@@ -1805,12 +1805,14 @@ border-color: #ddd;
 float: right;
 }
 .category_block .hitarea.expandable-hitarea {
-height: 20px;
-width: 20px;
+height: 13px;
+width: 13px;
 z-index: 9;
 text-align: center;
 cursor: pointer;
 position: static;
+border-radius: 13px;
+background: black;
 }
 .category_block .hitarea.collapsable-hitarea {
 height: 20px;

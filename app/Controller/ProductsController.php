@@ -1,7 +1,7 @@
 <?php
 class ProductsController extends AppController
 {
-	public $uses = array('Categories', 'Product', 'Product_store', 'Genre', 'Store', 'Cart', 'Like', 'Supplier');
+	public $uses = array('Categories', 'Product', 'Product_store', 'Genre', 'Store', 'Cart', 'Like', 'Supplier', 'Rating');
 
 	public function beforeFilter() {
 		$this->getNotificationUser();
@@ -62,6 +62,7 @@ class ProductsController extends AppController
 		$data = array();
 		$count = count($genre['productt']);
 		for ($j = 0; $j < $count; $j++) {
+			array_push($genre['productt'][$j], $this->Rating->getRatingByID($genre['productt'][$j]['id']));
 			array_push($data, $genre['productt'][$j]);
 		}
 		$this->set('data', $data);

@@ -14,8 +14,8 @@
         <tbody>
           <?php for ($i=0; $i < count($cart); $i++) {?>
             <tr>
-              <td class="text-center"><a href="product.html"><img style="height: 40px;" class="img-thumbnail" src="<?php echo "/app/webroot/img/product/".$cart[$i]['2']?>"></a></td>
-              <td class="text-left"><a href="product.html"><?php echo $cart[$i]['0']?></a></td>
+              <td class="text-center"><a href="<?php echo FIELD;?>/home/product/<?php echo $cart[$i]['id_product'];?>"><img style="height: 40px;" class="img-thumbnail" src="<?php echo "/app/webroot/img/product/".$cart[$i]['2']?>"></a></td>
+              <td class="text-left"><a href="<?php echo FIELD;?>/home/product/<?php echo $cart[$i]['id_product'];?>"><?php echo $cart[$i]['0']?></a></td>
               <td class="text-left"><div style="max-width: 200px;" class="input-group btn-block">
                   <input type="number" class="form-control quantity" size="1" value="<?php echo $cart[$i]['amount']?>" name="quantity" style="width: 65px;">
                   <span class="input-group-btn">
