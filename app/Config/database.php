@@ -69,10 +69,10 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '12345',
-		'database' => 'expert_system',
+		'host' => 'us-cdbr-iron-east-02.cleardb.net',
+		'login' => 'be0cb100c902d9',
+		'password' => '229230e7',
+		'database' => 'heroku_b7b8b6a14276123',
 		'prefix' => '',
 		'encoding' => 'utf8',
 	);
