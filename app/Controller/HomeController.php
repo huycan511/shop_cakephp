@@ -57,7 +57,8 @@
 				$average = $this->Rating->getRatingByID($products[$i]['Product']['id']);
 				array_push($products[$i], $average);
 			}
-			return shuffle($products);
+			$this->set('data',  shuffle($products));
+			$this->render('/Admins/json');
 		}
 		public function authFacebook()
 		{
