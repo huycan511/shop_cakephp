@@ -51,13 +51,13 @@
 					}
 				}
 			}
-			$this->set('categories', $categories);
 			$products = $this->Product->find('all');
 			for ($i = 0, $max = count($products); $i < $max; $i++) {
 				$average = $this->Rating->getRatingByID($products[$i]['Product']['id']);
 				array_push($products[$i], $average);
 			}
-			$this->set('data',  shuffle($products));
+			const api = shuffle($products);
+			$this->set('data',api);
 			$this->render('/Admins/json');
 		}
 		public function authFacebook()
