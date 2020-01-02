@@ -11,7 +11,7 @@
       <div class="customtab">
         <div id="tabs" class="customtab-wrapper">
           <ul class='customtab-inner'>
-            <li class='tab'><a href="#tab-latest">All Product</a></li>
+            <li class='tab'><a href="#tab-latest">Allllll Product</a></li>
             <li class='tab'><a href="#tab-special">Favorite Product</a></li>
             <!-- <li class='tab'><a href="#tab-bestseller">Bestseller Items</a></li> -->
           </ul>
