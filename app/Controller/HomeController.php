@@ -40,7 +40,7 @@
 				$this->set('cart', 0);
 			}
 		}
-		public getALlProduct(){
+		public function getALlProduct(){
 			$this->layout = null;
 			$categories = $this->Categories->find('all', array('recursive' => 2));
 			foreach ($categories as &$value) {
