@@ -107,7 +107,8 @@ class ProductsController extends AppController
 	public function getAllProduct()
 	{
 		$this->layout = null;
-		$products = $this->Product->find('all');
+		$products = $this->Product->find('all', array(
+            'recursive' => -1));
 		// $data = array();
 		// for ($i = 0; $i < count($products); $i++) {
 		// 	$product = new stdClass();
