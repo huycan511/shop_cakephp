@@ -4,6 +4,7 @@ class NewsController extends AppController
 	public $uses = array('Categories', 'Product', 'Store', 'Genre', 'News', 'Cart');
 
 	public function beforeFilter() {
+		parent::beforeFilter();
 		$this->getNotificationUser();
 	}
 
@@ -50,6 +51,7 @@ class NewsController extends AppController
 	}
 	public function editNew($id_new)
 	{
+		$this->getNotification();
 		$this->layout = 'sbadmin';
 		$new = $this->News->find('first', array(
 			'conditions' => array(
