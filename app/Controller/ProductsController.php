@@ -88,45 +88,23 @@ class ProductsController extends AppController
 		$this->set('data', $product);
 		$this->render('json');
 	}
-	// public function getAllProduct()
-	// {
-	// 	$this->layout = null;
-	// 	$products = $this->Product->find('all');
-	// 	$data = array();
-	// 	for ($i = 0; $i < count($products); $i++) {
-	// 		$product = new stdClass();
-	// 		$product->name = $products[$i]['Product']['name'];
-	// 		$img = explode(",", $products[$i]['Product']['image']);
-	// 		$product->icon = FIELD . "/app/webroot/img/product/" . $img[0];
-	// 		$product->link = FIELD . "/home/product/" . $products[$i]['Product']['id'];
-	// 		array_push($data, $product);
-	// 	}
-	// 	$this->set('data', $data);
-	// 	$this->render('json');
-	// }
 	public function getAllProduct()
 	{
 		$this->layout = null;
-		$products = $this->Product->find('all', array(
-			'recursive' => -1,
-			'fields' => array(
-				'Product.id',
-				'Product.name',
-				'Product.image'
-				),
-		));
-		// $data = array();
-		// for ($i = 0; $i < count($products); $i++) {
-		// 	$product = new stdClass();
-		// 	$product->name = $products[$i]['Product']['name'];
-		// 	$img = explode(",", $products[$i]['Product']['image']);
-		// 	$product->icon = FIELD . "/app/webroot/img/product/" . $img[0];
-		// 	$product->link = FIELD . "/home/product/" . $products[$i]['Product']['id'];
-		// 	array_push($data, $product);
-		// }
-		$this->set('data', $products);
+		$products = $this->Product->find('all');
+		$data = array();
+		for ($i = 0; $i < count($products); $i++) {
+			$product = new stdClass();
+			$product->name = $products[$i]['Product']['name'];
+			$img = explode(",", $products[$i]['Product']['image']);
+			$product->icon = FIELD . "/app/webroot/img/product/" . $img[0];
+			$product->link = FIELD . "/home/product/" . $products[$i]['Product']['id'];
+			array_push($data, $product);
+		}
+		$this->set('data', $data);
 		$this->render('json');
 	}
+
 	public function editDescription()
 	{
 		$this->layout = null;
