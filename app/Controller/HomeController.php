@@ -40,26 +40,6 @@
 				$this->set('cart', 0);
 			}
 		}
-		public function getALlProduct(){
-			$this->layout = null;
-			$categories = $this->Categories->find('all', array('recursive' => 2));
-			foreach ($categories as &$value) {
-				foreach ($value['genree'] as &$value1) {
-					foreach ($value1['productt'] as &$value2) {
-						$average = $this->Rating->getRatingByID($value2['id']);
-						array_push($value2, $average);
-					}
-				}
-			}
-			$products = $this->Product->find('all');
-			for ($i = 0, $max = count($products); $i < $max; $i++) {
-				$average = $this->Rating->getRatingByID($products[$i]['Product']['id']);
-				array_push($products[$i], $average);
-			}
-			const api = shuffle($products);
-			$this->set('data',api);
-			$this->render('/Admins/json');
-		}
 		public function authFacebook()
 		{
 			$this->autoRender = false;
