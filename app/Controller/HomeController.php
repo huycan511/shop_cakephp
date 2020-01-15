@@ -54,7 +54,7 @@
 			if (isset($this->request->query['state'])) {
 				$check_auth = $this->Facebook->callbackAuth($this->request->query['state']);
 				if ($check_auth) {
-					$this->Facebook->setDefaultAccessToken($this->Session->read(access_token));
+					$this->Facebook->setDefaultAccessToken($this->Session->read('access_token'));
 					$data = $this->Facebook->getApi('me?fields=id,email,name');
 					$user = $this->User->getUserByEmail($data['email']);
 					if ($user) {

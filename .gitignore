@@ -3,6 +3,8 @@
 /app/tmp/
 /app/tmp
 /app/webroot/img
+/app/Config/
+/app/Config
 /plugins
 /vendors
 /build
