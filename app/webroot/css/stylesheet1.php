@@ -618,6 +618,7 @@ border-radius: 0px;
 .tab-content {
   overflow: hidden; }
   .tab-content img {
+	  object-fit: cover;
     width: 100%;
     -webkit-animation-name: opacity;
             animation-name: opacity;

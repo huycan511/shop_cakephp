@@ -26,7 +26,13 @@
                     <li class="<?php if(!$this->Session->read('id_user')){echo'd-none';}?>"><a href="<?php echo FIELD;?>/users/logout" style="cursor: pointer; width: 100%;">Logout</a></li>
                   </ul>
                 </li>
-                <li><a href="<?php if($this->Session->read('id_user')){echo FIELD.'/users/wishlist';}?>" id="wishlist-total" title="Wish List (0)"><i class="fa fa-heart"></i><span> Wish List </span><span id="span_wishtlist"><?php echo "(".$wishlist.")";?> </span></a></li>
+                <li><?php if($this->Session->read('id_user')):?>
+									<a href="<?php echo FIELD.'/users/wishlist';?>" id="wishlist-total">
+										<i class="fa fa-heart"></i>
+										<span> Wish List </span>
+										<span id="span_wishtlist"><?php echo "(".$wishlist.")";?> </span>
+									</a>
+								<?php endif;?></li>
 
                   <?php if ($this->Session->read('id_user')) { ?>
                     <li class="dropdown"><a href="#"class="dropdown-toggle" data-toggle="dropdown">

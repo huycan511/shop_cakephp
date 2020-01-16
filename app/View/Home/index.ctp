@@ -11,9 +11,10 @@
       <div class="customtab">
         <div id="tabs" class="customtab-wrapper">
           <ul class='customtab-inner'>
-            <li class='tab'><a href="#tab-latest">Allllll Product</a></li>
-            <li class='tab'><a href="#tab-special">Favorite Product</a></li>
-            <!-- <li class='tab'><a href="#tab-bestseller">Bestseller Items</a></li> -->
+						<li class='tab'><a href="#tab-latest">All Product</a></li>
+						<?php if($this->Session->read('id_user')){
+							echo '<li class="tab"><a href="#tab-special">Favorite Product</a></li>';
+						}?>
           </ul>
         </div>
         <div id="tab-latest" class="tab-content">
@@ -67,7 +68,7 @@
             </div>
           </div>
         </div>
-       
+
         <h3 class="productblock-title"><?php echo $categories[1]['Categories']['name']?></h3>
         <div class="box">
           <div id="Weekly-slider" class="row owl-carousel product-slider">
@@ -94,11 +95,11 @@
             <?php }}?>
           </div>
         </div>
-        
+
 
 
       </div>
-      
+
       <h3 class="productblock-title"><?php echo $categories[0]['Categories']['name']?></h3>
       <div class="box">
         <div id="feature-slider" class="row owl-carousel product-slider">
@@ -120,11 +121,11 @@
                 <span style="float:left;" class="rating" data-id="<?php echo $categories[0]['genree'][$i]['productt'][$j]['0'] ?>"></span>
                 <p style="float: right;" class="price product-price"> <span class="price-new"><?php echo number_format($categories[0]['genree'][$i]['productt'][$j]['price']).'đ'?>
               </div>
-              
+
               </div>
             </div>
             <?php }}?>
-        
+
       </div>
       </div>
       <div class="blog">

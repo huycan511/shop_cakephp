@@ -2324,6 +2324,7 @@ position: relative;
 text-align: left;
 }
 #content .blog-wrapper .blog-hover {
+cursor: pointer;
 position: absolute;
 top: 0;
 left: 0;
