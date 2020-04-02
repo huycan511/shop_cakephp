@@ -145,7 +145,6 @@ class AppController extends Controller
 				'Notification.type' => 4,
 				'OR' => array(
 					array('Notification.status' => ''),
-					//array('Notification.status' => 2),
 				)
 			)
 		));

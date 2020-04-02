@@ -116,7 +116,7 @@
             <h4 class="price">Price: <span></span><?php echo number_format($product['Product']['price'])?>d</span></h4>
             <div class="action">
               <button class="add-to-cart btn btn-default add_cart" onclick="<?php if($this->Session->read('id_user')){echo 'addcart($(this))';}?>" data-user="<?php echo $this->Session->read('id_user') ?>" data-product="<?php echo $product['Product']['id']?>" type="button">Add to cart</button>
-              <button class="like btn btn-default like_product" data-product="<?php echo $product['Product']['id'] ?>" type="button"><span class="fa fa-heart"></span></button>
+              <button class="like btn btn-default <?php if($this->Session->read('id_user')){echo 'like_product';}?>" data-product="<?php echo $product['Product']['id'] ?>" type="button"><span class="fa fa-heart"></span></button>
             </div>
           </div>
         </div>
@@ -164,9 +164,9 @@
             </form>
             <div class="row" style="margin: 5px;">
                 <div class="col-sm-7"><h3 class="ui dividing header">Comments</h3></div>
-            
+
                 <div class="col-sm-5">
-                    <div style="float: right;">Option: 
+                    <div style="float: right;">Option:
                         <select class="custom-select custom-select-lg mb-3" id="custom_number_comment" style="font-size: medium;">
                             <option selected value="5">5</option>
                             <option value="10">10</option>
@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                         </div>
-                    <?php }?>   
+                    <?php }?>
                 </div>
             </div>
         </div>

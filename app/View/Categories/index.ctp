@@ -1,3 +1,8 @@
+<style>
+	.page-link{
+		cursor: pointer;
+	}
+</style>
 <div id="content" class="col-sm-12" data-cate="<?php echo $id_cate;?>"
 	data-session="<?php if(!$this->Session->read('id_user')){ echo 'no_session';}else{echo 'session';}?>">
 	<div class="col-sm-12 selectdiv">

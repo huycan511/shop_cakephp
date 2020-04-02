@@ -11,7 +11,7 @@
       <div class="customtab">
         <div id="tabs" class="customtab-wrapper">
           <ul class='customtab-inner'>
-						<li class='tab'><a href="#tab-latest">All Product</a></li>
+						<li class='tab'><a href="#tab-latest">All Productt</a></li>
 						<?php if($this->Session->read('id_user')){
 							echo '<li class="tab"><a href="#tab-special">Favorite Product</a></li>';
 						}?>

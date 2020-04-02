@@ -2007,6 +2007,8 @@ div#subbanner5 {
 	min-height: 350px !important;
 	height: 350px !important;
 	max-height: 350px !important;
+	object-fit: cover;
+}
 }
 #product .addtocart {
 	margin: 0 10px;

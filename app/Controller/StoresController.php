@@ -37,8 +37,7 @@ class StoresController extends AppController
 		}
 		$store = $this->Store->getStoreByID($id_store);
 		$this->set('store', $store['Store']);
-		$wishlist = $this->getWishList();
-		$this->set('wishlist', $wishlist);
+		$this->getDataMenu();
 	}
 	public function editNameStore()
 	{

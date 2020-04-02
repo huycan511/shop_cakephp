@@ -149,7 +149,7 @@
     </div>
     <div class="navbar-collapse">
       <ul class="main-navigation">
-        <li><a href="<?php echo FIELD;?>"   class="parent">Home</a> </li>
+        <li><a href="<?php echo FIELD;?>" class="parent">Home</a> </li>
         <li><a href="javascript:void(0);" onclick="func(0)" class="active parent" >Products</a>
             <ul>
                 <?php for ($i=0; $i < count($categories) ; $i++) {?>
@@ -163,7 +163,7 @@
                 <?php }?>
             </ul>
         </li>
-        <li><a href=""   class="parent"  >Stores</a>
+        <li><a href="javascript:void(0);" class="parent">Stores</a>
           <ul>
                 <?php for ($i=0; $i < count($stores) ; $i++) { ?>
                 <li><a href="<?php echo FIELD;?>/stores/view/<?php echo $stores[$i]['Store']['id']?>"><?php echo $stores[$i]['Store']['name']?></a>
