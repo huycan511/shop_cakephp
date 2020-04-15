@@ -672,22 +672,22 @@ function deleteAddress(obj) {
 
 }
 function submit_edit_checkout_name(obj) {
+	const newName = obj.parent().prev().children('input').val();
 	obj.addClass('d-none');
 	obj.prev().removeClass("d-none");
-	obj.parent().prev().children('h3').text("das").removeClass("d-none");
+	obj.parent().prev().children('h3').text(newName).removeClass("d-none");
 	obj.parent().prev().children('input').addClass('d-none');
-	//console.log(obj.parent().prev().children('input').val());
-	// $.ajax({
-	// 	url: location.protocol + "//" + document.domain + "/users/editName",
-	// 	type: 'POST',
-	// 	data: { name: obj.parent().prev().children('input').val() }
-	// })
-	// 	.done(function () {
-	// 		console.log("success");
-	// 	})
-	// 	.fail(function () {
-	// 		console.log("error");
-	// 	});
+	$.ajax({
+		url: location.protocol + "//" + document.domain + "/users/editName",
+		type: 'POST',
+		data: { name: newName }
+	})
+		.done(function () {
+			console.log("success");
+		})
+		.fail(function () {
+			console.log("error");
+		});
 }
 function submit_edit_checkout_phone(obj) {
 	obj.addClass('d-none');
