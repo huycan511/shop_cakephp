@@ -1,3 +1,5 @@
+
+<div class="elfsight-app-f864f15b-d97d-43ac-bd49-f07a051397d7"></div>
 <div class="mainbanner">
   <div id="main-banner" class="owl-carousel home-slider">
     <div class="item"> <a href="#"><img src="img/banners/banner3.jpg" alt="main-banner1" class="img-responsive" /></a> </div>

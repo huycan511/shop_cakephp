@@ -74,6 +74,7 @@
     echo $this->Html->script('parally');
     echo $this->Html->script('rateYo');
 ?>
+<script src="https://apps.elfsight.com/p/platform.js" defer></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script>
     $("#modal-custom").iziModal({
