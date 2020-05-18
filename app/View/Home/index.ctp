@@ -1,5 +1,5 @@
 
-<div class="elfsight-app-f864f15b-d97d-43ac-bd49-f07a051397d7"></div>
+<div class="elfsight-app-22310799-3643-44c6-91b3-ceea8f0a0d54"></div>
 <div class="mainbanner">
   <div id="main-banner" class="owl-carousel home-slider">
     <div class="item"> <a href="#"><img src="img/banners/banner3.jpg" alt="main-banner1" class="img-responsive" /></a> </div>
@@ -35,7 +35,7 @@
                   </div>
                   <div class="caption product-detail">
                     <h4 class="product-name"><a href="home/product/<?php echo $products[$i]['Product']['id']?>" title="lorem ippsum dolor dummy"><?php echo $products[$i]['Product']['name'] ;?></a></h4>
-                    <span style="float:left;" class="rating" data-id="<?php echo $products[$i]['0'] ?>"></span>
+                    <span style="float:left;" class="rating" data-id="<?php echo $products[$i]['Product']['rating'] ?>"></span>
                     <p style="float:right;" class="price product-price"><?php echo number_format($products[$i]['Product']['price']).'đ' ?></p>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="caption product-detail">
                   <h4 class="product-name"><a href="home/product/<?php echo $categories[1]['genree'][$i]['productt'][$j]['id']?>"><?php echo $categories[1]['genree'][$i]['productt'][$j]['name']?></a></h4>
-                  <span style="float:left;" class="rating" data-id="<?php echo $categories[1]['genree'][$i]['productt'][$j]['0'] ?>"></span>
+                  <span style="float:left;" class="rating" data-id="<?php echo $categories[1]['genree'][$i]['productt'][$j]['rating'] ?>"></span>
                   <p style="float: right;" class="price product-price"> <span class="price-new"><?php echo number_format($categories[1]['genree'][$i]['productt'][$j]['price']).'đ'?><!-- </span> <span class="price-old">$272.00</span> <span class="price-tax">Ex Tax: $210.00</span> </p> -->
                 </div>
               </div>
@@ -120,7 +120,7 @@
               </div>
               <div class="caption product-detail">
                 <h4 class="product-name"><a href="home/product/<?php echo $categories[0]['genree'][$i]['productt'][$j]['id']?>"><?php echo $categories[0]['genree'][$i]['productt'][$j]['name']?></a></h4>
-                <span style="float:left;" class="rating" data-id="<?php echo $categories[0]['genree'][$i]['productt'][$j]['0'] ?>"></span>
+                <span style="float:left;" class="rating" data-id="<?php echo $categories[0]['genree'][$i]['productt'][$j]['rating'] ?>"></span>
                 <p style="float: right;" class="price product-price"> <span class="price-new"><?php echo number_format($categories[0]['genree'][$i]['productt'][$j]['price']).'đ'?>
               </div>
 

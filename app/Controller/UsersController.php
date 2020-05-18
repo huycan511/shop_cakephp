@@ -26,9 +26,9 @@ class UsersController extends AppController
 		);
 
 		$this->pusher = new Pusher\Pusher (
-			'5fd26f415e2c6b54fd0f',
-			'81f3d51f133dcc9f5db0',
-			'789449',
+			'f552927cd047ec3e0bcb',
+    		'1ea37ba3fa9c67a6f9b4',
+    		'692338',
 			$this->options
 		);
 
@@ -548,17 +548,25 @@ class UsersController extends AppController
 	}
 	public function editName()
 	{
+		$this->layout = null;
 		$update = new stdClass();
 		$update->id = $this->Session->read('id_user');
 		$update->name = $this->request->data['name'];
-		$this->User->save($update);
+		if($this->User->save($update)){
+			$this->set('data', 'ok');
+			$this->render('/Admins/json');
+		};
 	}
 	public function editPhone()
 	{
+		$this->layout = null;
 		$update = new stdClass();
 		$update->id = $this->Session->read('id_user');
 		$update->phone = $this->request->data['phone'];
-		$this->User->save($update);
+		if($this->User->save($update)){
+			$this->set('data', 'ok');
+			$this->render('/Admins/json');
+		};
 	}
 	public function removeWishlist()
 	{

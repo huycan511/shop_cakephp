@@ -7,6 +7,7 @@ class StoresController extends AppController
 	public function details($id_store)
 	{
 		$this->layout = 'sbadmin';
+		$this->getNotificationStore();
 		$store = $this->Store->find('first', array(
 			'conditions' => array(
 				'Store.id' => $id_store

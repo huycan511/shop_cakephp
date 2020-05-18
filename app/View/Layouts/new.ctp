@@ -62,6 +62,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<meta property="fb:app_id" content="285158789315292" />
 </head>
 <?php echo $this->element('top_main'); ?>
 <div class="container" style="background: white; padding-left: 25px;padding-bottom: 40px;">
@@ -125,6 +126,6 @@ echo $this->Html->script('jquery.easy-autocomplete.min');
 	});
 </script>
 </body>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0&appId=456985718137023&autoLogAppEvents=1"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0&appId=285158789315292&autoLogAppEvents=1"></script>
 
 </html>

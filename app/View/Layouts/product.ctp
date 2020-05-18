@@ -38,8 +38,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
     <!-- Our Custom CSS -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
@@ -71,13 +69,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('toast_jquery');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->css('iziModal.min');
-        echo $this->Html->css('bootstrap-social');
+				echo $this->Html->css('bootstrap-social');
+				echo $this->Html->css('ion.range');
 		//echo $this->Html->css('all');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 </head>
 <body class="col-2">
 <?php echo $this->element('top_main'); ?>
@@ -92,29 +92,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <div class="columnblock-title">Categories</div>
         <div class="category_block">
           <ul class="box-category treeview-list treeview">
-            <!-- <li><a href="#" class="activSub">Desktops</a>
-              <ul>
-                <li><a href="#">PC</a></li>
-                <li><a href="#">MAC</a></li>
-              </ul>
-            </li>
-            <li><a href="#" class="activSub">Laptops &amp; Notebooks</a>
-              <ul>
-                <li><a href="#">Macs</a></li>
-                <li><a href="#">Windows</a></li>
-              </ul>
-            </li>
-            <li><a href="#" class="activSub">Components</a>
-            </li>
-            <li><a href="#">Tablets</a></li>
-            <li><a href="#">Software</a></li>
-            <li><a href="#">Phones & PDAs</a></li>
-            <li><a href="#">Cameras</a></li> -->
+
             <?php for ($i=0; $i < count($categories) ; $i++) {?>
-            <li><a href="#"><?php echo $categories[$i]['Categories']['name'] ?></a>
+            <li><a href="<?php echo FIELD.'/categories/index/'.$categories[$i]['Categories']['id'] ?>"><?php echo $categories[$i]['Categories']['name'] ?></a>
             <ul>
               <?php for ($j=0; $j < count($categories[$i]['genree']) ; $j++) {?>
-                <li><a href="#"><?php echo $categories[$i]['genree'][$j]['name']?></a></li>
+                <li><a href="<?php echo FIELD.'/products/genre/'.$categories[$i]['genree'][$j]['id'] ?>"><?php echo $categories[$i]['genree'][$j]['name']?></a></li>
               <?php }?>
             </ul>
             </li>
@@ -126,15 +109,18 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <div class="panel-heading columnblock-title">Search</div>
         <div class="filter-block">
            <input type="text" class="js-range-slider" name="my_range" value="" />
-           <button id="search_price">Search</button>        
+           <button id="search_price">Search</button>
         </div>
-      </div>
-      <iframe width="100%" src="https://www.youtube.com/embed/UldYcQ-lPiY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+			</div>
+			<div class="panel panel-default filter">
+        <div class="panel-heading columnblock-title">Video</div>
+     		<iframe width="100%" src="https://www.youtube.com/embed/K0TXwVHW3rM?start=31" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+		</div>
     <?php echo $this->Flash->render(); ?>
 
             <?php echo $this->fetch('content'); ?>
-    
+
   </div>
 </div>
 <footer id="footer_id">
@@ -244,7 +230,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
               $modal.removeClass(fx);
           }, 1500);
       }
-  });  
+  });
 </script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0&appId=285158789315292&autoLogAppEvents=1"></script>
 </body>
 </html>

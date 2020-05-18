@@ -13,10 +13,9 @@
             </footer>
             <h5 class="text-center" style="margin-top: 10px;color: #777;">or</h5>
             <div class="text-center">
-				<a href="#" class="btn btn-block btn-social btn-facebook btn-auth" style="float:left; margin-left:167px;margin-right: 10px;">
+				<a href="#" class="btn btn-block btn-social btn-facebook btn-auth" style="float:left; margin-left:218px;margin-bottom: 10px;">
 				<span class="fab fa-facebook-square"></span> Sign in
 				</a>
-				<div class="g-signin2" data-onsuccess="onSignIn" >dsds</div>
 
             </div>
 

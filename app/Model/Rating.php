@@ -1,4 +1,4 @@
-<?php  
+<?php
 	class Rating extends AppModel{
 		public $name = 'Rating';
 		public function getRatingByID($id_product){
@@ -8,10 +8,10 @@
 			$count = count($rating);
 			if($rating){
 				$totalRate = 0;
-				for ($k=0; $k < $count ; $k++) { 
+				for ($k=0; $k < $count ; $k++) {
 					$totalRate = $totalRate + $rating[$k]['Rating']['rate'];
 				}
-				$average = $totalRate/$count;	
+				$average = $totalRate/$count;
 			}else{
 				$average = 0;
 			}

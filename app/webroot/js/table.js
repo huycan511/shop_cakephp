@@ -4,7 +4,7 @@ $(function(){
 	$('#dataTable1').DataTable({
 		 "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
- 
+
             // Remove the formatting to get integer data for summation
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -20,7 +20,7 @@ $(function(){
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
- 
+
             // Update footer
             $( api.column( 4 ).footer() ).html(
                 '$'+pageTotal
@@ -68,7 +68,7 @@ $(function(){
 				});
 			});
 		});
-	});	
+	});
     $(document).on('click', '.image-cancel', function() {
         let no = $(this).data('no');
         $(".preview-image.preview-show-"+no).remove();
@@ -114,7 +114,7 @@ $(function(){
 			}
 			renderFileList();
 		});
-  
+
 	  renderFileList = function () {
 	    fileListDisplay.innerHTML = '';
 	    fileList.forEach(function (file, index) {
@@ -123,7 +123,7 @@ $(function(){
 	      fileListDisplay.appendChild(fileDisplayEl);
 	    });
 	  };
-	  
+
 	  sendFile = function (file) {
 	    var formData = new FormData();
 	    for (var i = 0; i < file.length; i++) {
@@ -164,7 +164,7 @@ $(function(){
 			});
 	  };
 	}
-	
+
 	$('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
@@ -207,27 +207,6 @@ $(function(){
 			console.log("error");
 		});
 	}
-	function delete_cate(obj){
-		if(confirm('Are you sure?')){
-				$.ajax({
-				url: location.protocol + "//" + document.domain +"/admins/deleteCate/"+obj.attr('data-id'),
-
-			})
-			.done(function(res) {
-				obj.parent().parent().remove();
-				$.toast({
-		            heading: 'Success',
-		            text: 'Delete successful!',
-		            icon: 'success',
-		            position: 'bottom-right',
-		            loader: false
-		        });
-			})
-			.fail(function() {
-				console.log("error");
-			});
-		}
-	}
 	var num = 4;
 function readImage() {
     if (window.File && window.FileList && window.FileReader) {
@@ -237,9 +216,9 @@ function readImage() {
         for (let i = 0; i < files.length; i++) {
             var file = files[i];
             if (!file.type.match('image')) continue;
-            
+
             var picReader = new FileReader();
-            
+
             picReader.addEventListener('load', function (event) {
                 var picFile = event.target;
                 var html =  '<div class="preview-image preview-show-' + num + '">' +
@@ -422,9 +401,9 @@ function readImage() {
         for (let i = 0; i < files.length; i++) {
             var file = files[i];
             if (!file.type.match('image')) continue;
-            
+
             var picReader = new FileReader();
-            
+
             picReader.addEventListener('load', function (event) {
                 var picFile = event.target;
                 var html =  '<div class="preview-image preview-show-' + num + '">' +

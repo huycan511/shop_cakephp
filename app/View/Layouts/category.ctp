@@ -12,7 +12,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<?php echo $cakeDescription ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 	<?php
 	//echo $this->Html->script('rule');
@@ -46,6 +45,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->script('jrate');
 	echo $this->Html->script('jquery.easy-autocomplete.min');
 	echo $this->Html->script('rateYo');
+	echo $this->Html->css('ion.range');
 	?>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -67,10 +67,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<div class="category_block">
 						<ul class="box-category treeview-list treeview">
 							<?php for ($i = 0; $i < count($categories); $i++) { ?>
-								<li><a href="#"><?php echo $categories[$i]['Categories']['name'] ?></a>
+								<li><a href="<?php echo FIELD.'/categories/index/'.$categories[$i]['Categories']['id'] ?>"><?php echo $categories[$i]['Categories']['name'] ?></a>
 									<ul>
 										<?php for ($j = 0; $j < count($categories[$i]['genree']); $j++) { ?>
-											<li><a href="#"><?php echo $categories[$i]['genree'][$j]['name'] ?></a></li>
+											<li><a href="<?php echo FIELD.'/products/genre/'.$categories[$i]['genree'][$j]['id'] ?>"><?php echo $categories[$i]['genree'][$j]['name'] ?></a></li>
 										<?php } ?>
 									</ul>
 								</li>
@@ -85,24 +85,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 						<button id="search_price">Search</button>
 					</div>
 				</div>
-				<h3 class="productblock-title">Best Seller</h3>
-				<div class="row latest-grid product-grid">
-					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-grid-item">
-						<div class="product-thumb transition">
-							<div class="image product-imageblock">
-								<a href="#">
-									<img src="image/product/1product50x59.jpg" alt="lorem ippsum dolor dummy" title="lorem ippsum dolor dummy" class="img-responsive" />
-								</a>
-							</div>
-							<div class="caption product-detail">
-								<h4 class="product-name">
-									<a href="#" title="lorem ippsum dolor dummy">Clothing</a>
-								</h4>
-								<p class="price product-price">$122.00<span class="price-tax">Ex Tax: $100.00</span></p>
-								<!-- <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div> -->
-							</div>
-						</div>
-					</div>
+				<div class="panel panel-default filter">
+					<div class="panel-heading columnblock-title">Video</div>
+					<iframe width="100%" src="https://www.youtube.com/embed/K0TXwVHW3rM?start=31" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</div>
 			<?php echo $this->Flash->render(); ?>

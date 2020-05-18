@@ -133,7 +133,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <p class="text-right"> <span class="btn-viewcart"><a href="<?php echo FIELD;?>/users/basket"><strong><i class="fa fa-shopping-cart"></i> View Cart</strong></a></span> <span class="btn-checkout"><a href="<?php echo FIELD;?>/users/checkout"><strong><i class="fa fa-share"></i> Checkout</strong></a></span> </p>
+                <p class="text-right"> <span class="btn-viewcart"><a href="<?php echo FIELD;?>/users/basket"><strong><i class="fa fa-shopping-cart"></i> View Cart</strong></a></span> <span class="btn-checkout"><a href="<?php echo FIELD.'/users/checkout'?>"><strong><i class="fa fa-share"></i> Checkout</strong></a></span> </p>
               </div>
             </li> <?php }?>
           </ul>

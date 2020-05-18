@@ -288,8 +288,13 @@
 		}
 		$('#content').contents(':not(.selectdiv)').remove();
 		$('#content').next().remove();
-		for (var i = 0; i < num; i++) {
-			showProduct(filter, i);
+		if(filter.length){
+			for (var i = 0; i < num; i++) {
+				showProduct(filter, i);
+			}
+		}else{
+			$('#content.khoisp').append('No product available');
+			console.log('no product');
 		}
 		var pagnition = $('<div>').attr({
 			class: 'col-sm-12 text-right'
@@ -387,7 +392,7 @@
 			padding: '0'
 		}).appendTo($(divtt));
 		var span_rate = $('<span>').addClass('rating').attr({
-			'data-id': dataproduct[i]['0'],
+			'data-id': dataproduct[i]['rating'],
 			'id': dataproduct[i]['id']
 		}).appendTo($(div_rate));
 		$(span_rate).jRate({

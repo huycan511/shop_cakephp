@@ -62,7 +62,6 @@ class ProductsController extends AppController
 		$data = array();
 		$count = count($genre['productt']);
 		for ($j = 0; $j < $count; $j++) {
-			array_push($genre['productt'][$j], $this->Rating->getRatingByID($genre['productt'][$j]['id']));
 			array_push($data, $genre['productt'][$j]);
 		}
 		$this->set('data', $data);

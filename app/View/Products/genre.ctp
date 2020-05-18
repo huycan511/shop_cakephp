@@ -279,8 +279,15 @@
 		}
 		$('#content').contents(':not(.selectdiv)').remove();
 		$('#content').next().remove();
-		for (var i = 0; i < num; i++) {
-			showProduct(filter, i);
+		if(filter.length){
+			for (var i = 0; i < num; i++) {
+				showProduct(filter, i);
+			}
+		}else{
+			var div = $('<div>').attr({
+				class: 'col-xs-6 col-md-3 khoisp',
+				style: 'height: 300px;margin-bottom: 10px;cursor: pointer;overflow: hidden;'
+				}).text('No products available').appendTo($('#content'));
 		}
 		var pagnition = $('<div>').attr({
 			class: 'col-sm-12 text-right'
@@ -378,7 +385,7 @@
 			padding: '0'
 		}).appendTo($(divtt));
 		var span_rate = $('<span>').addClass('rating').attr({
-			'data-id': dataproduct[i]['0'],
+			'data-id': dataproduct[i]['rating'],
 			'id': dataproduct[i]['id']
 		}).appendTo($(div_rate));
 		$(span_rate).jRate({

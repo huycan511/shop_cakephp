@@ -27,7 +27,6 @@ class CategoriesController extends AppController
 		for ($i = 0; $i < $count_genre; $i++) {
 			$count_genre_i = count($genre[$i]['productt']);
 			for ($j = 0; $j < $count_genre_i; $j++) {
-				array_push($genre[$i]['productt'][$j], $this->Rating->getRatingByID($genre[$i]['productt'][$j]['id']));
 				array_push($data, $genre[$i]['productt'][$j]);
 			}
 		}

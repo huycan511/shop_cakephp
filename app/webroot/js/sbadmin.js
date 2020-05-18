@@ -17,7 +17,7 @@ $(function() {
 			}
 		});
 	})
-    var pusher = new Pusher('5fd26f415e2c6b54fd0f', {
+    var pusher = new Pusher('f552927cd047ec3e0bcb', {
         cluster: 'ap1',
         forceTLS: true
     });

@@ -127,28 +127,29 @@ font-size: 24px;
 text-transform: uppercase;
 margin-bottom: 2px;
 top: 160px;
+color: white;
 }
 .accordion ul li div a p {
 top: 160px;
 font-size: 13.5px;
 }
 .accordion ul li:nth-child(1) {
-background-image: url("https://static.thethaovietnam.vn/medias/standard/2016/1/7/thit%20sach%20thanh%20thit%20ban2.jpg");
+background-image: url("../img/tab1.jpg");
 }
 .accordion ul li:nth-child(2) {
-background-image: url("https://sohanews.sohacdn.com/thumb_w/660/2015/hoa-qua-1445654056995-53-0-380-640-crop-1445654080968.jpg");
+background-image: url("../img/tab2.jpg");
 }
 .accordion ul li:nth-child(3) {
-background-image: url("https://thecornishfishmonger.co.uk/media/catalog/category/buy-fresh-fish.jpg");
+background-image: url("../img/tab3.jpg");
 }
 .accordion ul li:nth-child(4) {
-background-image: url("https://cdn.marcone.vn/assets/rData/d8dd7/images/thuc-pham-cho-che-do-an-chay-1(1).jpg");
+background-image: url("../img/tab4.jpg");
 }
 .accordion ul li:nth-child(5) {
-background-image: url("https://laodongthudo.vn/stores/news_dataimages/laodongthudo/012015/23/19/hang-loat-sieu-thi-ha-noi-dinh-scandal-rau-sach-bb-baaacj60pq20150310205712.2556980.jpg");
+background-image: url("../img/tab5.jpg");
 }
 .accordion ul li:nth-child(6) {
-background-image: url("https://www.acigolhaber.com/files/uploads/news/default/sut-ve-sut-urunleri--9910ec13fead7f41550e.jpg");
+background-image: url("../img/tab6.jpg");
 }
 .accordion ul:hover li, .accordion ul:focus-within li {
 width: 8%;
@@ -1803,6 +1804,11 @@ border-color: #ddd;
 }
 .category_block .hitarea {
 float: right;
+border: solid black;
+border-width: 0 3px 3px 0;
+transform: rotate(-135deg);
+-webkit-transform: rotate(-135deg);
+cursor: pointer;
 }
 .category_block .hitarea.expandable-hitarea {
 height: 13px;
@@ -1811,12 +1817,14 @@ z-index: 9;
 text-align: center;
 cursor: pointer;
 position: static;
-border-radius: 13px;
-background: black;
+border: solid black;
+border-width: 0 3px 3px 0;
+transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
 }
 .category_block .hitarea.collapsable-hitarea {
-height: 20px;
-width: 20px;
+height: 13px;
+width: 13px;
 z-index: 9;
 text-align: center;
 cursor: pointer;
@@ -2840,4 +2848,8 @@ width: 300px;
 
 .cms-banner-left:hover img, .md1:hover img, .md2:hover img,.cms-banner-right:hover img,.cms-banner-middle:hover img,#subbanner4:hover img{
 opacity: 0.7;
+.filter-block.irs-to {
+	background-color: rgb(125, 180, 50) !important;
 }
+}
+

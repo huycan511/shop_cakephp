@@ -102,11 +102,6 @@ class AppController extends Controller
 			'conditions' => array(
 				'Notification.status' => '',
 				'Notification.id_store' => $this->Session->read('id_store'),
-				'OR' => array(
-					array('Notification.type' => 1),
-					array('Notification.type' => 2),
-					array('Notification.type' => 3)
-				)
 			)
 		));
 		$this->set('number_not_check', count($number_notification_not_check));
@@ -114,10 +109,6 @@ class AppController extends Controller
 		$numberNewComment = $this->Notification->find('all', array('conditions' => array(
 			'Notification.status' => '',
 			'Notification.id_store' => $this->Session->read('id_store'),
-				'OR' => array(
-					array('Notification.type' => 1),
-					array('Notification.type' => 2)
-				)
 			)
 		));
 		$this->set('number_new_comment', count($numberNewComment));
@@ -126,11 +117,6 @@ class AppController extends Controller
 			'order' => array('Notification.create_at' => 'desc'),
 			'conditions' => array(
 				'Notification.id_store' => $this->Session->read('id_store'),
-				'OR' => array(
-					array('Notification.type' => 1),
-					array('Notification.type' => 2),
-					array('Notification.type' => 3)
-				)
 			)
 		));
 
@@ -142,7 +128,6 @@ class AppController extends Controller
 			'order' => array('Notification.create_at' => 'desc'),
 			'conditions' => array(
 				'Notification.id_store' => $this->Session->read('id_user'),
-				'Notification.type' => 4,
 				'OR' => array(
 					array('Notification.status' => ''),
 				)
@@ -150,5 +135,31 @@ class AppController extends Controller
 		));
 
 		$this->set('notisUser', $notisUser);
+	}
+
+	public function getNotificationStore(){
+		$number_notification_not_check = $this->Notification->find('all', array(
+			'conditions' => array(
+				'Notification.status' => '',
+				'Notification.id_store' => $this->Session->read('id_store'),
+			)
+		));
+		$this->set('number_not_check', count($number_notification_not_check));
+
+		$numberNewComment = $this->Notification->find('all', array('conditions' => array(
+			'Notification.status' => '',
+			'Notification.id_store' => $this->Session->read('id_store'),
+			)
+		));
+		$this->set('number_new_comment', count($numberNewComment));
+
+		$notifications = $this->Notification->find('all', array(
+			'order' => array('Notification.create_at' => 'desc'),
+			'conditions' => array(
+				'Notification.id_store' => $this->Session->read('id_store'),
+			)
+		));
+
+		$this->set('notifications', $notifications);
 	}
 }

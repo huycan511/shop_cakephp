@@ -73,38 +73,17 @@
                     </div>
                 </a>
             <?php } else { foreach ($notifications as $notifications) { ?>
-            <?php if ($notifications['Notification']['type'] == 1 || $notifications['Notification']['type'] == 2) { ?>
-                <div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
-                    <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/home/product/<?php echo $notifications['Notification']['id_key_notication']; ?>">
-                <?php } else { ?>
-                    <div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
+							<div data_id_noti="<?php echo $notifications['Notification']['id']; ?>" class='itemnoti table_noti_<?php echo $notifications['Notification']['id']; ?> <?php if ($notifications['Notification']['status'] == ''){ echo 'color_uncheck'; } ?>' onClick="checkedNoti($(this))">
                     <a target="_blank" rel="noopener noreferrer" class="dropdown-item d-flex align-items-center" href="/invoices/details/<?php echo $notifications['Notification']['id_key_notication']; ?> ">
-                <?php } ?>
                         <div class="mr-3">
-                            <?php if ($notifications['Notification']['type'] == 1) { ?>
-                                <div class="icon-circle bg-primary">
-                                    <i class="fas fa-comment text-white"></i>
-                                </div>
-                            <?php } else if ($notifications['Notification']['type'] == 2) {?>
-                                <div class="icon-circle bg-info">
-                                    <i class="fas fa-comments text-white"></i>
-                                </div>
-                            <?php } else { ?>
-                                <div class="icon-circle bg-success">
+												<div class="icon-circle bg-success">
                                     <i class="fas fa-file-alt text-white"></i>
                                 </div>
-                            <?php } ?>
                         </div>
 
                         <div>
                             <div class="small text-gray-500"><?php $timestamp = strtotime($notifications['Notification']['create_at']); echo date("d-m-Y", $timestamp); ?></div>
-                            <?php if ($notifications['Notification']['type'] == 1) { ?>
-                                <span class="font-weight-bold">Have a new comment!</span>
-                            <?php } else if ($notifications['Notification']['type'] == 2) {?>
-                                <span class="font-weight-bold">Phản hồi bình luận!</span>
-                            <?php } else { ?>
-                                <span class="font-weight-bold">Have a Đơn hangf mới!</span>
-                            <?php } ?>
+														<span class="font-weight-bold">Có đơn hàng mới</span>
                         </div>
                     </a>
                 </div>

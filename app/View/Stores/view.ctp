@@ -1,5 +1,5 @@
 <div class="mainbanner">
-	<iframe height="550px" width="100%" allowfullscreen="true" 
+	<iframe height="550px" width="100%" allowfullscreen="true"
 src="<?php echo $store['image']?>"> </iframe>
 
 </div>
@@ -84,7 +84,7 @@ src="<?php echo $store['image']?>"> </iframe>
 	<div class="row">
 		<h2 class="text-center" style="padding-top: 10px;"><i class="fab fa-youtube" style="color: red;"></i> VIDEO</h2>
 		<div class="col-sm-6">
-			<iframe width="100%" height="315" src="https://www.youtube.com/embed/ezGjEIf-gs4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<iframe width="100%" height="315" src="https://www.youtube.com/embed/D-hX-gj0pqI?start=68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		</div>
 		<div class="col-sm-6">
 			<iframe width="100%" height="315" src="https://www.youtube.com/embed/HD7T8xyxc6A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

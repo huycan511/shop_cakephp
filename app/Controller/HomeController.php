@@ -3,7 +3,7 @@
 	{
 		public $components = array('Facebook');
 
-		public $uses = array('User', 'Store', 'Categories', 'Genre', 'Product', 'News', 'Comment', 'Rating', 'Cart', 'Like', 'Product_invoice', 'Invoice');
+		public $uses = array('User', 'Store', 'Categories', 'Genre', 'Product', 'News', 'Rating', 'Cart', 'Like', 'Product_invoice', 'Invoice');
 
 		public function beforeFilter() {
 			$this->getNotificationUser();
@@ -14,20 +14,8 @@
 			$stores = $this->Store->find('all', array('conditions' => array('NOT' => array('Store.id' => 1))));
 			$this->set('stores', $stores);
 			$categories = $this->Categories->find('all', array('recursive' => 2));
-			foreach ($categories as &$value) {
-				foreach ($value['genree'] as &$value1) {
-					foreach ($value1['productt'] as &$value2) {
-						$average = $this->Rating->getRatingByID($value2['id']);
-						array_push($value2, $average);
-					}
-				}
-			}
 			$this->set('categories', $categories);
 			$products = $this->Product->find('all');
-			for ($i = 0, $max = count($products); $i < $max; $i++) {
-				$average = $this->Rating->getRatingByID($products[$i]['Product']['id']);
-				array_push($products[$i], $average);
-			}
 			shuffle($products);
 			$this->set('products', $products);
 			$wishlist = $this->getWishList();
@@ -109,16 +97,6 @@
 			$this->set('product', $product);
 			$img = explode(",", $product['Product']['image']);
 			$this->set('img', $img);
-			$comments = array();
-			$data_comments = $this->Comment->getCommentID($id_product);
-				foreach ($data_comments as $comment) {
-					$comment_child = $this->Comment->getCommentChild($id_product, $comment['Comment']['id']);
-					array_push($comment['Comment'], $comment_child);
-					array_push($comments, $comment);
-				}
-			$this->set('comments', $comments);
-			$average = $this->Rating->getRatingByID($id_product);
-			$this->set('average', $average);
 			$myRate = $this->Rating->getMyRate($this->Session->read('id_user'), $id_product);
 			if ($myRate) {
 				$this->set('myRate', $myRate['Rating']['rate']);
@@ -146,5 +124,37 @@
 				$this->set('data', 0);
 			}
 			$this->render('/Admins/json');
+		}
+		public function loginGoogle()
+		{
+			$this->autoRender = false;
+			if (!$this->Session->read('id_user')) {
+				if ($this->request->is('ajax')) {
+					$email = $this->request->data['email'];
+					$name = $this->request->data['namee'];
+					$user = $this->User->getUserByEmail($email);
+						if ($user) {
+							$this->Session->write('name_user', $user['User']['name']);
+							$this->Session->write('id_user', $user['User']['id']);
+						} else {
+							$new_user = array(
+								"name" => $name,
+								"email" => $email,
+							);
+							$this->User->create();
+							$this->User->save($new_user);
+							$id_user = $this->User->getLastInsertId();
+							$new_cart = array(
+								"id_user" => $id_user
+							);
+							$this->Cart->create();
+							$this->Cart->save($new_cart);
+							$this->Session->write('name_user', $name);
+							$this->Session->write('id_user', $id_user);
+							$this->log($id_user);
+						}
+						return $this->redirect($this->request->here);
+				}
+			}
 		}
 	}

@@ -291,12 +291,7 @@ class AdminsController extends AppController
 		$this->set('data', $category);
 		$this->render('json');
 	}
-	public function deleteCate($id_cate)
-	{
-		$this->Categories->delete($id_cate);
-		$this->set('data', $id_question);
-		$this->render('json');
-	}
+
 	public function addManage()
 	{
 		$this->layout = null;

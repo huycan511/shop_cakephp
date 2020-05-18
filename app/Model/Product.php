@@ -1,4 +1,4 @@
-<?php  
+<?php
 	class Product extends AppModel{
 		public $name = 'Product';
 		public $belongsTo = array('genree' => array('className' => 'Genre', 'foreignKey' => 'id_genre'));
@@ -35,6 +35,12 @@
 				'Product.id_genre'=> $id_genre
 			)));
 			return $related;
+		}
+		public function updateRating($id_product, $rating){
+			$product = new stdClass();
+			$product->id = $id_product;
+			$product->rating = $rating;
+			$this->save($product);
 		}
 	}
 ?>

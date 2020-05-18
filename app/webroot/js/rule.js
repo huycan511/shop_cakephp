@@ -503,27 +503,7 @@ function submit_edit_cate(obj) {
 			console.log("error");
 		});
 }
-function delete_cate(obj) {
-	if (confirm('Are you sure?')) {
-		$.ajax({
-			url: location.protocol + "//" + document.domain + "/admins/deleteCate/" + obj.attr('data-id'),
 
-		})
-			.done(function (res) {
-				obj.parent().parent().remove();
-				$.toast({
-					heading: 'Success',
-					text: 'Delete successful!',
-					icon: 'success',
-					position: 'bottom-right',
-					loader: false
-				});
-			})
-			.fail(function () {
-				console.log("error");
-			});
-	}
-}
 function addNew() {
 	if (!$('#imageNew').val()) {
 		$.toast({

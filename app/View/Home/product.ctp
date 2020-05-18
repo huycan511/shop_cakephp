@@ -1,87 +1,3 @@
-<style>
-    .content_commet{
-        padding: 15px;
-        margin: 4px;
-        background: mintcream;border-radius: 8px;
-    }
-    .content_commets{
-        display: none;
-    }
-    .content_commets, .count_rep_comment{
-        padding: 15px;
-        background: mintcream;
-        border-radius: 8px;
-        margin-left: 7%;
-        margin-top: 5px;
-    }
-    .count_rep_comment{
-        padding: 0px;
-        text-align: center;
-        font-size: unset;
-        font-weight: 600;
-        color: black;
-        padding: 3px;
-        margin-right: 5px;
-    }
-    .count_rep_comment:hover, .actions_comment:hover, .see_all_comment:hover{
-        color: blue;
-    }
-    .author{
-        float: left;
-        font-size: large;
-        font-weight: 600;
-        margin-left: 10px;
-        padding-bottom: 5px;
-        margin-right: 15px;
-        color: black;
-    }
-    .text_comment{
-        padding-left: 30px;
-        color: black;
-    }
-    .actions_comment{
-        text-align: center;
-        float: left;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    .see_all_comment{
-        font-weight: 900;
-        cursor: pointer;
-        font-size: large;
-        color: brown;
-        margin: 5px;
-        margin-left: 15px;
-    }
-
-    textarea {
-        margin-top: 10px;
-        margin-left: 50px;
-        width: 92%;
-        -moz-border-bottom-colors: none !important;;
-        -moz-border-left-colors: none !important;;
-        -moz-border-right-colors: none !important;;
-        -moz-border-top-colors: none !important;;
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
-        border-color: #93b3ea #FFFFFF !important;;
-        border-image: none;
-        border-radius: 6px 6px 6px 6px;
-        border-style: none solid solid none;
-        border-width: medium 1px 1px medium;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
-        color: #555555;
-        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-        font-size: 1em;
-        line-height: 1.4em;
-        padding: 5px 8px;
-        transition: background-color 0.2s ease 0s;
-    }
-    textarea:focus {
-        background: none repeat scroll 0 0 #FFFFFF;
-        outline-width: 0;
-    }
-
-</style>
 <div id="content" class="col-sm-9">
     <div class="row">
       <div class="card">
@@ -111,11 +27,14 @@
           </div>
           <div class="details col-md-6">
             <h3 class="product-title"><?php echo $product['Product']['name']; ?></h3>
-            <div style="position: relative;"><span class="rating" data-id="<?php echo $average?>"></span><span style="position: absolute;top:0;right: 35%;"> | <?php echo count($comments)?> customer reviews</span></div>
+            <div style="position: relative;"><span class="rating" data-id="<?php echo $product['Product']['rating']?>"></span></div>
             <p class="product-description"><?php echo $product['Product']['description']?></p>
             <h4 class="price">Price: <span></span><?php echo number_format($product['Product']['price'])?>d</span></h4>
             <div class="action">
-              <button class="add-to-cart btn btn-default add_cart" onclick="<?php if($this->Session->read('id_user')){echo 'addcart($(this))';}?>" data-user="<?php echo $this->Session->read('id_user') ?>" data-product="<?php echo $product['Product']['id']?>" type="button">Add to cart</button>
+							<button
+							data-izimodal-open="<?php if(!$this->Session->read('id_user')){
+              echo "#modal-custom";
+          } ?>" class="add-to-cart btn btn-default add_cart" onclick="<?php if($this->Session->read('id_user')){echo 'addcart($(this))';}?>" data-user="<?php echo $this->Session->read('id_user') ?>" data-product="<?php echo $product['Product']['id']?>" type="button">Add to cart</button>
               <button class="like btn btn-default <?php if($this->Session->read('id_user')){echo 'like_product';}?>" data-product="<?php echo $product['Product']['id'] ?>" type="button"><span class="fa fa-heart"></span></button>
             </div>
           </div>
@@ -127,7 +46,7 @@
       <div class="productinfo-tab">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab-description" data-toggle="tab">Description</a></li>
-          <li><a href="#tab-review" data-toggle="tab">Reviews (<?php echo count($comments)?>)</a></li>
+          <li><a href="#tab-review" data-toggle="tab">Reviews</a></li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="tab-description">
@@ -146,100 +65,9 @@
             </div>
           <div class="tab-pane ui comments" id="tab-review">
             <div id="rateYo" class="<?php if(!$hasBuy){ echo 'd-none';}?>" data-id="<?php echo $product['Product']['id']?>" data-rated="<?php  if(isset($myRate)){echo $myRate;}else{echo '0';}?>" style="padding: 0 0 !important; margin-bottom: 10px;"></div>
-            <form class="form-horizontal">
-              <?php if($this->Session->read('id_user')){?>
-              <div id="review"></div>
-              <h2>Write a review</h2>
-              <div class="form-group required">
-                <div class="col-sm-12">
-                  <textarea name="text" rows="5" id="input_review" style="width: 95%;" class="form-control"></textarea>
-                </div>
-              </div>
-              <div class="buttons clearfix">
-                <div class="pull-right">
-                  <button type="button" data-id="<?php echo $product['Product']['id']?>" id="button-review" data-loading-text="Loading..." onclick="commentProduct($(this), 'type_1')" class="btn btn-primary">Continue</button>
-                </div>
-              </div>
-              <?php }?>
-            </form>
-            <div class="row" style="margin: 5px;">
-                <div class="col-sm-7"><h3 class="ui dividing header">Comments</h3></div>
 
-                <div class="col-sm-5">
-                    <div style="float: right;">Option:
-                        <select class="custom-select custom-select-lg mb-3" id="custom_number_comment" style="font-size: medium;">
-                            <option selected value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row see_all_comment"></div>
             <div class="row">
-                <div class="col-sm-12" id='div_of_comment' sum_comment="<?php echo count($comments); ?>">
-                    <?php for ($i = 0; $i < count($comments); $i++) {?>
-                        <div class="comment" stt_comment="<?php echo (count($comments)-$i); ?>">
-                            <div class="content_commet">
-                                <div class="row_conten_1 row">
-                                    <div class="author" >
-                                        Name : <?php echo $comments[$i]['userr']['name']; ?>
-                                    </div>
-                                    <div class="data_comment">
-                                        <?php echo $comments[$i]['Comment']['date']; ?>
-                                    </div>
-                                </div>
-                                <div class="row_conten_2 row">
-                                    <div class="text_comment col-sm-11">
-                                       <?php echo $comments[$i]['Comment']['content'] ?>
-                                    </div>
-                                    <?php if ($this->Session->read('id_user')) { ?>
-                                        <div class="actions_comment col-sm-1" onclick="showTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>">Reply</div>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                            <div class="multi_dev_of_rep multi_dev_num_<?php echo $comments[$i]['Comment']['id']; ?>">
-                                <?php if (count($comments[$i]['Comment']['0']) >= 1) { ?>
-                                    <div class="count_rep_comment"><p onclick="showDivRep($(this), <?php echo $comments[$i]['Comment']['id'];  ?>)" style="cursor: pointer;">Have <?php echo count($comments[$i]['Comment']['0']); ?> Reply!</p></div>
-                                <?php foreach ($comments[$i]['Comment']['0'] as $comment_child) { ?>
-                                    <div class="content_commets div_rep_<?php echo $comment_child['Comment']['id_parent']; ?>">
-                                        <div class="row_conten_1 row">
-                                            <div class="author">
-                                                Name : <?php echo $comment_child['userr']['name']; ?>
-                                            </div>
-                                            <div class="data_comment">
-                                                <?php echo $comment_child['Comment']['date']; ?>
-                                            </div>
-                                        </div>
-                                        <div class="row_conten_2 row">
-                                            <div class="text_comment col-sm-11">
-                                               <?php echo $comment_child['Comment']['content']; ?>
-                                            </div>
-                                            <?php if ($this->Session->read('id_user')) { ?>
-                                                <div class="actions_comment col-sm-1" onclick="showTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>">Reply
-                                                </div>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                <?php } } ?>
-                            </div>
-                            <div class="row div_textarea_reple_<?php echo $comments[$i]['Comment']['id']; ?>" style="display: none;">
-                                <div class="row">
-                                    <textarea name="rep_comment" class="rep_comment" id="rep_comment_<?php echo $comments[$i]['Comment']['id']; ?>" placeholder="Write something here..." rows="4"></textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6"><div style="float: right;">
-                                        <button type="button" data-id="<?php echo $product['Product']['id']?>" onclick="commentProduct($(this), '<?php echo $comments[$i]['Comment']['id']; ?>')"  class="btn btn-primary btn-sm">Reply</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <button type="button" onclick="hideTextArea($(this))" data_id_parent="<?php echo $comments[$i]['Comment']['id']; ?>" class="btn btn-secondary btn-sm cancel_rep">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php }?>
-                </div>
+						<div class="fb-comments" data-href="https://www.facebook.com/108927717488563/photos/a.110479024000099/110478994000102/?type=3&amp;theater" data-numposts="5" data-width="850"></div>
             </div>
         </div>
       </div>
@@ -249,14 +77,16 @@
           <?php for ($i=0; $i < count($related); $i++) {?>
           <div class="item">
             <div class="product-thumb transition">
-              <div class="image product-imageblock"> <a href="#"> <img src="<?php echo FIELD;?>/app/webroot/img/product/<?php $img=explode(",", $related[$i]['Product']['image']); echo $img[0]?>" class="img-responsive" /> </a>
+              <div class="image product-imageblock"> <a href="<?php echo FIELD.'/home/product/'.$related[$i]['Product']['id']?>"> <img src="<?php echo FIELD;?>/app/webroot/img/product/<?php $img=explode(",", $related[$i]['Product']['image']); echo $img[0]?>" class="img-responsive" /> </a>
                 <div class="button-group">
                   <button type="button" class="wishlist" data-toggle="tooltip" title="Add to Wish List"><i class="fas fa-heart" style="color:white;"></i></button>
-                  <button type="button" class="addtocart-btn">Add to Cart</button>
+                  <button data-izimodal-open="<?php if(!$this->Session->read('id_user')){
+              echo "#modal-custom";
+          } ?>" type="button" class="addtocart-btn">Add to Cart</button>
                 </div>
               </div>
               <div class="caption product-detail">
-                <h4 class="product-name"><a href="product.html" title="women's clothing"><?php echo $related[$i]['Product']['name']?></a></h4>
+                <h4 class="product-name"><a href="<?php echo FIELD.'/home/product/'.$related[$i]['Product']['id']?>"><?php echo $related[$i]['Product']['name']?></a></h4>
                 <p class="price product-price"> <span class="price-new"><?php echo number_format($related[$i]['Product']['price']).'đ'; ?></span></p>
               </div>
             </div>
