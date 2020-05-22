@@ -1,4 +1,4 @@
-<!-- Sidebar -->
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
@@ -37,7 +37,8 @@
     <span>Imports</span></a>
 </li>
 
-<li class="nav-item">
+<?php if($id_admin == 1){ ?>
+	<li class="nav-item">
   <a class="nav-link" href="<?php echo FIELD."/admin/products"?>">
     <i class="fas fa-fw fa-chart-area"></i>
     <span>Products</span></a>
@@ -78,6 +79,7 @@
     <i class="fas fa-fw fa-table"></i>
     <span>Mails</span></a>
 </li>
+<?php } ?>
 <hr class="sidebar-divider">
 
 <div class="text-center d-none d-md-inline">

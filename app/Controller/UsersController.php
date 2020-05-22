@@ -16,7 +16,6 @@ class UsersController extends AppController
 
 	public function beforeFilter() {
 		$this->__createPusher();
-		$this->getNotificationUser();
 	}
 
 	private function __createPusher() {
@@ -176,19 +175,12 @@ class UsersController extends AppController
 
 			if ($this->Invoice->save($bill)) {
 				$id_invoice = $this->Invoice->getLastInsertID();
+				$newFeed = new stdClass();
+				$newFeed->id_invoice = $id_invoice;
+				$newFeed->create_at = date("Y-m-d");
+				$id_store_show = 'Show_Noti_Comment_' . $stores[$index]['Store']['id'];
+				$this->pusher->trigger('Notification', $id_store_show, $newFeed);
 
-				$notificate = new stdClass();
-				$notificate->id_key_notication = $id_invoice;
-				$notificate->type = 3;
-				$notificate->id_store = $stores[$index]['Store']['id'];
-				$this->Notification->create();
-
-				if ($this->Notification->save($notificate)) {
-					$last_id_notifiction = $this->Notification->getLastInsertId();
-					$new_notification = $this->Notification->find('first', array('conditions' => array('Notification.id' => $last_id_notifiction)));
-					$id_store_show = 'Show_Noti_Comment_' . $stores[$index]['Store']['id'];
-					$this->pusher->trigger('Notification', $id_store_show, $new_notification);
-				}
 
 				for ($i = 0; $i < count($detail); $i++) {
 					$invoice_product = new stdClass();
@@ -272,13 +264,18 @@ class UsersController extends AppController
 	{
 		$this->layout = null;
 		$invoice = $this->Invoice->find('first', array('conditions' => array('Invoice.id' => $id_invoice)));
-		$this->Invoice->delete($invoice['Invoice']['id']);
-		$product_invoice = $this->Product_invoice->find('all', array('conditions' => array('Product_invoice.id_invoice' => $id_invoice)));
-		for ($i = 0; $i < count($product_invoice); $i++) {
-			$this->Product_invoice->delete($product_invoice[$i]['Product_invoice']['id']);
+		if($invoice['Invoice']['status'] == 0){
+			$this->Invoice->delete($invoice['Invoice']['id']);
+			$product_invoice = $this->Product_invoice->find('all', array('conditions' => array('Product_invoice.id_invoice' => $id_invoice)));
+			for ($i = 0; $i < count($product_invoice); $i++) {
+				$this->Product_invoice->delete($product_invoice[$i]['Product_invoice']['id']);
+			}
+			$this->set('data', $invoice);
+			$this->render('/Admins/json');
+		}else{
+			$this->set('data', false);
+			$this->render('/Admins/json');
 		}
-		$this->set('data', $invoice);
-		$this->render('/Admins/json');
 	}
 	public function login()
 	{

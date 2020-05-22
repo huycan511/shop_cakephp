@@ -34,7 +34,8 @@
     <?php echo $this->Flash->render(); ?>
     <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('footer_main'); ?>
-    <?php echo $this->element('modal_login'); ?>
+	<?php echo $this->element('modal_login'); ?>
+	<div class="fb-customerchat" page_id="108927717488563" minimized="true"></div>
 	</body>
     <?php
     echo $this->fetch('script');
@@ -46,14 +47,13 @@
     echo $this->Html->script('iziModal.min');
     echo $this->Html->script('owl.carousel.min');
     echo $this->Html->script('toast_jquery');
-    //echo $this->Html->script('template');
+    echo $this->Html->script('template');
     echo $this->Html->script('common');
     echo $this->Html->script('global');
     echo $this->Html->script('jrate');
     echo $this->Html->script('parally');
     echo $this->Html->script('rateYo');
 ?>
-<script src="https://apps.elfsight.com/p/platform.js" defer></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script>
     $("#modal-custom").iziModal({
@@ -71,6 +71,24 @@ $(".rating").each( function() {
         }
     );
 });
+
+</script>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '456985718137023',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.11'
+        });
+    };
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 </script>
 </html>
 

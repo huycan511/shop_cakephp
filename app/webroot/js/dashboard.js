@@ -349,14 +349,24 @@ $(function () {
 						url: 'destroyBill/' + id_invoice
 					})
 						.done(function (res) {
-							$.toast({
-								heading: 'Success',
-								text: 'Destroy success!',
-								icon: 'success',
-								position: 'bottom-right',
-								loader: false
-							});
-							setTimeout(function () { location.reload(); }, 2000);
+							if(res !== 'false'){
+								$.toast({
+									heading: 'Success',
+									text: 'Destroy success!',
+									icon: 'success',
+									position: 'bottom-right',
+									loader: false
+								});
+								setTimeout(function () { location.reload(); }, 2000);
+							}else{
+								$.toast({
+									heading: 'Error',
+									text: 'Something wrong!',
+									icon: 'error',
+									position: 'bottom-right',
+									loader: false
+								});
+							}
 						})
 						.fail(function () {
 							console.log("error");

@@ -49,7 +49,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<?php echo $this->element('sidebar'); ?>
+		<?php echo $this->element('sidebar',  array('id_admin'=> $this->Session->read('id_admin'))); ?>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->

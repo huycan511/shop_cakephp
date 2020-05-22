@@ -209,40 +209,46 @@ class InvoicesController extends AppController
 		$this->layout = null;
 		$array = array();
 		$check = 1;
-		$products = $this->Product_invoice->getProductOfInvoice($this->request->data['id_invoice']);
-
-		$count_product = count($products);
-		for ($i = 0; $i < $count_product; $i++) {
-			$data = new stdClass();
-			$data->id_product = $products[$i]['Product_invoice']['id_product'];
-			$data->amount = $products[$i]['Product_invoice']['amount'];
-			array_push($array, $data);
-		}
-		$array = json_decode(json_encode($array), True);
-		for ($i = 0; $i < count($array); $i++) {
-			$product_store = $this->Product_store->getProductOfStore($this->request->data['id_store'], $array[$i]['id_product']);
-			$amount = $product_store['Product_store']['amount'];
-			if ($amount < $array[$i]['amount']) {
-				$check = 0;
-				break;
+		$invoiceCheck = $this->Invoice->find('first', array('conditions' => array('Invoice.id' => $this->request->data['id_invoice'])));
+		if($invoiceCheck){
+			$products = $this->Product_invoice->getProductOfInvoice($this->request->data['id_invoice']);
+			$count_product = count($products);
+			for ($i = 0; $i < $count_product; $i++) {
+				$data = new stdClass();
+				$data->id_product = $products[$i]['Product_invoice']['id_product'];
+				$data->amount = $products[$i]['Product_invoice']['amount'];
+				array_push($array, $data);
 			}
-		}
-		if ($check) {
+			$array = json_decode(json_encode($array), True);
 			for ($i = 0; $i < count($array); $i++) {
 				$product_store = $this->Product_store->getProductOfStore($this->request->data['id_store'], $array[$i]['id_product']);
 				$amount = $product_store['Product_store']['amount'];
-				$update = new stdClass();
-				$update->id = $product_store['Product_store']['id'];
-				$update->amount = $amount - $array[$i]['amount'];
-				$this->Product_store->save($update);
+				if ($amount < $array[$i]['amount']) {
+					$check = 0;
+					break;
+				}
 			}
-			$invoice = new stdClass();
-			$invoice->id = $this->request->data['id_invoice'];
-			$invoice->status = 1;
-			$this->Invoice->save($invoice);
+			if ($check) {
+				for ($i = 0; $i < count($array); $i++) {
+					$product_store = $this->Product_store->getProductOfStore($this->request->data['id_store'], $array[$i]['id_product']);
+					$amount = $product_store['Product_store']['amount'];
+					$update = new stdClass();
+					$update->id = $product_store['Product_store']['id'];
+					$update->amount = $amount - $array[$i]['amount'];
+					$this->Product_store->save($update);
+				}
+				$invoice = new stdClass();
+				$invoice->id = $this->request->data['id_invoice'];
+				$invoice->status = 1;
+				$this->Invoice->save($invoice);
+			}
+			$this->set('data', $check);
+			$this->render('/Admins/json');
+		}else{
+			$this->set('data', 0);
+			$this->render('/Admins/json');
 		}
-		$this->set('data', $check);
-		$this->render('/Admins/json');
+
 	}
 	public function cancelOrder()
 	{
@@ -277,23 +283,27 @@ class InvoicesController extends AppController
 		$this->checkAdmin();
 		$this->layout = 'sbadmin';
 		$invoice = $this->Invoice->checkExistInvoice($id_invoice);
-		if ($invoice['Invoice']['type'] == 1) {
-			array_push($invoice, $this->Supplier->getSupplierName($invoice['Invoice']['id_send']));
-		} else {
-			array_push($invoice, $this->Store->getStoreName($invoice['Invoice']['id_send']));
-		}
-		if (($invoice['Invoice']['type'] == 1) || ($invoice['Invoice']['type'] == 2)) {
-			array_push($invoice, $this->Store->getStoreName($invoice['Invoice']['id_receive']));
-		}
-		$this->set('invoice', $invoice);
-		$products = $this->Product_invoice->getProductOfInvoice($id_invoice);
-		for ($i = 0; $i < count($products); $i++) {
-			array_push($products[$i], $this->Product->getProductName($products[$i]['Product_invoice']['id_product']));
-		}
-		$this->set('products', $products);
-		if ($invoice['Invoice']['type'] == 4) {
-			$this->set('username', $this->User->getUserName($invoice['Invoice']['id_receive']));
-			$this->set('phone', $this->User->getUserPhone($invoice['Invoice']['id_receive']));
+		if($invoice){
+			if ($invoice['Invoice']['type'] == 1) {
+				array_push($invoice, $this->Supplier->getSupplierName($invoice['Invoice']['id_send']));
+			} else {
+				array_push($invoice, $this->Store->getStoreName($invoice['Invoice']['id_send']));
+			}
+			if (($invoice['Invoice']['type'] == 1) || ($invoice['Invoice']['type'] == 2)) {
+				array_push($invoice, $this->Store->getStoreName($invoice['Invoice']['id_receive']));
+			}
+			$this->set('invoice', $invoice);
+			$products = $this->Product_invoice->getProductOfInvoice($id_invoice);
+			for ($i = 0; $i < count($products); $i++) {
+				array_push($products[$i], $this->Product->getProductName($products[$i]['Product_invoice']['id_product']));
+			}
+			$this->set('products', $products);
+			if ($invoice['Invoice']['type'] == 4) {
+				$this->set('username', $this->User->getUserName($invoice['Invoice']['id_receive']));
+				$this->set('phone', $this->User->getUserPhone($invoice['Invoice']['id_receive']));
+			}
+		}else{
+			$this->redirect('/admin/onlinebill');
 		}
 	}
 	public function getDataInvoice()

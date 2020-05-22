@@ -5,9 +5,6 @@
 
 		public $uses = array('User', 'Store', 'Categories', 'Genre', 'Product', 'News', 'Rating', 'Cart', 'Like', 'Product_invoice', 'Invoice');
 
-		public function beforeFilter() {
-			$this->getNotificationUser();
-		}
 		public function index()
 		{
 			$this->layout = 'main';
@@ -74,32 +71,36 @@
 		public function product($id_product)
 		{
 			$this->layout = 'product';
-			$this->getDataMenu();
-			$hasBuy = false;
-			if ($this->Session->read('id_user')) {
-				$this->getDataCart();
-				$invoice = $this->Invoice->getDoneOrder($this->Session->read('id_user'));
-				$count_invoice = count($invoice);
-				for ($i = 0; $i < $count_invoice; $i++) {
-					$check = $this->Product_invoice->checkProductInInvoice($invoice[$i]['Invoice']['id'], $id_product);
-					if ($check) {
-						$hasBuy = true;
-						break;
-					}
-				}
-			} else {
-				$this->set('cart', 0);
-			}
-			$this->set('hasBuy', $hasBuy);
 			$product = $this->Product->getProductByID($id_product);
-			$related = $this->Product->getRelateProduct($product['Product']['id_genre']);
-			$this->set('related', $related);
-			$this->set('product', $product);
-			$img = explode(",", $product['Product']['image']);
-			$this->set('img', $img);
-			$myRate = $this->Rating->getMyRate($this->Session->read('id_user'), $id_product);
-			if ($myRate) {
-				$this->set('myRate', $myRate['Rating']['rate']);
+			if($product){
+				$this->getDataMenu();
+				$hasBuy = false;
+				if ($this->Session->read('id_user')) {
+					$this->getDataCart();
+					$invoice = $this->Invoice->getDoneOrder($this->Session->read('id_user'));
+					$count_invoice = count($invoice);
+					for ($i = 0; $i < $count_invoice; $i++) {
+						$check = $this->Product_invoice->checkProductInInvoice($invoice[$i]['Invoice']['id'], $id_product);
+						if ($check) {
+							$hasBuy = true;
+							break;
+						}
+					}
+				} else {
+					$this->set('cart', 0);
+				}
+				$this->set('hasBuy', $hasBuy);
+				$related = $this->Product->getRelateProduct($product['Product']['id_genre']);
+				$this->set('related', $related);
+				$this->set('product', $product);
+				$img = explode(",", $product['Product']['image']);
+				$this->set('img', $img);
+				$myRate = $this->Rating->getMyRate($this->Session->read('id_user'), $id_product);
+				if ($myRate) {
+					$this->set('myRate', $myRate['Rating']['rate']);
+				}
+			}else{
+				$this->redirect('/home');
 			}
 		}
 		public function getCart()
@@ -124,37 +125,5 @@
 				$this->set('data', 0);
 			}
 			$this->render('/Admins/json');
-		}
-		public function loginGoogle()
-		{
-			$this->autoRender = false;
-			if (!$this->Session->read('id_user')) {
-				if ($this->request->is('ajax')) {
-					$email = $this->request->data['email'];
-					$name = $this->request->data['namee'];
-					$user = $this->User->getUserByEmail($email);
-						if ($user) {
-							$this->Session->write('name_user', $user['User']['name']);
-							$this->Session->write('id_user', $user['User']['id']);
-						} else {
-							$new_user = array(
-								"name" => $name,
-								"email" => $email,
-							);
-							$this->User->create();
-							$this->User->save($new_user);
-							$id_user = $this->User->getLastInsertId();
-							$new_cart = array(
-								"id_user" => $id_user
-							);
-							$this->Cart->create();
-							$this->Cart->save($new_cart);
-							$this->Session->write('name_user', $name);
-							$this->Session->write('id_user', $id_user);
-							$this->log($id_user);
-						}
-						return $this->redirect($this->request->here);
-				}
-			}
 		}
 	}

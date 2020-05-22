@@ -166,33 +166,6 @@ class AdminController extends AppController
 		$this->render('json');
 	}
 
-	public function isCheckNoti($id) {
-		$status = $this->Notification->find('first', array(
-			'conditions' => array('Notification.id' => $id), // array of conditions
-			'fields' => array('Notification.status')
-		));
-		//cai lon ma
-		return $status;
-	}
-	public function updateCheckNoti() {
-		$this->autoRender = null;
-		if ($this->request->is('ajax')) {
-			$id = $this->request->data['id_notification'];
-			$isCheck = $this->isCheckNoti($id);
-			if ($isCheck['Notification']['status'] == '') {
-				$this->Notification->id = $id;
-				$this->Notification->saveField('status', 1);
-				return 'updated';
-			}
-			return true;
-		}
-	}
-
-	public function listNotification() {
-		$this->checkAdmin();
-		$this->layout = 'sbadmin';
-	}
-
 	public function addProduct()
 	{
 		$this->layout = null;

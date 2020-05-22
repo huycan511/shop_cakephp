@@ -755,11 +755,12 @@ function handle_order(obj) {
 			if (res == 0) {
 				$.toast({
 					heading: 'Error',
-					text: 'Something error, please check!',
+					text: 'Đơn hàng đã được huỷ!',
 					icon: 'error',
 					position: 'bottom-right',
 					loader: false
 				});
+				window.location.href = location.protocol + "//" + document.domain + "/admin/onlinebill";
 			} else {
 				obj.hide();
 				obj.next().removeClass('d-none');

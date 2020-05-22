@@ -3,10 +3,6 @@ class CategoriesController extends AppController
 {
 	public $uses = array('User', 'Store', 'Categories', 'Genre', 'Store', 'Cart', 'Like', 'Product', 'Rating');
 
-	public function beforeFilter() {
-		$this->getNotificationUser();
-	}
-
 	public function index($id_category)
 	{
 		$this->layout = 'category';

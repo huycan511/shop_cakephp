@@ -32,7 +32,6 @@ class StoresController extends AppController
 		} else {
 			$this->set('cart', 0);
 		}
-		$this->getNotificationUser();
 		if (!$this->Store->checkStoreExist($id_store)) {
 			$this->redirect(array('controller' => 'home', 'action' => 'index'));
 		}

@@ -98,68 +98,27 @@ class AppController extends Controller
 
 	public function getNotification() {
 		$this->layout = null;
-		$number_notification_not_check = $this->Notification->find('all', array(
+
+		$notifications = $this->Invoice->find('all', array(
 			'conditions' => array(
-				'Notification.status' => '',
-				'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-		$this->set('number_not_check', count($number_notification_not_check));
-
-		$numberNewComment = $this->Notification->find('all', array('conditions' => array(
-			'Notification.status' => '',
-			'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-		$this->set('number_new_comment', count($numberNewComment));
-
-		$notifications = $this->Notification->find('all', array(
-			'order' => array('Notification.create_at' => 'desc'),
-			'conditions' => array(
-				'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-
-		$this->set('notifications', $notifications);
-	}
-
-	public function getNotificationUser() {
-		$notisUser = $this->Notification->find('all', array(
-			'order' => array('Notification.create_at' => 'desc'),
-			'conditions' => array(
-				'Notification.id_store' => $this->Session->read('id_user'),
-				'OR' => array(
-					array('Notification.status' => ''),
-				)
-			)
-		));
-
-		$this->set('notisUser', $notisUser);
+				'Invoice.status' => 0,
+				'Invoice.id_send' => $this->Session->read('id_store'),
+			),
+			'fields' => array('Invoice.id', 'Invoice.date'),
+			));
+			$this->set('notifications', $notifications);
+			$this->set('number_not_check', count($notifications));
 	}
 
 	public function getNotificationStore(){
-		$number_notification_not_check = $this->Notification->find('all', array(
+		$notifications = $this->Invoice->find('all', array(
 			'conditions' => array(
-				'Notification.status' => '',
-				'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-		$this->set('number_not_check', count($number_notification_not_check));
-
-		$numberNewComment = $this->Notification->find('all', array('conditions' => array(
-			'Notification.status' => '',
-			'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-		$this->set('number_new_comment', count($numberNewComment));
-
-		$notifications = $this->Notification->find('all', array(
-			'order' => array('Notification.create_at' => 'desc'),
-			'conditions' => array(
-				'Notification.id_store' => $this->Session->read('id_store'),
-			)
-		));
-
-		$this->set('notifications', $notifications);
+				'Invoice.status' => 0,
+				'Invoice.id_send' => $this->Session->read('id_store'),
+			),
+			'fields' => array('Invoice.id','Invoice.date'),
+			));
+			$this->set('notifications', $notifications);
+			$this->set('number_not_check', count($notifications));
 	}
 }

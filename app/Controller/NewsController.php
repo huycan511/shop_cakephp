@@ -5,7 +5,6 @@ class NewsController extends AppController
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->getNotificationUser();
 	}
 
 	public function index()

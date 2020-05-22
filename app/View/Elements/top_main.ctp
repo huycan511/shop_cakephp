@@ -33,22 +33,6 @@
 										<span id="span_wishtlist"><?php echo "(".$wishlist.")";?> </span>
 									</a>
 								<?php endif;?></li>
-
-                  <?php if ($this->Session->read('id_user')) { ?>
-                    <li class="dropdown"><a href="#"class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-bell"></i><span> My Notifications <?php echo "(" . count($notisUser) . ")";?> </span></a>
-                      <?php if (count($notisUser) > 0 ){ ?>
-                        <ul class="dropdown-menu">
-                        <?php foreach ($notisUser as $notiUser) { ?>
-                          <li style='font-size: 16px;'><a href="/users/orderlist" style="cursor: pointer; width: 100%;">
-                            <i class="fa fa-ambulance" style='font-size: 22px; color:violet;'></i> Your order number <?php echo $notiUser['Notification']['id_key_notication'] ?> is on the road <i style='font-size: 20px; color:red;' class="far fa-angry"></i>
-                          </a></li>
-                        <?php } ?>
-                        </ul>
-                      <?php } ?>
-                    <li>
-                  <?php } ?>
-
               </ul>
             </div>
           </div>

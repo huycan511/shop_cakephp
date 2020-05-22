@@ -78,6 +78,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 						</ul>
 					</div>
 				</div>
+				<div id="fb-root"></div>
 				<div class="panel panel-default filter">
 					<div class="panel-heading columnblock-title">Search</div>
 					<div class="filter-block">
@@ -86,8 +87,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					</div>
 				</div>
 				<div class="panel panel-default filter">
-					<div class="panel-heading columnblock-title">Video</div>
-					<iframe width="100%" src="https://www.youtube.com/embed/K0TXwVHW3rM?start=31" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<div class="fb-page"
+  					data-href="https://www.facebook.com/Fresh-Food-Shop-108927717488563"
+  					data-width="340"
+  					data-hide-cover="false"
+  					data-show-facepile="true"></div>
 				</div>
 			</div>
 			<?php echo $this->Flash->render(); ?>
@@ -135,4 +139,5 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			}
 		});
 	</script>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0&appId=285158789315292&autoLogAppEvents=1"></script>
 </html>
