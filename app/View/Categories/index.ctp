@@ -1,10 +1,13 @@
 <style>
-	.page-link{
+	.page-link {
 		cursor: pointer;
 	}
 </style>
-<div id="content" class="col-sm-12" data-cate="<?php echo $id_cate;?>"
-	data-session="<?php if(!$this->Session->read('id_user')){ echo 'no_session';}else{echo 'session';}?>">
+<div id="content" class="col-sm-12" data-cate="<?php echo $id_cate; ?>" data-session="<?php if (!$this->Session->read('id_user')) {
+																							echo 'no_session';
+																						} else {
+																							echo 'session';
+																						} ?>">
 	<div class="col-sm-12 selectdiv">
 		<select id="sort_sp">
 			<option value="1">
@@ -78,9 +81,9 @@
 		display: 'none'
 	}).appendTo($(nav));
 	mang = dataproduct;
-	$('#sort_sp').on('change', function () {
+	$('#sort_sp').on('change', function() {
 		if (this.value == 1) {
-			dataproduct.sort(function (a, b) {
+			dataproduct.sort(function(a, b) {
 				return compareStrings(a.name, b.name);
 			});
 			$('#content').contents(':not(.selectdiv)').remove();
@@ -116,7 +119,7 @@
 			}).appendTo($(nav));
 			mang = dataproduct;
 		} else if (this.value == 2) {
-			dataproduct.sort(function (a, b) {
+			dataproduct.sort(function(a, b) {
 				return compareStringsL(a.name, b.name);
 			});
 			$('#content').contents(':not(.selectdiv)').remove();
@@ -152,7 +155,7 @@
 			}).appendTo($(nav));
 			mang = dataproduct;
 		} else if (this.value == 3) {
-			dataproduct.sort(function (a, b) {
+			dataproduct.sort(function(a, b) {
 				return parseFloat(a.price) - parseFloat(b.price);
 			});
 			$('#content').contents(':not(.selectdiv)').remove();
@@ -188,7 +191,7 @@
 			}).appendTo($(nav));
 			mang = dataproduct;
 		} else {
-			dataproduct.sort(function (a, b) {
+			dataproduct.sort(function(a, b) {
 				return parseFloat(b.price) - parseFloat(a.price);
 			});
 			$('#content').contents(':not(.selectdiv)').remove();
@@ -226,14 +229,6 @@
 		}
 	});
 
-	// $(function(){
-	//   $isoto = $('#content').isotope({
-	//     itemSelector: '.1sp'
-	//   });
-	// });
-	// $('.1sp').hover(function() {
-
-	// });
 	function hoversp(obj) {
 		$(obj).children('div').addClass('show_div_product');
 		$(obj).children('.btn_sp_group').children('.like_sp').css({
@@ -242,7 +237,11 @@
 		$(obj).children('.btn_sp_group').children('.add_sp').css({
 			animation: 'hienraadd 0.4s forwards'
 		});
+		$(obj).children('.btn_sp_group').children('.buy_now').css({
+			animation: 'hienraadd 0.4s forwards'
+		});
 	}
+
 	function outhoversp(obj) {
 		$(obj).children('div').removeClass('show_div_product');
 		$(obj).children('.btn_sp_group').children('.like_sp').css({
@@ -251,22 +250,29 @@
 		$(obj).children('.btn_sp_group').children('.add_sp').css({
 			animation: ''
 		});
+		$(obj).children('.btn_sp_group').children('.buy_now').css({
+			animation: ''
+		});
 	}
+
 	function compareStrings(a, b) {
 		// Assuming you want case-insensitive comparison
 		a = a.toLowerCase();
 		b = b.toLowerCase();
 		return (a < b) ? -1 : (a > b) ? 1 : 0;
 	}
+
 	function compareStringsL(a, b) {
 		// Assuming you want case-insensitive comparison
 		a = a.toLowerCase();
 		b = b.toLowerCase();
 		return (a > b) ? -1 : (a < b) ? 1 : 0;
 	}
+
 	function numberWithCommas(x) {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
+
 	function pagni(obj) {
 		$([document.documentElement, document.body]).animate({
 			scrollTop: $("#content").offset().top - 30
@@ -278,7 +284,7 @@
 			}
 		}
 	}
-	$('#search_price').click(function (event) {
+	$('#search_price').click(function(event) {
 		var data_price = $('.js-range-slider').data("ionRangeSlider");
 		var filter = [];
 		for (var i = 0; i < dataproduct.length; i++) {
@@ -288,11 +294,11 @@
 		}
 		$('#content').contents(':not(.selectdiv)').remove();
 		$('#content').next().remove();
-		if(filter.length){
+		if (filter.length) {
 			for (var i = 0; i < num; i++) {
 				showProduct(filter, i);
 			}
-		}else{
+		} else {
 			$('#content.khoisp').append('No product available');
 			console.log('no product');
 		}
@@ -341,7 +347,7 @@
 		}).appendTo($(a));
 		var img_link = dataproduct[i]['image'].split(',')[1];
 		var img = $('<img>').attr({
-			src: '<?php echo FIELD;?>/app/webroot/img/product/' + img_link,
+			src: '<?php echo FIELD; ?>/app/webroot/img/product/' + img_link,
 			style: 'width:100%;height:100%;max-width: 100%;position: absolute;top:0;right: 0;'
 		}).appendTo($(_1sp));
 		var div_2 = $('<div>').attr({
@@ -353,7 +359,7 @@
 		}).appendTo($(_1sp));
 		var btn = $('<button>').attr({
 			class: 'btn-outline-danger like_sp',
-			style: 'width: 50%;height: 100%;float: left;background-color: #040404b5;opacity: 0;'
+			style: 'width: 33.3%;height: 100%;float: left;background-color: #040404b5;opacity: 0;'
 		}).appendTo($(div_3));
 		var itag = $('<i>').attr({
 			class: 'fas fa-heart',
@@ -362,12 +368,12 @@
 		if ($("#content").attr("data-session") == "session") {
 			var btn_2 = $('<button>').attr({
 				class: 'btn-outline-danger add_sp',
-				style: 'width: 50%;height: 100%;background-color: #040404b5;opacity: 0;'
+				style: 'width: 33.3%;height: 100%;float: left;background-color: #040404b5;opacity: 0;'
 			}).appendTo($(div_3));
 		} else {
 			var btn_2 = $('<button>').attr({
 				class: 'btn-outline-danger add_sp',
-				style: 'width: 50%;height: 100%;background-color: #040404b5;opacity: 0;',
+				style: 'width: 33.3%;height: 100%;float: left;background-color: #040404b5;opacity: 0;',
 				'data-izimodal-open': "#modal-custom"
 			}).appendTo($(div_3));
 		}
@@ -375,6 +381,16 @@
 			class: 'fas fa-cart-plus',
 			style: 'font-size: 15px;color: white;'
 		}).appendTo($(btn_2));
+		var btn3 = $('<button>').attr({
+			class: 'btn-outline-danger buy_now',
+			style: 'width: 33.3%;height: 100%;background-color: #040404b5;opacity: 0;',
+			'data-price': dataproduct[i]['price'],
+			'data-id': dataproduct[i]['id'],
+		}).appendTo($(div_3));
+		var i_3 = $('<i>').attr({
+			class: 'fa fa-check',
+			style: 'font-size: 15px;color: white;'
+		}).appendTo($(btn3));
 		var divtt = $('<div>').attr({
 			class: 'tt',
 			style: 'width: 100%;height: 15%;'

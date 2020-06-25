@@ -18,12 +18,12 @@
 			$wishlist = $this->getWishList();
 			$this->set('wishlist', $wishlist);
 			$news = $this->News->find('all');
-			$this->set('news', $news);
 			if ($this->Session->read('id_user')) {
 				$this->getDataCart();
 			} else {
 				$this->set('cart', 0);
 			}
+			$this->set('news', $news);
 		}
 		public function authFacebook()
 		{
@@ -124,6 +124,6 @@
 			} else {
 				$this->set('data', 0);
 			}
-			$this->render('/Admins/json');
+			$this->render('/Admin/json');
 		}
 	}

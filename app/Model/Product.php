@@ -42,5 +42,30 @@
 			$product->rating = $rating;
 			$this->save($product);
 		}
+		public function searchProducst($name, $price){
+			switch ($price) {
+				case 1:
+					$price_range = [0, 20000];
+					break;
+				case 2:
+					$price_range = [20000, 50000];
+					break;
+				case 3:
+					$price_range = [50000, 100000];
+					break;
+				case 4:
+					$price_range = [100000, 99999999999999999];
+					break;
+				default:
+					$price_range = array(0, 99999999999999999);
+					break;
+			}
+			$products = $this->find('all', array('conditions'=>array(
+				'Product.name LIKE' => '%'. $name . '%',
+				'Product.price >= ' => $price_range[0],
+				'Product.price < ' => $price_range[1],
+			),'order'=>array('Product.price')));
+			return $products;
+		}
 	}
 ?>

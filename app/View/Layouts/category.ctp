@@ -100,8 +100,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 		</div>
 	</div>
-	<?php echo $this->element('footer_main'); ?>
-	<?php echo $this->element('modal_login'); ?>
+	<?php
+		echo $this->element('footer_main');
+		echo $this->element('modal_login');
+		echo $this->element('buy_now');
+	?>
 </body>
 <script>
 		$(".expandable-hitarea").each( function() {

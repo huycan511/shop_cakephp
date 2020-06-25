@@ -33,6 +33,15 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller
 {
+	function afterFilter() {
+		if ($this->response->statusCode() == '404' || $this->response->statusCode() == '500')
+		{
+			$this->redirect(array(
+				'controller' => 'error',
+				'action' => 'page_404')
+			);
+		}
+	}
 	public $uses = array('Product', 'Like', 'Invoice', 'Cart', 'Notification');
 	public function getDataCart()
 	{
@@ -71,7 +80,7 @@ class AppController extends Controller
 	public function checkAdmin()
 	{
 		if ($this->Session->read('id_admin') == null) {
-			$this->redirect(array('controller' => 'admins', 'action' => 'login'));
+			$this->redirect(array('controller' => 'admin', 'action' => 'login'));
 		}
 	}
 	public function checkUser()
@@ -83,7 +92,7 @@ class AppController extends Controller
 	public function checkBigAdmin()
 	{
 		if ($this->Session->read('id_admin') == null || $this->Session->read('type') != 2) {
-			$this->redirect(array('controller' => 'admins', 'action' => 'login'));
+			$this->redirect(array('controller' => 'admin', 'action' => 'login'));
 		}
 	}
 	public function getDataMenu()

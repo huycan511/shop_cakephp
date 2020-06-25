@@ -1,4 +1,4 @@
-<?php  
+<?php
 	class Invoice extends AppModel{
 		public $name = 'Invoice';
 		public function checkExistInvoice($id_invoice){
@@ -7,6 +7,13 @@
 					'Invoice.id' => $id_invoice
 			)));
 			return $check;
+		}
+		public function getStatusOrder($id_order){
+			$check = $this->find('first', array(
+				'conditions' => array(
+					'Invoice.id' => $id_order
+			)));
+			return $check['Invoice']['status'];
 		}
 		public function getDoneOrder($id_user){
 			$invoice = $this->find('all', array(
@@ -56,6 +63,13 @@
 			)));
 			return $onlinebill;
 		}
+		public function getOfflineBill($id_store){
+			$onlinebill = $this->find('all',array('conditions'=>array(
+				'Invoice.id_send'=>$id_store,
+				'Invoice.type'=>3
+			)));
+			return $onlinebill;
+		}
 		public function getExport($id_store){
 			$invoices = $this->find('all', array(
 				'conditions' => array(
@@ -74,6 +88,11 @@
 		        )
 			)));
 			return $invoices;
+		}
+		public function getProductReport($start, $end){
+			$data = $this->query('SELECT sum(product_invoice.amount) as total, products.name FROM invoices RIGHT JOIN product_invoice ON invoices.id = product_invoice.id_invoice
+			INNER JOIN products ON product_invoice.id_product = products.id WHERE invoices.date >= ? AND invoices.date <= ? AND (invoices.type = 3 OR invoices.type = 4) GROUP BY product_invoice.id_product', [$start, $end]);
+			return $data;
 		}
 	}
 ?>

@@ -94,6 +94,14 @@ class AdminController extends AppController
 		$onlinebill = $this->Invoice->getOnlineBill($this->Session->read('id_store'));
 		$this->set('bill', $onlinebill);
 	}
+	public function offlinebill(){
+		$this->checkAdmin();
+		$this->layout = 'sbadmin';
+		$offlinebill = $this->Invoice->getOfflineBill($this->Session->read('id_store'));
+		$this->set('bill', $offlinebill);
+		$products = $this->Genre->find('all');
+		$this->set('genres', $products);
+	}
 	public function products()
 	{
 		$this->checkBigAdmin();
@@ -102,6 +110,29 @@ class AdminController extends AppController
 		$this->set('categories', $categories);
 		$products = $this->Product->find('all');
 		$this->set('products', $products);
+	}
+
+	public function getReport(){
+		$this->layout = null;
+		if($this->request->data('type') == 1){
+			$conditions = array(
+				'fields' => array('Invoice.date, sum(Invoice.price) as total'),
+				'group' => 'Invoice.date',
+				'conditions' => array(
+				'Invoice.type' => array(3,4),
+				'Invoice.id_send' => $this->Session->read('id_store'),
+				'and' => array(
+								array('Invoice.date >= ' => $this->request->data('start'),
+									  'Invoice.date <= ' => $this->request->data('end')
+									 )
+					)));
+			$data = $this->Invoice->find('all',$conditions );
+		}else{
+			$data = $this->Invoice->getProductReport($this->request->data('start'), $this->request->data('end'));
+		}
+
+		$this->set('data', $data);
+		$this->render('json');
 	}
 	public function supplier()
 	{

@@ -1,4 +1,132 @@
 $(function () {
+	var start = moment().subtract(29, 'days');
+	var end = moment();
+	var globalStart;
+	var globalEnd;
+    function cb(start, end) {
+		$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+		$('#exportBtn').attr({
+			'data-start': start.format('YYYY-MM-DD'),
+			'data-end': end.format('YYYY-MM-DD')
+		});
+		globalStart = start;
+		globalEnd = end;
+	}
+
+	$("#getTable").click(function(){
+		var clone_start = globalStart.clone();
+		var result = [moment({...clone_start})];
+
+		while(globalEnd.date() != clone_start.date()){
+			clone_start.add(1, 'day');
+			result.push(moment({ ...clone_start }));
+		}
+		$.ajax({
+			url: location.protocol + "//" + document.domain + "/admin/getReport",
+			type: 'POST',
+			data: {
+				start:	globalStart.format('YYYY-MM-DD'),
+				end: globalEnd.format('YYYY-MM-DD'),
+				type: $("#typeReport").val(),
+			},
+		})
+			.done(function (response) {
+				const res = JSON.parse(response);
+				$('#bodyTable').empty();
+				$('#footerTable').empty();
+				$('#headerTable').empty();
+				if($("#typeReport").val() == 1){
+					const arr = result.map(x => ({
+						date: x.format("YYYY-MM-DD"),
+						total: getTotal(x, res),
+					}))
+					var total = 0;
+					const tr_head = $('<tr>').appendTo($('#headerTable'));
+					$('<th>').attr({
+						width: '20%',
+						scope: 'col'
+					}).text('STT').appendTo($(tr_head));
+					$('<th>').attr({
+						width: '40%',
+						scope: 'col'
+					}).text('Date').appendTo($(tr_head));
+					$('<th>').attr({
+						width: '40%',
+						scope: 'col'
+					}).text('Price').appendTo($(tr_head));
+					for(i = 0; i < arr.length; i++){
+						const tr = $('<tr>').appendTo($('#bodyTable'));
+						const th = $('<th>').attr('scope', 'row').text(i+1).appendTo($(tr));
+						const td = $('<td>').text(arr[i]['date']).appendTo($(tr));
+						const td2 = $('<td>').text(arr[i]['total']).appendTo($(tr));
+						total += parseInt(arr[i]['total']);
+					}
+					const tr2 = $('<tr>').appendTo($('#footerTable'));
+					const td3 = $('<td>').css({
+						'text-align': 'center',
+					}).attr('colspan', 2).text('Total').appendTo($(tr2));
+					const td4 = $('<td>').text(total+'d').appendTo($(tr2));
+				}else{
+					const tr_head = $('<tr>').appendTo($('#headerTable'));
+					$('<th>').attr({
+						width: '20%',
+						scope: 'col'
+					}).text('STT').appendTo($(tr_head));
+					$('<th>').attr({
+						width: '40%',
+						scope: 'col'
+					}).text('Sản phẩm').appendTo($(tr_head));
+					$('<th>').attr({
+						width: '40%',
+						scope: 'col'
+					}).text('Số lượng').appendTo($(tr_head));
+					if(res.length){
+						for(i = 0; i < res.length; i++){
+							const tr = $('<tr>').appendTo($('#bodyTable'));
+							const th = $('<th>').attr('scope', 'row').text(i+1).appendTo($(tr));
+							const td = $('<td>').text(res[i]['products']['name']).appendTo($(tr));
+							const td2 = $('<td>').text(res[i]['0']['total']).appendTo($(tr));
+						}
+					}else{
+						var no_tr = $('<tr>').appendTo($('#bodyTable'));
+						$('<td>').css({
+							'text-align': 'center',
+						}).attr('colspan', 3).text('Have no data').appendTo($(no_tr));
+					}
+				}
+				$('#dataTable2').destroy();
+				$('#dataTable2').dataTable({
+					"pageLength": 30
+				});
+
+			})
+			.fail(function () {
+				console.log("error");
+			})
+			.always(function () {
+				console.log("complete");
+			});
+	})
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+	cb(start, end);
+	$('#exportBtn').click(function(){
+		window.location.replace(location.protocol + "//" + document.domain + "/users/contact?start=" + $(this).attr('data-start')
+			+ '&end=' + $(this).attr('data-end') + '&type=' + $("#typeReport").val()
+		);
+	});
 	if ($("body").find($('#test_ck')).length > 0) {
 		CKEDITOR.replace('ckedit');
 	}
@@ -22,9 +150,7 @@ $(function () {
 			});
 
 	});
-	$("#export_pdf").click(function (event) {
-		window.location = location.protocol + "//" + document.domain + "/admin/exportPDF?id=" + $(this).attr('data-id');
-	});
+
 	$('.add_manage').click(function (event) {
 		if ($('.pass_manage_1').val() != $('.pass_manage_2').val()) {
 			$.toast({
@@ -81,25 +207,7 @@ $(function () {
 				console.log("error");
 			});
 	});
-	$('.new_invoice_import').click(function (event) {
-		var datastring = $("#form_product").serializeArray();
-		$.ajax({
-			url: "addImport",
-			type: 'POST',
-			data: {
-				id_receive: $(this).prev().val(),
-				id_sent: $('.import_supplier_id').val(),
-				date: $('.import_date').val(),
-				dataform: datastring
-			}
-		})
-			.done(function (res) {
-				location.reload();
-			})
-			.fail(function () {
-				console.log("error");
-			});
-	});
+
 	$('.cancel_order').click(function (event) {
 		$.ajax({
 			url: '../cancelOrder',
@@ -110,16 +218,31 @@ $(function () {
 			}
 		})
 			.done(function (res) {
-				$.toast({
-					heading: 'Success',
-					text: 'Cancel success',
-					icon: 'success',
-					position: 'bottom-right',
-					loader: false
-				});
-				setTimeout(function () {
-					window.location = "../../admin/onlinebill";
-				}, 2000);
+				console.log(res);
+				if(res == 'false'){
+					$.toast({
+						heading: 'Success',
+						text: 'Something wrong',
+						icon: 'success',
+						position: 'bottom-right',
+						loader: false
+					});
+					setTimeout(function () {
+						window.location = "../../admin/onlinebill";
+					}, 2000);
+				}else{
+					$.toast({
+						heading: 'Success',
+						text: 'Cancel success',
+						icon: 'success',
+						position: 'bottom-right',
+						loader: false
+					});
+					setTimeout(function () {
+						window.location = "../../admin/onlinebill";
+					}, 2000);
+				}
+
 			});
 	});
 	$('.cancel_invoice').click(function (event) {
@@ -132,16 +255,29 @@ $(function () {
 			}
 		})
 			.done(function (res) {
-				$.toast({
-					heading: 'Success',
-					text: 'Cancel success',
-					icon: 'success',
-					position: 'bottom-right',
-					loader: false
-				});
-				setTimeout(function () {
-					window.location = "../exports";
-				}, 3000);
+				if(res == 'false'){
+					$.toast({
+						heading: 'Error',
+						text: 'Something wrong, please check',
+						icon: 'error',
+						position: 'bottom-right',
+						loader: false
+					});
+					setTimeout(function () {
+						window.location = "../exports";
+					}, 3000);
+				}else{
+					$.toast({
+						heading: 'Success',
+						text: 'Cancel success',
+						icon: 'success',
+						position: 'bottom-right',
+						loader: false
+					});
+					setTimeout(function () {
+						window.location = "../exports";
+					}, 3000);
+				}
 			});
 	});
 	$('.confirm_order').click(function (event) {
@@ -185,7 +321,7 @@ $(function () {
 					loader: false
 				});
 				setTimeout(function () {
-					window.location = "../import";
+					window.location = "../imports";
 				}, 3000);
 			});
 	});
@@ -742,6 +878,26 @@ function moreProduct() {
 		name: "amount_product"
 	}).appendTo($('#form_product'));
 }
+
+function moreProductOfflinebill() {
+	const div = $('<div>').attr({
+		style: 'display: flex;align-items: center;justify-content: space-between;'
+	});
+	const product = $('#one_product').clone();
+	product.appendTo($(div));
+	$('<div>').text('x').appendTo($(div));
+	$('<input>').attr({
+		style: "width: 115px;",
+		type:"number",
+		class:"form-control ml-2 mr-2",
+		name:"amount_product",
+		value: 0,
+		onchange: "changeUnit($(this))"
+	}).appendTo($(div));
+	$('<div>').text('=').appendTo($(div));
+	$('<div>').attr('class', 'ml-2 total_one').text('00.00d').appendTo($(div));
+	div.appendTo($('#form_product'));
+}
 function handle_order(obj) {
 	$.ajax({
 		url: '/Invoices/handleOrder',
@@ -755,16 +911,13 @@ function handle_order(obj) {
 			if (res == 0) {
 				$.toast({
 					heading: 'Error',
-					text: 'Đơn hàng đã được huỷ!',
+					text: 'Some thing wrong, please check',
 					icon: 'error',
 					position: 'bottom-right',
 					loader: false
 				});
 				window.location.href = location.protocol + "//" + document.domain + "/admin/onlinebill";
 			} else {
-				obj.hide();
-				obj.next().removeClass('d-none');
-				obj.next().next().removeClass('d-none');
 				$.toast({
 					heading: 'Success',
 					text: 'Order is on its way!',
@@ -772,10 +925,17 @@ function handle_order(obj) {
 					position: 'bottom-right',
 					loader: false
 				});
+				window.location.href = location.protocol + "//" + document.domain + "/invoices/details/" + obj.attr('data-id');
 			}
 		})
 		.fail(function () {
-			console.log("error");
+			$.toast({
+				heading: 'Error',
+				text: 'Something wrong',
+				icon: 'error',
+				position: 'bottom-right',
+				loader: false
+			});
 		})
 		.always(function () {
 		});
@@ -859,42 +1019,161 @@ function add_supplier() {
 		});
 }
 function new_invoice_export(obj) {
+	const date = $('.date_export_invoice').val();
+	const id_receive = $('.id_store_receive').val();
 	var id_send = obj.prev().val();
 	var datastring = $("#form_product").serializeArray();
-	$.ajax({
-		url: "addExport",
-		type: 'POST',
-		data: {
-			id_sent: id_send,
-			id_receive: $('.id_store_receive').val(),
-			date: $('.date_export_invoice').val(),
-			dataform: datastring
-		}
-	})
-		.done(function (res) {
-			console.log(res);
-			if (res == 0) {
-				$.toast({
-					heading: 'Error',
-					text: 'Something error, please check!',
-					icon: 'error',
-					position: 'bottom-right',
-					loader: false
-				});
-			} else {
-				$.toast({
-					heading: 'Success',
-					text: 'Create export success!',
-					icon: 'success',
-					position: 'bottom-right',
-					loader: false
-				});
-				setTimeout(function () {
-					window.location = "../../invoices/exports";
-				}, 1500);
+	if(date == '' || id_receive == 'Choose...' | datastring[0]['value'] == 'Choose...'){
+		$.toast({
+			heading: 'Error',
+			text: 'Something error, please check!',
+			icon: 'error',
+			position: 'bottom-right',
+			loader: false
+		});
+	}else{
+		$.ajax({
+			url: "addExport",
+			type: 'POST',
+			data: {
+				id_sent: id_send,
+				id_receive: $('.id_store_receive').val(),
+				date: $('.date_export_invoice').val(),
+				dataform: datastring
 			}
 		})
-		.fail(function () {
-			console.log("error");
+			.done(function (res) {
+				console.log(res);
+				if (res == 0) {
+					$.toast({
+						heading: 'Error',
+						text: 'Something error, please check!',
+						icon: 'error',
+						position: 'bottom-right',
+						loader: false
+					});
+				} else {
+					$.toast({
+						heading: 'Success',
+						text: 'Create export success!',
+						icon: 'success',
+						position: 'bottom-right',
+						loader: false
+					});
+					setTimeout(function () {
+						window.location = "../../invoices/exports";
+					}, 1500);
+				}
+			})
+			.fail(function () {
+				console.log("error");
+			});
+	}
+}
+
+function addImport(obj){
+	var datastring = $("#form_product").serializeArray();
+	const date = $('.import_date').val();
+	const price = $('.import_price').val();
+	const id_sent = $('.import_supplier_id').val();
+	if(date == '' || price == '' | id_sent == 'Choose...' | datastring[0]['value'] == 'Choose...'){
+		$.toast({
+			heading: 'Error',
+			text: 'Something error, please check!',
+			icon: 'error',
+			position: 'bottom-right',
+			loader: false
 		});
+	}else{
+		$.ajax({
+			url: "addImport",
+			type: 'POST',
+			data: {
+				id_receive: obj.prev().val(),
+				id_sent: id_sent,
+				date: date,
+				dataform: datastring,
+				price: price
+			}
+		})
+			.done(function (res) {
+				location.reload();
+			})
+			.fail(function () {
+				console.log("error");
+			});
+	}
+}
+
+function selectProduct(obj){
+	obj.next().next().attr('data-unit', obj.children('option:selected').data('unit'));
+}
+
+function changeUnit(obj){
+	const price = obj.val() * obj.attr('data-unit');
+	obj.next().next().text(price + 'd');
+	obj.next().next().attr('data-price', price);
+	let total = 0;
+	$('.total_one').each(function(index, item) {
+		total += parseInt($(item).attr('data-price'));
+		console.log($(item));
+	});
+	$('#total_offline').text(total+'d');
+	$('#total_offline').attr('data-price', total);
+}
+
+function addImportOffline(obj){
+	var datastring = $("#form_product").serializeArray();
+	const arr = datastring.map((item, index) => {
+		if(item.name == 'name_product' && item.value !== 'Choose...' && datastring[index+1].name == 'amount_product' && datastring[index+1].value !== '0'){
+			return item;
+		}
+		if(item.name == 'amount_product' && item.value !== '0' && datastring[index-1].name == 'name_product' && datastring[index-1].value !== 'Choose...'){
+			return item;
+		}
+	}).filter(n => n);
+	const date = $('.import_date').val();
+	const id_sent = obj.attr('data-id');
+	if(date == '' || arr.length == 0){
+		$.toast({
+			heading: 'Error',
+			text: 'Something error, please check!',
+			icon: 'error',
+			position: 'bottom-right',
+			loader: false
+		});
+	}else{
+		$.ajax({
+			url: location.protocol + "//" + document.domain + "/invoices/addImportOffline",
+			type: 'POST',
+			data: {
+				id_sent: id_sent,
+				date: date,
+				dataform: arr,
+				price: $('#total_offline').attr('data-price'),
+			}
+		})
+			.done(function (res) {
+				if(res == 'false'){
+					$.toast({
+						heading: 'Error',
+						text: 'Something error, please check!',
+						icon: 'error',
+						position: 'bottom-right',
+						loader: false
+					});
+				}else{location.reload();}
+			})
+			.fail(function () {
+				console.log("error");
+			});
+	}
+}
+function getTotal(day, arr){
+	for(i=0; i<arr.length;i++){
+		if(day.format('YYYY-MM-DD') == arr[i]['Invoice']['date']){
+			return arr[i]['0']['total'];
+		}
+	}
+	return 0;
 }

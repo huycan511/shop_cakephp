@@ -52,11 +52,8 @@ class InvoicesController extends AppController
 		$this->layout = null;
 		$name_product = array();
 		$amount_product = array();
-		$price = 0;
 		$check = 1;
-		if ($this->Session->read('id_store')) {
-			$check = 0;
-		}
+
 		$dataform = $this->request->data['dataform'];
 		for ($i = 0; $i < count($dataform); $i++) {
 			if (($dataform[$i]['name'] == 'name_product') && ($dataform[$i]['value'] != 'Choose...')) {
@@ -67,7 +64,7 @@ class InvoicesController extends AppController
 		}
 		$count_name_product = count($name_product);
 		for ($i = 0; $i < $count_name_product; $i++) {
-			$data = $this->Product_store->getProductOfStore($this->Session->read('id_store'), $name_product[$i]);
+			$data = $this->Product_store->getProductOfStore($this->request->data['id_sent'], $name_product[$i]);
 			if ($data['Product_store']['amount'] < $amount_product[$i]) {
 				$check = 0;
 				break;
@@ -80,19 +77,15 @@ class InvoicesController extends AppController
 			$invoice->date = $this->request->data['date'];
 			$invoice->type = 2;
 			$invoice->status = 0;
+
 			for ($i = 0; $i < $count_name_product; $i++) {
-				$product = $this->Product->getProductByID($name_product[$i]);
-				$price += $product['Product']['price'] * $amount_product[$i];
-			}
-			for ($i = 0; $i < $count_name_product; $i++) {
-				$data = $this->Product_store->getProductOfStore($this->Session->read('id_store'), $name_product[$i]);
+				$data = $this->Product_store->getProductOfStore($this->request->data['id_sent'], $name_product[$i]);
 				$amount = $data['Product_store']['amount'] - $amount_product[$i];
 				$update = new stdClass();
 				$update->id = $data['Product_store']['id'];
 				$update->amount = $amount;
 				$this->Product_store->save($update);
 			}
-			$invoice->price = $price;
 			$this->Invoice->save($invoice);
 			$id_invoice = $this->Invoice->getLastInsertId();
 			for ($i = 0; $i < count($name_product); $i++) {
@@ -112,12 +105,50 @@ class InvoicesController extends AppController
 		$this->layout = null;
 		$name_product = array();
 		$amount_product = array();
-		$price = 0;
 		$invoice = new stdClass();
 		$invoice->id_send = $this->request->data['id_sent'];
 		$invoice->id_receive = $this->request->data['id_receive'];
 		$invoice->date = $this->request->data['date'];
 		$invoice->type = 1;
+		$invoice->status = 2;
+		$dataform = $this->request->data['dataform'];
+		for ($i = 0; $i < count($dataform); $i++) {
+			if (($dataform[$i]['name'] == 'name_product') && ($dataform[$i]['value'] != 'Choose...')) {
+				array_push($name_product, $dataform[$i]['value']);
+			} else if (($dataform[$i]['name'] == 'amount_product') && ($dataform[$i]['value'] != '')) {
+				array_push($amount_product, $dataform[$i]['value']);
+			}
+		}
+
+		$invoice->price = $this->request->data('price');
+		if($this->Invoice->save($invoice)){
+			$id_invoice = $this->Invoice->getLastInsertId();
+			for ($i = 0; $i < count($name_product); $i++) {
+				$data = new stdClass();
+				$data->id_invoice = $id_invoice;
+				$data->id_product = $name_product[$i];
+				$data->amount = $amount_product[$i];
+				$this->Product_invoice->create();
+				$this->Product_invoice->save($data);
+			}
+			for ($i = 0; $i < count($name_product); $i++) {
+				$product_store = $this->Product_store->getProductOfStore($this->request->data['id_receive'], $name_product[$i]);
+				$update = new stdClass();
+				$update->id = $product_store['Product_store']['id'];
+				$update->amount = $product_store['Product_store']['amount'] + $amount_product[$i];
+				$this->Product_store->save($update);
+			}
+			$this->set('data', $invoice);
+			$this->render('/Admins/json');
+		};
+
+	}
+
+	public function addImportOffline(){
+		$this->layout = null;
+		$name_product = array();
+		$amount_product = array();
+		$check = 1;
 		$dataform = $this->request->data['dataform'];
 		for ($i = 0; $i < count($dataform); $i++) {
 			if (($dataform[$i]['name'] == 'name_product') && ($dataform[$i]['value'] != 'Choose...')) {
@@ -128,30 +159,50 @@ class InvoicesController extends AppController
 		}
 		$count_name_product = count($name_product);
 		for ($i = 0; $i < $count_name_product; $i++) {
-			$product = $this->Product->getProductByID($name_product[$i]);
-			$price += $product['Product']['price'] * $amount_product[$i];
+			$data = $this->Product_store->getProductOfStore($this->request->data['id_sent'], $name_product[$i]);
+			if ($data['Product_store']['amount'] < $amount_product[$i]) {
+				$check = 0;
+				break;
+			}
 		}
-		$invoice->price = $price;
-		$this->Invoice->save($invoice);
-		$id_invoice = $this->Invoice->getLastInsertId();
-		for ($i = 0; $i < count($name_product); $i++) {
-			$data = new stdClass();
-			$data->id_invoice = $id_invoice;
-			$data->id_product = $name_product[$i];
-			$data->amount = $amount_product[$i];
-			$this->Product_invoice->create();
-			$this->Product_invoice->save($data);
+		if ($check) {
+			$invoice = new stdClass();
+			$invoice->id_send = $this->request->data['id_sent'];
+			$invoice->id_receive = 0;
+			$invoice->date = $this->request->data['date'];
+			$invoice->type = 3;
+			$invoice->status = 1;
+			$invoice->price = $this->request->data('price');
+			if($this->Invoice->save($invoice)){
+				$id_invoice = $this->Invoice->getLastInsertId();
+				for ($i = 0; $i < $count_name_product; $i++) {
+					$data = $this->Product_store->getProductOfStore($this->request->data['id_sent'], $name_product[$i]);
+					$amount = $data['Product_store']['amount'] - $amount_product[$i];
+					$update = new stdClass();
+					$update->id = $data['Product_store']['id'];
+					$update->amount = $amount;
+					$this->Product_store->save($update);
+				}
+				for ($i = 0; $i < count($name_product); $i++) {
+					$data = new stdClass();
+					$data->id_invoice = $id_invoice;
+					$data->id_product = $name_product[$i];
+					$data->amount = $amount_product[$i];
+					$this->Product_invoice->create();
+					$this->Product_invoice->save($data);
+				}
+				$this->set('data', $invoice);
+				$this->render('/Admins/json');
+			}else{
+				$this->set('data', false);
+				$this->render('/Admins/json');
+			}
+		}else{
+			$this->set('data', false);
+			$this->render('/Admins/json');
 		}
-		for ($i = 0; $i < count($name_product); $i++) {
-			$product_store = $this->Product_store->getProductOfStore($this->request->data['id_receive'], $name_product[$i]);
-			$update = new stdClass();
-			$update->id = $product_store['Product_store']['id'];
-			$update->amount = $product_store['Product_store']['amount'] + $amount_product[$i];
-			$this->Product_store->save($update);
-		}
-		$this->set('data', $invoice);
-		$this->render('/Admins/json');
 	}
+
 	public function confirmInvoice()
 	{
 		$this->layout = null;
@@ -202,6 +253,9 @@ class InvoicesController extends AppController
 
 			$this->Invoice->delete($this->request->data['id_invoice']);
 			$this->set('data', $invoice);
+			$this->render('/Admins/json');
+		}else{
+			$this->set('data', false);
 			$this->render('/Admins/json');
 		}
 	}
@@ -254,17 +308,27 @@ class InvoicesController extends AppController
 	{
 		$this->layout = null;
 		$invoice = $this->Product_invoice->getProductOfInvoice($this->request->data['id_invoice']);
-		for ($i = 0; $i < count($invoice); $i++) {
-			$data = $this->Product_store->getProductOfStore($this->request->data['id_store'], $invoice[$i]['Product_invoice']['id_product']);
-			$update = new stdClass();
-			$update->id = $data['Product_store']['id'];
-			$update->amount = $data['Product_store']['amount'] + $invoice[$i]['Product_invoice']['amount'];
-			$this->Product_store->save($update);
-			$this->Product_invoice->delete($invoice[$i]['Product_invoice']['id']);
-		}
+		$count_invoice = count($invoice);
+		if($count_invoice){
+			$status = $this->Invoice->getStatusOrder($this->request->data['id_invoice']);
 
-		$this->Invoice->delete($this->request->data['id_invoice']);
-		$this->set('data', $invoice);
+			for ($i = 0; $i < $count_invoice; $i++) {
+				if($status == 1){
+					$data = $this->Product_store->getProductOfStore($this->request->data['id_store'], $invoice[$i]['Product_invoice']['id_product']);
+					$update = new stdClass();
+					$update->id = $data['Product_store']['id'];
+					$update->amount = $data['Product_store']['amount'] + $invoice[$i]['Product_invoice']['amount'];
+					$this->Product_store->save($update);
+				}
+
+				$this->Product_invoice->delete($invoice[$i]['Product_invoice']['id']);
+			}
+
+			$this->Invoice->delete($this->request->data['id_invoice']);
+			$this->set('data', $invoice);
+		}else{
+			$this->set('data', false);
+		}
 		$this->render('/Admins/json');
 	}
 	public function confirmOrder()
@@ -298,10 +362,6 @@ class InvoicesController extends AppController
 				array_push($products[$i], $this->Product->getProductName($products[$i]['Product_invoice']['id_product']));
 			}
 			$this->set('products', $products);
-			if ($invoice['Invoice']['type'] == 4) {
-				$this->set('username', $this->User->getUserName($invoice['Invoice']['id_receive']));
-				$this->set('phone', $this->User->getUserPhone($invoice['Invoice']['id_receive']));
-			}
 		}else{
 			$this->redirect('/admin/onlinebill');
 		}

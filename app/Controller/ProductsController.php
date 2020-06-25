@@ -61,7 +61,7 @@ class ProductsController extends AppController
 			array_push($data, $genre['productt'][$j]);
 		}
 		$this->set('data', $data);
-		$this->render('/Admins/json');
+		$this->render('/Admin/json');
 	}
 	public function editName()
 	{
@@ -162,5 +162,26 @@ class ProductsController extends AppController
 		$this->Product->save($data);
 		$this->set('data', $data);
 		$this->render('json');
+	}
+	public function search(){
+		$this->layout = 'category';
+		if ($this->Session->read('id_user')) {
+			$this->getDataCart();
+		} else {
+			$this->set('cart', 0);
+		}
+		$this->getDataMenu();
+		$name = $this->params['url']['name'];
+		if(isset($this->params['url']['price'])){
+			$price = $this->params['url']['price'];
+		}else{
+			$price = 0;
+		}
+		$page = $this->params['url']['page'];
+		$products = $this->Product->searchProducst($name, $price);
+		$number = ceil(count($products)/8);
+		$this->log($number);
+		$this->set('products', array_slice($products, $page * 8, 8));
+		$this->set('number', $number);
 	}
 }

@@ -1,4 +1,141 @@
 $(function () {
+	$("#search_products").click(function(){
+		const name = $(this).prev().prev().val();
+		const price = $(this).prev().val();
+		if(name.trim() == ''){
+			$.toast({
+				heading: 'Error',
+				text: 'Please check your input',
+				icon: 'error',
+				position: 'bottom-right',
+				loader: false
+			});
+		}else{
+			window.location.replace(location.protocol + "//" + document.domain + "/products/search?name=" + name +"&price=" + price + "&page=0",);
+		}
+
+	});
+	$("#cancel_buy_now").click(function(){
+		$(".modal-window").css("display", "none");
+		$("#buy_now_name").val('');
+		$("#buy_now_phone").val('');
+		$('#hanhchinh').val('');
+		$('#huyen').val('');
+		$('#xa').val('');
+		$("#buy_now_sonha").val('');
+		$('#buy_now_amount').val(1);
+	});
+
+	$("#submit_buy_now").click(function(){
+		const name =  $("#buy_now_name").val();
+		const phone = $("#buy_now_phone").val();
+		const sonha = $("#buy_now_sonha").val();
+		const id_product = $(this).attr('data-id');
+		const xa = $("#xa").val();
+		if(name && phone && sonha && xa){
+			const address = sonha + xa;
+			const dongia = $("#buy_now_dongia").text();
+			const info = name + ' - ' + phone;
+			var geocoder;
+			geocoder = new google.maps.Geocoder();
+			geocoder.geocode({ 'address': xa }, function (results, status) {
+				if (status == 'OK') {
+					var latitude = results[0].geometry.location.lat();
+					var longitude = results[0].geometry.location.lng();
+					$.ajax({
+						url: location.protocol + "//" + document.domain + "/users/buyNow",
+						type: 'POST',
+						data: {
+							info: info,
+							address: address,
+							dongia: dongia,
+							lat: latitude,
+							lng: longitude,
+							id_product: id_product,
+							amount: $("#buy_now_amount").val(),
+						},
+					})
+						.done(function (res) {
+							if(res == 'false'){
+								$.toast({
+									heading: 'Error',
+									text: 'Something wrong',
+									icon: 'error',
+									position: 'bottom-right',
+									loader: false
+								});
+								setTimeout(function () {
+									window.location = location.protocol + "//" + document.domain;
+								}, 2000);
+							}else{
+								$.toast({
+									heading: 'Success',
+									text: 'Order success',
+									icon: 'success',
+									position: 'bottom-right',
+									loader: false
+								});
+								setTimeout(function () {
+									window.location = location.protocol + "//" + document.domain;
+								}, 2000);
+							}
+						})
+						.fail(function () {
+							$.toast({
+								heading: 'Error',
+								text: 'Something wrong, please try again!',
+								icon: 'error',
+								position: 'bottom-right',
+								loader: false
+							});
+						});
+				}
+			});
+		}else{
+			$.toast({
+				heading: 'Error',
+				text: 'Please fill the form',
+				icon: 'error',
+				position: 'bottom-right',
+				loader: false
+			});
+		}
+	});
+
+	$("#buy_now_amount").change(function() {
+		const unit = parseInt($(this).attr('data-price'));
+		$("#buy_now_dongia").text(unit * $(this).val());
+	});
+
+	$(".open_buy_modal").click(function(){
+		const img = $(this).parent().prev().children().attr('src');
+		const id_product = $(this).prev().attr('data-product');
+		$('#submit_buy_now').attr('data-id', id_product);
+		$("#buy_now_dongia").text($(this).attr("data-price"));
+		$("#buy_now_amount").attr('data-price', $(this).attr("data-price"));
+		$("#img_buy_now").attr('src', img);
+		$(".modal-window").css("display", "block");
+	})
+
+	$(".buy_now").click(function(e){
+		e.preventDefault();
+		const img = $(this).parent().prev().prev().attr('src');
+		$('#submit_buy_now').attr('data-id', $(this).attr('data-id'));
+		$("#buy_now_dongia").text($(this).attr("data-price"));
+		$("#buy_now_amount").attr('data-price', $(this).attr("data-price"));
+		$("#img_buy_now").attr('src', img);
+		$(".modal-window").css("display", "block");
+	})
+
+	$(".buy_now_product_page").click(function(){
+		const img = $(this).parent().parent().prev().children().children().children().children().attr('src');
+		$('#submit_buy_now').attr('data-id', $(this).prev().attr('data-product'));
+		$("#img_buy_now").attr('src', img);
+		$("#buy_now_dongia").text($(this).attr("data-price"));
+		$("#buy_now_amount").attr('data-price', $(this).attr("data-price"));
+		$(".modal-window").css("display", "block");
+	});
+
 	$("#subscribe_email").click(function (e) {
 		var email = $(this).prev().val();
 		$.ajax({
@@ -349,7 +486,16 @@ $(function () {
 						url: 'destroyBill/' + id_invoice
 					})
 						.done(function (res) {
-							if(res !== 'false'){
+							if(res == 'false'){
+
+								$.toast({
+									heading: 'Error',
+									text: 'Something wrong!',
+									icon: 'error',
+									position: 'bottom-right',
+									loader: false
+								});
+							}else{
 								$.toast({
 									heading: 'Success',
 									text: 'Destroy success!',
@@ -358,14 +504,6 @@ $(function () {
 									loader: false
 								});
 								setTimeout(function () { location.reload(); }, 2000);
-							}else{
-								$.toast({
-									heading: 'Error',
-									text: 'Something wrong!',
-									icon: 'error',
-									position: 'bottom-right',
-									loader: false
-								});
 							}
 						})
 						.fail(function () {
@@ -377,89 +515,6 @@ $(function () {
 			},
 			theme: 'black',
 		});
-	});
-	$('#button-confirm_order').click(function (event) {
-		var response = grecaptcha.getResponse();
-
-		if (response.length == 0) {
-			$.toast({
-				heading: 'Error',
-				text: 'Something wrong, please try again!',
-				icon: 'error',
-				position: 'bottom-right',
-				loader: false
-			});
-		} else {
-			if (document.querySelector('input[name="payment_address"]:checked').value == 'existing') {
-				var address = $('#address_id_exist').val();
-				var lat = $('#address_id_exist').find(':selected').attr('data-lat');
-				var lng = $('#address_id_exist').find(':selected').attr('data-lng');
-				var comment_order = $('#comment_order').val();
-				$.ajax({
-					url: 'addOnlineBill',
-					type: 'POST',
-
-					data: {
-						//id_receive: id_receive,
-						//id_send: order_store,
-						note: comment_order,
-						address: address,
-						lat: lat,
-						lng: lng,
-						//price: $('#total_order_online').attr('data-total')
-					}
-				})
-					.done(function (res) {
-						window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
-					})
-					.fail(function () {
-						console.log("error");
-					});
-			}
-			if (document.querySelector('input[name="payment_address"]:checked').value == 'new') {
-				if ($("#sonha").val() && $('#xa').val()) {
-					var sonha = $("#sonha").val();
-					var address = sonha.concat(', ' + $('#xa').val());
-					var geocoder;
-					geocoder = new google.maps.Geocoder();
-					geocoder.geocode({ 'address': address }, function (results, status) {
-						if (status == 'OK') {
-							var lat = results[0].geometry.location.lat();
-							var lng = results[0].geometry.location.lng();
-							var comment_order = $('#comment_order').val();
-							$.ajax({
-								url: 'addOnlineBill',
-								type: 'POST',
-								data: {
-									//id_receive: id_receive,
-									//id_send: order_store,
-									note: comment_order,
-									address: address,
-									lat: lat,
-									lng: lng,
-									//price: $('#total_order_online').attr('data-total')
-								}
-							})
-								.done(function (res) {
-									window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
-								})
-								.fail(function () {
-									console.log("error");
-								});
-						}
-					});
-
-				} else {
-					$.toast({
-						heading: 'Error',
-						text: 'Please check your order!',
-						icon: 'error',
-						position: 'bottom-right',
-						loader: false
-					});
-				}
-			}
-		}
 	});
 
 	$('#button-payment-address').click(function (event) {
@@ -928,4 +983,128 @@ function initMap() {
 		document.getElementById('map'), { zoom: 19, center: uluru });
 	// The marker, positioned at Uluru
 	var marker = new google.maps.Marker({ position: uluru, map: map });
+}
+
+function confirmOrderFunc(arr, arr1) {
+	var response = grecaptcha.getResponse();
+
+	if (response.length == 0) {
+		$.toast({
+			heading: 'Error',
+			text: 'Something wrong, please try again!',
+			icon: 'error',
+			position: 'bottom-right',
+			loader: false
+		});
+	} else {
+		const checkout_name = $("#checkout_name").val();
+		const checkout_phone = $("#checkout_phone").val();
+		const comment_order = $('#comment_order').val();
+		const note = comment_order.replace(/^\s+|\s+$/g, '').length == 0 ? checkout_name + ' - ' + checkout_phone : checkout_name + ' - ' + checkout_phone + ' - ' + comment_order.trim();
+		if (document.querySelector('input[name="payment_address"]:checked').value == 'existing') {
+			var address = $('#address_id_exist').val();
+			var lat = $('#address_id_exist').find(':selected').attr('data-lat');
+			var lng = $('#address_id_exist').find(':selected').attr('data-lng');
+			$.ajax({
+				url: 'addOnlineBill',
+				type: 'POST',
+
+				data: {
+					note: note,
+					address: address,
+					lat: lat,
+					lng: lng,
+					arr: arr,
+					arr1: arr1,
+					price: $('#total_order_online').attr('data-total'),
+				}
+			})
+				.done(function (res) {
+					window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
+				})
+				.fail(function () {
+					$.toast({
+						heading: 'Error',
+						text: 'Something wrong',
+						icon: 'error',
+						position: 'bottom-right',
+						loader: false
+					});
+				});
+		}
+		if (document.querySelector('input[name="payment_address"]:checked').value == 'new') {
+			if ($("#sonha").val() && $('#xa').val()) {
+				var sonha = $("#sonha").val();
+				var address = sonha.concat(', ' + $('#xa').val());
+				var geocoder;
+				geocoder = new google.maps.Geocoder();
+				geocoder.geocode({ 'address': address }, function (results, status) {
+					if (status == 'OK') {
+						var lat = results[0].geometry.location.lat();
+						var lng = results[0].geometry.location.lng();
+						$.ajax({
+							url: 'addOnlineBill',
+							type: 'POST',
+							data: {
+								note: note,
+								address: address,
+								lat: lat,
+								lng: lng,
+								arr: arr,
+								arr1: arr1,
+								price: $('#total_order_online').attr('data-total'),
+							}
+						})
+							.done(function (res) {
+								window.location.replace(location.protocol + "//" + document.domain +"/users/orderlist");
+							})
+							.fail(function () {
+								$.toast({
+									heading: 'Error',
+									text: 'Something wrong',
+									icon: 'error',
+									position: 'bottom-right',
+									loader: false
+								});
+							});
+					}
+				});
+
+			} else {
+				$.toast({
+					heading: 'Error',
+					text: 'Please check your order!',
+					icon: 'error',
+					position: 'bottom-right',
+					loader: false
+				});
+			}
+		}
+	}
+
+}
+function hoversp(obj) {
+	$(obj).children('div').addClass('show_div_product');
+	$(obj).children('.btn_sp_group').children('.like_sp').css({
+		animation: 'hienralike 0.4s forwards'
+	});
+	$(obj).children('.btn_sp_group').children('.add_sp').css({
+		animation: 'hienraadd 0.4s forwards'
+	});
+	$(obj).children('.btn_sp_group').children('.buy_now').css({
+		animation: 'hienraadd 0.4s forwards'
+	});
+}
+
+function outhoversp(obj) {
+	$(obj).children('div').removeClass('show_div_product');
+	$(obj).children('.btn_sp_group').children('.like_sp').css({
+		animation: ''
+	});
+	$(obj).children('.btn_sp_group').children('.add_sp').css({
+		animation: ''
+	});
+	$(obj).children('.btn_sp_group').children('.buy_now').css({
+		animation: ''
+	});
 }

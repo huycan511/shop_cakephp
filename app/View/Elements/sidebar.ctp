@@ -20,6 +20,12 @@
 </li>
 
 <li class="nav-item">
+  <a class="nav-link" href="<?php echo FIELD."/admin/offlinebill"?>">
+    <i class="fas fa-fw fa-table"></i>
+    <span>Offline Bill</span></a>
+</li>
+
+<li class="nav-item">
   <a class="nav-link" href="<?php echo FIELD."/admin/onlinebill"?>">
     <i class="fas fa-fw fa-table"></i>
     <span>Online Bill</span></a>

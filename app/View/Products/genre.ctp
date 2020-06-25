@@ -228,6 +228,9 @@
 		$(obj).children('.btn_sp_group').children('.add_sp').css({
 			animation: 'hienraadd 0.4s forwards'
 		});
+		$(obj).children('.btn_sp_group').children('.buy_now').css({
+			animation: 'hienraadd 0.4s forwards'
+		});
 	}
 
 	function outhoversp(obj) {
@@ -236,6 +239,9 @@
 			animation: ''
 		});
 		$(obj).children('.btn_sp_group').children('.add_sp').css({
+			animation: ''
+		});
+		$(obj).children('.btn_sp_group').children('.buy_now').css({
 			animation: ''
 		});
 	}
@@ -346,7 +352,7 @@
 		}).appendTo($(_1sp));
 		var btn = $('<button>').attr({
 			class: 'btn-outline-danger like_sp',
-			style: 'width: 50%;height: 100%;float: left;background-color: #040404b5;opacity: 0;'
+			style: 'width: 33.3%;height: 100%;float: left;background-color: #040404b5;opacity: 0;'
 		}).appendTo($(div_3));
 		var itag = $('<i>').attr({
 			class: 'fas fa-heart',
@@ -355,12 +361,12 @@
 		if ($("#content").attr("data-session") == "session") {
 			var btn_2 = $('<button>').attr({
 				class: 'btn-outline-danger add_sp',
-				style: 'width: 50%;height: 100%;background-color: #040404b5;opacity: 0;'
+				style: 'width: 33.3%;height: 100%;background-color: #040404b5;opacity: 0;'
 			}).appendTo($(div_3));
 		} else {
 			var btn_2 = $('<button>').attr({
 				class: 'btn-outline-danger add_sp',
-				style: 'width: 50%;height: 100%;background-color: #040404b5;opacity: 0;',
+				style: 'width: 33.3%;height: 100%;background-color: #040404b5;opacity: 0;',
 				'data-izimodal-open': "#modal-custom"
 			}).appendTo($(div_3));
 		}
@@ -368,6 +374,16 @@
 			class: 'fas fa-cart-plus',
 			style: 'font-size: 15px;color: white;'
 		}).appendTo($(btn_2));
+		var btn3 = $('<button>').attr({
+			class: 'btn-outline-danger buy_now',
+			style: 'width: 33.3%;height: 100%;background-color: #040404b5;opacity: 0;',
+			'data-price': dataproduct[i]['price'],
+			'data-id': dataproduct[i]['id'],
+		}).appendTo($(div_3));
+		var i_3 = $('<i>').attr({
+			class: 'fa fa-check',
+			style: 'font-size: 15px;color: white;'
+		}).appendTo($(btn3));
 		var divtt = $('<div>').attr({
 			class: 'tt',
 			style: 'width: 100%;height: 15%;'

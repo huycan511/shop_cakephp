@@ -26,8 +26,9 @@ class CategoriesController extends AppController
 				array_push($data, $genre[$i]['productt'][$j]);
 			}
 		}
-
+		$this->log($this->request->data('id_cate'));
+		$this->log($data);
 		$this->set('data', $data);
-		$this->render('/Admins/json');
+		$this->render('/Admin/json');
 	}
 }
