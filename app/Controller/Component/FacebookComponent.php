@@ -33,7 +33,7 @@ class FacebookComponent extends Component {
             // 'user_posts',
             // 'user_status'
 		);
-        $login_url = $helper->getReAuthenticationUrl(Router::url('/', true) . 'home/reAuth', $permissions);
+        $login_url = $helper->getReAuthenticationUrl(FIELD . '/home/reAuth', $permissions);
 
 		return $login_url;
 	}
