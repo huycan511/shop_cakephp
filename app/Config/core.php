@@ -397,4 +397,5 @@ Cache::config('_cake_model_', array(
 	'duration' => $duration
 ));
 const FIELD = "https://shopcuahuy.herokuapp.com";
+//const FIELD = "https://shopcuahuy.com";
 
