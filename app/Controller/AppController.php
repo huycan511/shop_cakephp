@@ -46,7 +46,14 @@ class AppController extends Controller
 	public function getDataCart()
 	{
 		$cart = $this->Cart->getMyCart($this->Session->read('id_user'));
-		if ($cart['Cart']['detail'] != '' || $cart['Cart']['detail'] != '[]') {
+
+		if($cart['Cart']['detail'] !== null){
+			$this->log('k null');
+		}else{
+			$this->log('co null');
+		}
+
+		if ($cart['Cart']['detail'] && $cart['Cart']['detail'] !== '[]') {
 			$total = 0;
 			$array_cart_id = array();
 			$data = json_decode($cart['Cart']['detail'], TRUE);
